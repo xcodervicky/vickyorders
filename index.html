@@ -1,2144 +1,2213 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"/>
-<meta name="apple-mobile-web-app-capable" content="yes"/>
-<meta name="apple-mobile-web-app-status-bar-style" content="default"/>
-<meta name="apple-mobile-web-app-title" content="FinFlow"/>
-<meta name="mobile-web-app-capable" content="yes"/>
-<meta name="theme-color" content="#F5F4F0"/>
-<title>FinFlow</title>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet"/>
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<style>
-/* =============================================
-   CSS VARIABLES & RESET
-   ============================================= */
-:root {
-  --bg:         #F5F4F0;
-  --surface:    #FFFFFF;
-  --surface2:   #FAFAF8;
-  --border:     #ECEAE3;
-  --text:       #1A1916;
-  --muted:      #9C998F;
-  --accent:     #2D6A4F;
-  --accent2:    #74C69D;
-  --danger:     #D62839;
-  --danger-bg:  rgba(214,40,57,0.09);
-  --income-bg:  rgba(45,106,79,0.09);
-  --shadow:     0 2px 12px rgba(0,0,0,0.07);
-  --shadow-lg:  0 8px 32px rgba(0,0,0,0.12);
-  --r:          20px;
-  --r-sm:       14px;
-  --r-xs:       10px;
-  --nav-h:      72px;
-  --status-h:   env(safe-area-inset-top, 0px);
-  --bottom-h:   env(safe-area-inset-bottom, 0px);
-  --spring:     cubic-bezier(0.34,1.56,0.64,1);
-}
-
-*, *::before, *::after { box-sizing: border-box; margin:0; padding:0; }
-
-html, body {
-  height: 100%;
-  overflow: hidden;
-  -webkit-tap-highlight-color: transparent;
-  -webkit-text-size-adjust: 100%;
-}
-
-body {
-  font-family: 'DM Sans', sans-serif;
-  background: var(--bg);
-  color: var(--text);
-  overscroll-behavior: none;
-  touch-action: manipulation;
-}
-
-/* =============================================
-   LAYOUT SHELL
-   ============================================= */
-.app-shell {
-  display: flex;
-  flex-direction: column;
-  height: 100dvh;
-  max-width: 430px;
-  margin: 0 auto;
-  position: relative;
-  background: var(--bg);
-  overflow: hidden;
-}
-
-/* =============================================
-   STATUS BAR SPACER
-   ============================================= */
-.status-bar {
-  height: var(--status-h);
-  min-height: 0;
-  background: var(--bg);
-  flex-shrink: 0;
-}
-
-/* =============================================
-   SCROLLABLE CONTENT AREA
-   ============================================= */
-.scroll-area {
-  flex: 1;
-  overflow-y: auto;
-  overflow-x: hidden;
-  -webkit-overflow-scrolling: touch;
-  overscroll-behavior-y: contain;
-  scroll-behavior: smooth;
-  padding-bottom: calc(var(--nav-h) + var(--bottom-h) + 16px);
-}
-
-/* =============================================
-   SCREENS (tab pages)
-   ============================================= */
-.screen {
-  display: none;
-  animation: screenIn 0.32s ease both;
-  min-height: 100%;
-}
-.screen.active { display: block; }
-
-@keyframes screenIn {
-  from { opacity:0; transform: translateY(14px); }
-  to   { opacity:1; transform: translateY(0); }
-}
-
-/* =============================================
-   HEADER
-   ============================================= */
-.top-bar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 18px 20px 10px;
-  position: sticky;
-  top: 0;
-  background: var(--bg);
-  z-index: 10;
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-}
-
-.logo {
-  font-family: 'Playfair Display', serif;
-  font-size: 22px;
-  font-weight: 700;
-  letter-spacing: -0.5px;
-}
-.logo span { color: var(--accent); }
-
-.top-right { display: flex; align-items: center; gap: 10px; }
-
-.icon-btn {
-  width: 40px; height: 40px;
-  border-radius: 50%;
-  border: 1.5px solid var(--border);
-  background: var(--surface);
-  display: flex; align-items: center; justify-content: center;
-  cursor: pointer;
-  position: relative;
-  box-shadow: var(--shadow);
-  transition: transform 0.15s, box-shadow 0.15s;
-  -webkit-tap-highlight-color: transparent;
-}
-.icon-btn:active { transform: scale(0.91); box-shadow: none; }
-
-.notif-dot {
-  width: 8px; height: 8px;
-  background: var(--danger);
-  border-radius: 50%;
-  position: absolute; top: 7px; right: 7px;
-  border: 2px solid var(--surface);
-  animation: pulse 2s infinite;
-}
-
-.avatar {
-  width: 40px; height: 40px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, var(--accent) 0%, var(--accent2) 100%);
-  color: white;
-  font-weight: 700;
-  font-size: 13px;
-  letter-spacing: 0.5px;
-  display: flex; align-items: center; justify-content: center;
-  box-shadow: 0 4px 14px rgba(45,106,79,0.3);
-  cursor: pointer;
-  transition: transform 0.2s var(--spring);
-}
-.avatar:active { transform: scale(0.91) rotate(-5deg); }
-
-/* =============================================
-   HERO BALANCE CARD
-   ============================================= */
-.hero-section { padding: 8px 20px 0; }
-
-.hero-card {
-  background: linear-gradient(145deg, #1A1916 0%, #2D2D28 60%, #1B3A2D 100%);
-  border-radius: var(--r);
-  padding: 28px 24px 24px;
-  position: relative;
-  overflow: hidden;
-  box-shadow: 0 12px 40px rgba(26,25,22,0.25);
-}
-
-/* Decorative circles */
-.hero-card::before {
-  content: '';
-  position: absolute;
-  width: 180px; height: 180px;
-  border-radius: 50%;
-  border: 1px solid rgba(116,198,157,0.15);
-  top: -50px; right: -40px;
-}
-.hero-card::after {
-  content: '';
-  position: absolute;
-  width: 120px; height: 120px;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(116,198,157,0.12) 0%, transparent 70%);
-  bottom: -20px; left: -20px;
-}
-
-.hero-label {
-  font-size: 12px;
-  font-weight: 500;
-  color: rgba(255,255,255,0.45);
-  text-transform: uppercase;
-  letter-spacing: 1.2px;
-  margin-bottom: 8px;
-}
-.hero-value {
-  font-family: 'Playfair Display', serif;
-  font-size: 40px;
-  font-weight: 700;
-  color: white;
-  letter-spacing: -1.5px;
-  line-height: 1;
-  margin-bottom: 20px;
-  transition: opacity 0.3s;
-}
-.hero-row {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
-  position: relative; z-index: 1;
-}
-.hero-stat {
-  background: rgba(255,255,255,0.07);
-  border-radius: var(--r-sm);
-  padding: 12px 14px;
-  backdrop-filter: blur(8px);
-  border: 1px solid rgba(255,255,255,0.08);
-}
-.hero-stat-label {
-  font-size: 11px;
-  color: rgba(255,255,255,0.4);
-  font-weight: 500;
-  margin-bottom: 4px;
-  display: flex; align-items: center; gap: 5px;
-}
-.hero-stat-value {
-  font-size: 17px;
-  font-weight: 700;
-  color: white;
-  letter-spacing: -0.5px;
-}
-.hero-stat-value.green { color: var(--accent2); }
-.hero-stat-value.red   { color: #FF8090; }
-
-/* =============================================
-   SECTION HEADINGS
-   ============================================= */
-.section-head {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 22px 20px 12px;
-}
-.section-head h2 {
-  font-family: 'Playfair Display', serif;
-  font-size: 18px;
-  font-weight: 700;
-}
-.pill {
-  font-size: 11px;
-  font-weight: 600;
-  padding: 5px 12px;
-  border-radius: 20px;
-  background: var(--income-bg);
-  color: var(--accent);
-  text-transform: uppercase;
-  letter-spacing: 0.4px;
-}
-
-/* =============================================
-   QUICK ACTIONS (Home)
-   ============================================= */
-.quick-actions {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 10px;
-  padding: 0 20px;
-}
-.qa-btn {
-  background: var(--surface);
-  border-radius: var(--r-sm);
-  padding: 14px 8px;
-  text-align: center;
-  border: 1.5px solid var(--border);
-  box-shadow: var(--shadow);
-  cursor: pointer;
-  transition: transform 0.2s var(--spring), box-shadow 0.2s;
-  -webkit-tap-highlight-color: transparent;
-}
-.qa-btn:active { transform: scale(0.92); box-shadow: none; }
-.qa-icon { font-size: 22px; margin-bottom: 6px; }
-.qa-label { font-size: 11px; font-weight: 600; color: var(--muted); }
-
-/* =============================================
-   CHART CARD
-   ============================================= */
-.chart-wrap {
-  margin: 0 20px;
-  background: var(--surface);
-  border-radius: var(--r);
-  padding: 20px;
-  box-shadow: var(--shadow);
-  border: 1px solid var(--border);
-}
-
-/* =============================================
-   TRANSACTION LIST (Home — recent only)
-   ============================================= */
-.tx-list {
-  padding: 0 20px;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.tx-item {
-  display: flex;
-  align-items: center;
-  gap: 13px;
-  background: var(--surface);
-  border-radius: var(--r-sm);
-  padding: 14px 14px;
-  border: 1px solid var(--border);
-  box-shadow: var(--shadow);
-  cursor: default;
-  transition: transform 0.18s, box-shadow 0.18s;
-  animation: txIn 0.35s ease both;
-  position: relative;
-  overflow: hidden;
-}
-.tx-item::before {
-  content: '';
-  position: absolute;
-  left: 0; top: 20%; bottom: 20%;
-  width: 3px;
-  border-radius: 0 2px 2px 0;
-}
-.tx-item.income::before  { background: var(--accent); }
-.tx-item.expense::before { background: var(--danger); }
-
-@keyframes txIn {
-  from { opacity:0; transform: translateX(-12px); }
-  to   { opacity:1; transform: translateX(0); }
-}
-
-.tx-icon {
-  width: 44px; height: 44px; min-width: 44px;
-  border-radius: 13px;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 20px;
-}
-.tx-info { flex:1; min-width:0; }
-.tx-title { font-size: 14px; font-weight: 600; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
-.tx-sub { font-size: 11px; color: var(--muted); margin-top: 2px; }
-.tx-amount { font-size: 15px; font-weight: 700; white-space:nowrap; }
-.tx-amount.pos { color: var(--accent); }
-.tx-amount.neg { color: var(--danger); }
-
-.tx-delete {
-  width: 32px; height: 32px;
-  border-radius: 9px;
-  background: none;
-  border: none;
-  display: flex; align-items: center; justify-content: center;
-  color: var(--muted);
-  cursor: pointer;
-  transition: background 0.15s, color 0.15s, transform 0.15s;
-  -webkit-tap-highlight-color: transparent;
-}
-.tx-delete:active { background: var(--danger-bg); color: var(--danger); transform: scale(0.88); }
-
-/* =============================================
-   EMPTY STATE
-   ============================================= */
-.empty {
-  text-align: center;
-  padding: 48px 20px;
-  color: var(--muted);
-}
-.empty .e-icon { font-size: 44px; margin-bottom: 12px; }
-.empty p { font-size: 14px; line-height: 1.5; }
-
-/* =============================================
-   ADD SCREEN FORM
-   ============================================= */
-.add-screen { padding: 0 20px 20px; }
-
-.form-card {
-  background: var(--surface);
-  border-radius: var(--r);
-  padding: 24px 20px;
-  box-shadow: var(--shadow);
-  border: 1px solid var(--border);
-}
-
-/* Type toggle */
-.type-toggle {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
-  margin-bottom: 22px;
-}
-.type-btn {
-  padding: 14px;
-  border-radius: var(--r-sm);
-  border: 1.5px solid var(--border);
-  background: var(--surface2);
-  font-family: 'DM Sans', sans-serif;
-  font-size: 14px;
-  font-weight: 600;
-  color: var(--muted);
-  cursor: pointer;
-  transition: all 0.2s var(--spring);
-  -webkit-tap-highlight-color: transparent;
-  display: flex; align-items: center; justify-content: center; gap: 7px;
-}
-.type-btn:active { transform: scale(0.94); }
-.type-btn.sel-income  { background: var(--income-bg); color: var(--accent);  border-color: var(--accent2); }
-.type-btn.sel-expense { background: var(--danger-bg); color: var(--danger);  border-color: var(--danger); }
-
-/* Form fields */
-.f-group { margin-bottom: 16px; }
-.f-label {
-  display: block;
-  font-size: 11px;
-  font-weight: 700;
-  color: var(--muted);
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  margin-bottom: 8px;
-}
-.f-input,
-.f-select {
-  width: 100%;
-  padding: 15px 16px;
-  border: 1.5px solid var(--border);
-  border-radius: var(--r-xs);
-  font-family: 'DM Sans', sans-serif;
-  font-size: 16px; /* prevent iOS zoom */
-  background: var(--surface2);
-  color: var(--text);
-  outline: none;
-  transition: border-color 0.2s, box-shadow 0.2s;
-  appearance: none;
-  -webkit-appearance: none;
-}
-.f-input:focus, .f-select:focus {
-  border-color: var(--accent);
-  box-shadow: 0 0 0 3px rgba(45,106,79,0.13);
-}
-.f-input::placeholder { color: var(--muted); }
-
-/* Category grid */
-.cat-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 8px;
-}
-.cat-opt {
-  padding: 12px 6px;
-  border-radius: var(--r-xs);
-  border: 1.5px solid var(--border);
-  background: var(--surface2);
-  text-align: center;
-  cursor: pointer;
-  transition: all 0.18s var(--spring);
-  -webkit-tap-highlight-color: transparent;
-}
-.cat-opt:active { transform: scale(0.9); }
-.cat-opt.selected { border-color: var(--accent); background: var(--income-bg); }
-.cat-opt .c-icon { font-size: 20px; }
-.cat-opt .c-name { font-size: 10px; font-weight: 600; color: var(--muted); margin-top: 4px; }
-.cat-opt.selected .c-name { color: var(--accent); }
-
-/* Submit button */
-.submit-btn {
-  width: 100%;
-  padding: 17px;
-  background: linear-gradient(135deg, var(--accent) 0%, #1B4332 100%);
-  color: white;
-  border: none;
-  border-radius: var(--r-sm);
-  font-family: 'DM Sans', sans-serif;
-  font-size: 16px;
-  font-weight: 700;
-  cursor: pointer;
-  margin-top: 24px;
-  box-shadow: 0 6px 24px rgba(45,106,79,0.35);
-  transition: transform 0.2s var(--spring), box-shadow 0.2s;
-  -webkit-tap-highlight-color: transparent;
-  letter-spacing: 0.3px;
-}
-.submit-btn:active { transform: scale(0.96); box-shadow: 0 2px 8px rgba(45,106,79,0.2); }
-
-/* =============================================
-   STATS SCREEN
-   ============================================= */
-.stats-screen { padding: 0 20px 20px; }
-
-.stat-cards {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
-  margin-bottom: 20px;
-}
-.s-card {
-  background: var(--surface);
-  border-radius: var(--r-sm);
-  padding: 18px 16px;
-  border: 1px solid var(--border);
-  box-shadow: var(--shadow);
-}
-.s-card-icon { font-size: 24px; margin-bottom: 8px; }
-.s-card-label { font-size: 11px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 4px; }
-.s-card-val { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 700; letter-spacing: -0.5px; }
-.s-card-val.green { color: var(--accent); }
-.s-card-val.red   { color: var(--danger); }
-
-.big-chart-wrap {
-  background: var(--surface);
-  border-radius: var(--r);
-  padding: 20px;
-  box-shadow: var(--shadow);
-  border: 1px solid var(--border);
-  margin-bottom: 20px;
-}
-
-/* Category breakdown */
-.cat-breakdown { display: flex; flex-direction: column; gap: 10px; }
-.cat-row {
-  background: var(--surface);
-  border-radius: var(--r-xs);
-  padding: 14px 16px;
-  display: flex; align-items: center; gap: 12px;
-  border: 1px solid var(--border);
-  box-shadow: var(--shadow);
-}
-.cat-row-icon { font-size: 22px; }
-.cat-row-info { flex:1; }
-.cat-row-name  { font-size: 13px; font-weight: 600; }
-.cat-row-count { font-size: 11px; color: var(--muted); }
-.cat-row-amt   { font-size: 14px; font-weight: 700; color: var(--danger); }
-
-/* =============================================
-   BOTTOM NAV
-   ============================================= */
-.bottom-nav {
-  position: absolute;
-  bottom: 0; left: 0; right: 0;
-  height: calc(var(--nav-h) + var(--bottom-h));
-  padding-bottom: var(--bottom-h);
-  background: var(--surface);
-  border-top: 1px solid var(--border);
-  display: flex;
-  align-items: stretch;
-  box-shadow: 0 -4px 24px rgba(0,0,0,0.07);
-  z-index: 100;
-}
-
-.nav-item {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 4px;
-  cursor: pointer;
-  border: none;
-  background: none;
-  padding: 0;
-  -webkit-tap-highlight-color: transparent;
-  transition: transform 0.18s var(--spring);
-  position: relative;
-}
-.nav-item:active { transform: scale(0.88); }
-
-.nav-icon {
-  width: 32px; height: 32px;
-  border-radius: 10px;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 18px;
-  transition: background 0.2s, transform 0.2s;
-}
-.nav-label {
-  font-size: 10px;
-  font-weight: 600;
-  color: var(--muted);
-  transition: color 0.2s;
-  letter-spacing: 0.3px;
-}
-
-/* Active nav tab */
-.nav-item.active .nav-icon {
-  background: var(--income-bg);
-  transform: translateY(-2px);
-}
-.nav-item.active .nav-label { color: var(--accent); }
-
-/* Center "Add" FAB-style nav button */
-.nav-item.nav-add .nav-icon {
-  width: 48px; height: 48px;
-  background: linear-gradient(135deg, var(--accent) 0%, #1B4332 100%);
-  border-radius: 16px;
-  box-shadow: 0 6px 20px rgba(45,106,79,0.4);
-  transform: translateY(-8px);
-  font-size: 24px;
-}
-.nav-item.nav-add .nav-label { color: var(--accent); margin-top: -4px; }
-.nav-item.nav-add.active .nav-icon { box-shadow: 0 3px 10px rgba(45,106,79,0.25); }
-
-/* =============================================
-   TOAST
-   ============================================= */
-.toast-wrap {
-  position: fixed;
-  top: calc(var(--status-h) + 12px);
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 9999;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 8px;
-  pointer-events: none;
-}
-.toast {
-  background: #1A1916;
-  color: white;
-  padding: 12px 20px;
-  border-radius: 30px;
-  font-size: 13px;
-  font-weight: 500;
-  box-shadow: var(--shadow-lg);
-  display: flex; align-items: center; gap: 8px;
-  white-space: nowrap;
-  animation: toastPop 0.4s var(--spring) both;
-}
-.toast.out { animation: toastFade 0.3s ease both; }
-
-@keyframes toastPop  { from { opacity:0; transform: scale(0.8) translateY(-8px); } to { opacity:1; transform: scale(1) translateY(0); } }
-@keyframes toastFade { from { opacity:1; transform: scale(1); } to { opacity:0; transform: scale(0.8) translateY(-8px); } }
-
-/* =============================================
-   SWIPE DELETE HINT
-   ============================================= */
-.swipe-hint {
-  text-align: center;
-  font-size: 11px;
-  color: var(--muted);
-  padding: 6px 0 0;
-}
-
-/* =============================================
-   CATEGORY COLORS
-   ============================================= */
-.cc-salary    { background: rgba(76,175,80,0.12); }
-.cc-freelance { background: rgba(156,39,176,0.10); }
-.cc-food      { background: rgba(255,152,0,0.12); }
-.cc-travel    { background: rgba(33,150,243,0.10); }
-.cc-shopping  { background: rgba(233,30,99,0.10); }
-.cc-health    { background: rgba(0,188,212,0.10); }
-.cc-other     { background: rgba(120,120,120,0.10); }
-
-/* =============================================
-   MISC ANIMATIONS
-   ============================================= */
-@keyframes pulse {
-  0%,100% { opacity:1; transform:scale(1); }
-  50%      { opacity:0.6; transform:scale(1.4); }
-}
-@keyframes countUp {
-  from { opacity:0.4; transform:scale(0.96); }
-  to   { opacity:1;   transform:scale(1); }
-}
-
-/* =============================================
-   PULL-TO-REFRESH INDICATOR
-   ============================================= */
-.ptr-indicator {
-  text-align: center;
-  padding: 12px;
-  font-size: 13px;
-  color: var(--muted);
-  display: none;
-}
-
-/* =============================================
-   SCROLLBAR (hide on mobile, subtle on desktop)
-   ============================================= */
-.scroll-area::-webkit-scrollbar { width: 3px; }
-.scroll-area::-webkit-scrollbar-track { background: transparent; }
-.scroll-area::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
-
-/* =============================================
-   PROFILE SCREEN
-   ============================================= */
-.profile-screen { padding: 0 20px 20px; }
-
-/* Profile hero banner */
-.profile-hero {
-  background: linear-gradient(145deg, #1A1916 0%, #2D2D28 55%, #1B3A2D 100%);
-  border-radius: var(--r);
-  padding: 32px 24px 28px;
-  text-align: center;
-  position: relative;
-  overflow: hidden;
-  margin-bottom: 20px;
-  box-shadow: 0 12px 40px rgba(26,25,22,0.2);
-}
-.profile-hero::before {
-  content: '';
-  position: absolute;
-  width: 200px; height: 200px;
-  border-radius: 50%;
-  border: 1px solid rgba(116,198,157,0.12);
-  top: -70px; right: -60px;
-}
-.profile-hero::after {
-  content: '';
-  position: absolute;
-  width: 130px; height: 130px;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(116,198,157,0.1) 0%, transparent 70%);
-  bottom: -30px; left: -30px;
-}
-
-/* Avatar area */
-.p-avatar-wrap { position: relative; display: inline-block; margin-bottom: 16px; }
-.p-avatar {
-  width: 86px; height: 86px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, var(--accent) 0%, var(--accent2) 100%);
-  display: flex; align-items: center; justify-content: center;
-  font-size: 30px;
-  font-weight: 800;
-  color: white;
-  letter-spacing: 1px;
-  border: 3px solid rgba(255,255,255,0.15);
-  box-shadow: 0 8px 28px rgba(45,106,79,0.4);
-  transition: transform 0.25s var(--spring);
-  cursor: pointer;
-}
-.p-avatar:active { transform: scale(0.93) rotate(-4deg); }
-
-.p-avatar-edit {
-  position: absolute;
-  bottom: 2px; right: 2px;
-  width: 26px; height: 26px;
-  background: white;
-  border-radius: 50%;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 13px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.18);
-  cursor: pointer;
-  border: 2px solid rgba(255,255,255,0.8);
-}
-
-.p-name {
-  font-family: 'Playfair Display', serif;
-  font-size: 22px;
-  font-weight: 700;
-  color: white;
-  letter-spacing: -0.3px;
-  margin-bottom: 4px;
-}
-.p-email {
-  font-size: 13px;
-  color: rgba(255,255,255,0.45);
-  margin-bottom: 16px;
-}
-.p-badges {
-  display: flex;
-  gap: 8px;
-  justify-content: center;
-  flex-wrap: wrap;
-  position: relative; z-index: 1;
-}
-.p-badge {
-  background: rgba(255,255,255,0.09);
-  border: 1px solid rgba(255,255,255,0.12);
-  border-radius: 20px;
-  padding: 5px 13px;
-  font-size: 11px;
-  font-weight: 600;
-  color: rgba(255,255,255,0.7);
-  backdrop-filter: blur(6px);
-}
-.p-badge.green { background: rgba(116,198,157,0.18); color: var(--accent2); border-color: rgba(116,198,157,0.25); }
-
-/* Stats row */
-.p-stats-row {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 10px;
-  margin-bottom: 20px;
-}
-.p-stat {
-  background: var(--surface);
-  border-radius: var(--r-sm);
-  padding: 16px 10px;
-  text-align: center;
-  border: 1px solid var(--border);
-  box-shadow: var(--shadow);
-}
-.p-stat-val {
-  font-family: 'Playfair Display', serif;
-  font-size: 18px;
-  font-weight: 700;
-  letter-spacing: -0.5px;
-  margin-bottom: 3px;
-}
-.p-stat-val.green { color: var(--accent); }
-.p-stat-val.red   { color: var(--danger); }
-.p-stat-lbl { font-size: 10px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.6px; }
-
-/* Profile info card */
-.p-card {
-  background: var(--surface);
-  border-radius: var(--r);
-  border: 1px solid var(--border);
-  box-shadow: var(--shadow);
-  overflow: hidden;
-  margin-bottom: 16px;
-}
-.p-card-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 18px 18px 14px;
-  border-bottom: 1px solid var(--border);
-}
-.p-card-title {
-  font-size: 14px;
-  font-weight: 700;
-  display: flex; align-items: center; gap: 8px;
-}
-.p-edit-btn {
-  font-size: 12px;
-  font-weight: 700;
-  color: var(--accent);
-  background: var(--income-bg);
-  border: none;
-  padding: 6px 14px;
-  border-radius: 20px;
-  cursor: pointer;
-  transition: transform 0.15s, background 0.15s;
-  -webkit-tap-highlight-color: transparent;
-  font-family: 'DM Sans', sans-serif;
-}
-.p-edit-btn:active { transform: scale(0.93); }
-
-/* Info rows (view mode) */
-.p-info-rows { padding: 4px 0; }
-.p-info-row {
-  display: flex;
-  align-items: center;
-  padding: 14px 18px;
-  gap: 14px;
-  border-bottom: 1px solid var(--border);
-  transition: background 0.15s;
-}
-.p-info-row:last-child { border-bottom: none; }
-.p-info-icon {
-  width: 36px; height: 36px; min-width: 36px;
-  border-radius: 10px;
-  background: var(--surface2);
-  display: flex; align-items: center; justify-content: center;
-  font-size: 16px;
-  border: 1px solid var(--border);
-}
-.p-info-content { flex: 1; min-width: 0; }
-.p-info-label { font-size: 11px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.7px; margin-bottom: 2px; }
-.p-info-value { font-size: 14px; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.p-info-value.muted { color: var(--muted); font-style: italic; }
-
-/* Edit form (hidden by default) */
-.p-edit-form { padding: 16px 18px; display: none; }
-.p-edit-form.open { display: block; animation: screenIn 0.25s ease both; }
-
-.p-f-group { margin-bottom: 14px; }
-.p-f-label {
-  display: block;
-  font-size: 11px;
-  font-weight: 700;
-  color: var(--muted);
-  text-transform: uppercase;
-  letter-spacing: 0.9px;
-  margin-bottom: 7px;
-}
-.p-f-input,
-.p-f-select {
-  width: 100%;
-  padding: 13px 15px;
-  border: 1.5px solid var(--border);
-  border-radius: var(--r-xs);
-  font-family: 'DM Sans', sans-serif;
-  font-size: 16px;
-  background: var(--surface2);
-  color: var(--text);
-  outline: none;
-  transition: border-color 0.2s, box-shadow 0.2s;
-  -webkit-appearance: none;
-}
-.p-f-input:focus, .p-f-select:focus {
-  border-color: var(--accent);
-  box-shadow: 0 0 0 3px rgba(45,106,79,0.12);
-}
-.p-f-input::placeholder { color: var(--muted); }
-
-.p-f-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-
-.p-save-btn {
-  width: 100%;
-  padding: 14px;
-  background: linear-gradient(135deg, var(--accent) 0%, #1B4332 100%);
-  color: white;
-  border: none;
-  border-radius: var(--r-xs);
-  font-family: 'DM Sans', sans-serif;
-  font-size: 15px;
-  font-weight: 700;
-  cursor: pointer;
-  margin-top: 8px;
-  box-shadow: 0 4px 18px rgba(45,106,79,0.3);
-  transition: transform 0.18s var(--spring), box-shadow 0.18s;
-  -webkit-tap-highlight-color: transparent;
-}
-.p-save-btn:active { transform: scale(0.96); box-shadow: none; }
-
-/* Settings / menu rows */
-.p-menu-rows { padding: 4px 0; }
-.p-menu-row {
-  display: flex;
-  align-items: center;
-  padding: 16px 18px;
-  gap: 14px;
-  cursor: pointer;
-  border-bottom: 1px solid var(--border);
-  transition: background 0.15s;
-  -webkit-tap-highlight-color: transparent;
-}
-.p-menu-row:last-child { border-bottom: none; }
-.p-menu-row:active { background: var(--surface2); }
-.p-menu-icon {
-  width: 36px; height: 36px; min-width: 36px;
-  border-radius: 10px;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 17px;
-}
-.p-menu-label { flex: 1; font-size: 14px; font-weight: 500; }
-.p-menu-arrow { color: var(--muted); font-size: 16px; }
-.p-menu-badge {
-  font-size: 11px;
-  font-weight: 700;
-  padding: 3px 9px;
-  border-radius: 10px;
-  background: var(--income-bg);
-  color: var(--accent);
-}
-
-/* Danger row */
-.p-menu-row.danger .p-menu-label { color: var(--danger); }
-.p-menu-row.danger .p-menu-icon { background: var(--danger-bg); }
-
-/* Avatar emoji picker modal */
-.emoji-modal {
-  position: fixed;
-  inset: 0;
-  z-index: 500;
-  display: none;
-  align-items: flex-end;
-  justify-content: center;
-  background: rgba(0,0,0,0.35);
-  backdrop-filter: blur(4px);
-  -webkit-backdrop-filter: blur(4px);
-}
-.emoji-modal.open { display: flex; animation: fadeIn 0.2s ease both; }
-.emoji-sheet {
-  background: var(--surface);
-  border-radius: var(--r) var(--r) 0 0;
-  padding: 20px 20px calc(20px + var(--bottom-h));
-  width: 100%;
-  max-width: 430px;
-  animation: slideUp 0.3s var(--spring) both;
-}
-.emoji-sheet h3 { font-size: 16px; font-weight: 700; margin-bottom: 16px; text-align: center; }
-.emoji-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 10px; }
-.emoji-opt {
-  width: 100%; aspect-ratio: 1;
-  border-radius: 14px;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 26px;
-  background: var(--surface2);
-  border: 2px solid transparent;
-  cursor: pointer;
-  transition: transform 0.15s var(--spring), border-color 0.15s;
-  -webkit-tap-highlight-color: transparent;
-}
-.emoji-opt:active { transform: scale(0.85); }
-.emoji-opt.selected { border-color: var(--accent); background: var(--income-bg); }
-.emoji-close {
-  width: 100%;
-  margin-top: 16px;
-  padding: 13px;
-  background: var(--surface2);
-  border: 1.5px solid var(--border);
-  border-radius: var(--r-xs);
-  font-family: 'DM Sans', sans-serif;
-  font-size: 14px;
-  font-weight: 600;
-  color: var(--muted);
-  cursor: pointer;
-  -webkit-tap-highlight-color: transparent;
-}
-
-@keyframes fadeIn  { from { opacity:0; } to { opacity:1; } }
-@keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WapCart – Turn WhatsApp into Your Online Store</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap"
+        rel="stylesheet">
+    <style>
+        /* ===== CSS VARIABLES ===== */
+        :root {
+            --green: #25D366;
+            --green-dark: #128C7E;
+            --green-light: #DCF8C6;
+            --accent: #00B37E;
+            --black: #0A0A0A;
+            --gray-900: #111827;
+            --gray-700: #374151;
+            --gray-500: #6B7280;
+            --gray-300: #D1D5DB;
+            --gray-100: #F3F4F6;
+            --white: #FFFFFF;
+            --radius: 14px;
+            --shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+            --shadow-lg: 0 12px 48px rgba(0, 0, 0, 0.12);
+        }
+
+        /* ===== RESET & BASE ===== */
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: #fff;
+            color: var(--gray-900);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        h1,
+        h2,
+        h3,
+        h4 {
+            font-family: 'Syne', sans-serif;
+            line-height: 1.15;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        img {
+            max-width: 100%;
+            display: block;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        section {
+            padding: 90px 0;
+        }
+
+        .container {
+            max-width: 1180px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        .tag {
+            display: inline-block;
+            background: var(--green-light);
+            color: var(--green-dark);
+            font-size: 13px;
+            font-weight: 600;
+            padding: 4px 14px;
+            border-radius: 50px;
+            margin-bottom: 16px;
+            letter-spacing: .3px;
+        }
+
+        .section-title {
+            font-size: clamp(28px, 4vw, 40px);
+            font-weight: 800;
+            margin-bottom: 14px;
+        }
+
+        .section-sub {
+            color: var(--gray-500);
+            font-size: 17px;
+            max-width: 560px;
+        }
+
+        /* ===== BUTTONS ===== */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 13px 28px;
+            border-radius: 50px;
+            font-family: 'DM Sans', sans-serif;
+            font-weight: 600;
+            font-size: 15px;
+            cursor: pointer;
+            transition: all .25s ease;
+            border: none;
+        }
+
+        .btn-primary {
+            background: var(--green);
+            color: #fff;
+            box-shadow: 0 4px 18px rgba(37, 211, 102, 0.35);
+        }
+
+        .btn-primary:hover {
+            background: var(--green-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 28px rgba(37, 211, 102, 0.45);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: var(--green-dark);
+            border: 2px solid var(--green);
+        }
+
+        .btn-outline:hover {
+            background: var(--green);
+            color: #fff;
+            transform: translateY(-2px);
+        }
+
+        .btn-dark {
+            background: var(--black);
+            color: #fff;
+        }
+
+        .btn-dark:hover {
+            background: var(--gray-900);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+        }
+
+        /* ===== HEADER ===== */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            padding: 18px 0;
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-bottom: 1px solid transparent;
+            transition: all .3s ease;
+        }
+
+        header.scrolled {
+            border-bottom-color: var(--gray-100);
+            padding: 12px 0;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.07);
+        }
+
+        header .container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 24px;
+        }
+
+        .logo {
+            font-family: 'Syne', sans-serif;
+            font-weight: 800;
+            font-size: 24px;
+            color: var(--black);
+        }
+
+        .logo span {
+            color: var(--green);
+        }
+
+        nav {
+            display: flex;
+            align-items: center;
+            gap: 32px;
+        }
+
+        nav a {
+            font-size: 15px;
+            font-weight: 500;
+            color: var(--gray-700);
+            position: relative;
+        }
+
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: -3px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--green);
+            transition: width .3s ease;
+            border-radius: 2px;
+        }
+
+        nav a:hover::after {
+            width: 100%;
+        }
+
+        nav a:hover {
+            color: var(--green-dark);
+        }
+
+        .nav-cta {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+            padding: 4px;
+        }
+
+        .hamburger span {
+            display: block;
+            width: 24px;
+            height: 2px;
+            background: var(--black);
+            border-radius: 2px;
+            transition: all .3s ease;
+        }
+
+        .mobile-menu {
+            display: none;
+            position: fixed;
+            top: 70px;
+            left: 0;
+            width: 100%;
+            background: #fff;
+            padding: 24px;
+            border-bottom: 1px solid var(--gray-100);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+            z-index: 999;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .mobile-menu.open {
+            display: flex;
+        }
+
+        .mobile-menu a {
+            font-size: 16px;
+            font-weight: 500;
+            color: var(--gray-700);
+            padding: 8px 0;
+            border-bottom: 1px solid var(--gray-100);
+        }
+
+        /* ===== HERO ===== */
+        #hero {
+            padding: 140px 0 90px;
+            background: #fff;
+            position: relative;
+            overflow: hidden;
+        }
+
+        #hero::before {
+            content: '';
+            position: absolute;
+            top: -200px;
+            right: -200px;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(37, 211, 102, 0.08) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        #hero::after {
+            content: '';
+            position: absolute;
+            bottom: -100px;
+            left: -100px;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(18, 140, 126, 0.06) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .hero-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .hero-left {
+            animation: fadeSlideUp .8s ease both;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--green-light);
+            border: 1px solid rgba(37, 211, 102, 0.3);
+            color: var(--green-dark);
+            font-size: 13px;
+            font-weight: 600;
+            padding: 7px 16px;
+            border-radius: 50px;
+            margin-bottom: 24px;
+        }
+
+        .hero-badge .dot {
+            width: 8px;
+            height: 8px;
+            background: var(--green);
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        h1.hero-title {
+            font-size: clamp(34px, 5vw, 56px);
+            font-weight: 800;
+            color: var(--black);
+            margin-bottom: 20px;
+        }
+
+        h1.hero-title .highlight {
+            color: var(--green);
+            position: relative;
+        }
+
+        .hero-sub {
+            font-size: 18px;
+            color: var(--gray-500);
+            margin-bottom: 32px;
+            max-width: 480px;
+            line-height: 1.7;
+        }
+
+        .hero-btns {
+            display: flex;
+            gap: 14px;
+            flex-wrap: wrap;
+            margin-bottom: 40px;
+        }
+
+        .hero-pills {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .pill {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            background: var(--gray-100);
+            border-radius: 50px;
+            padding: 8px 16px;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--gray-700);
+        }
+
+        .pill svg {
+            color: var(--green);
+        }
+
+        .hero-right {
+            animation: fadeSlideUp .8s ease .2s both;
+            display: flex;
+            justify-content: center;
+        }
+
+        .mockup-wrap {
+            position: relative;
+            width: 320px;
+        }
+
+        .mockup-phone {
+            background: var(--black);
+            border-radius: 36px;
+            padding: 14px;
+            box-shadow: 0 32px 80px rgba(0, 0, 0, 0.22), 0 0 0 2px rgba(255, 255, 255, 0.05);
+            position: relative;
+            z-index: 2;
+        }
+
+        .mockup-screen {
+            background: #fff;
+            border-radius: 24px;
+            overflow: hidden;
+        }
+
+        .phone-topbar {
+            background: var(--green);
+            padding: 14px 16px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .phone-avatar {
+            width: 36px;
+            height: 36px;
+            background: #fff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+        }
+
+        .phone-info {
+            color: #fff;
+        }
+
+        .phone-info p {
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+        .phone-info span {
+            font-size: 11px;
+            opacity: .8;
+        }
+
+        .phone-body {
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .chat-msg {
+            display: flex;
+            flex-direction: column;
+            max-width: 85%;
+            gap: 4px;
+        }
+
+        .chat-msg.right {
+            align-self: flex-end;
+            align-items: flex-end;
+        }
+
+        .bubble {
+            padding: 10px 14px;
+            border-radius: 16px;
+            font-size: 12px;
+            line-height: 1.5;
+        }
+
+        .bubble.in {
+            background: var(--gray-100);
+            color: var(--gray-700);
+            border-top-left-radius: 4px;
+        }
+
+        .bubble.out {
+            background: var(--green-light);
+            color: #2d6a4f;
+            border-top-right-radius: 4px;
+        }
+
+        .order-card {
+            background: #fff;
+            border: 1px solid var(--gray-100);
+            border-radius: 12px;
+            padding: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+        }
+
+        .order-card-title {
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--green-dark);
+            margin-bottom: 8px;
+        }
+
+        .order-item {
+            display: flex;
+            justify-content: space-between;
+            font-size: 11px;
+            color: var(--gray-700);
+            padding: 4px 0;
+            border-bottom: 1px solid var(--gray-100);
+        }
+
+        .order-total {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--black);
+            margin-top: 8px;
+        }
+
+        .float-badge {
+            position: absolute;
+            top: 20px;
+            right: -30px;
+            background: #fff;
+            border-radius: 12px;
+            padding: 10px 14px;
+            box-shadow: var(--shadow-lg);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 12px;
+            font-weight: 600;
+            z-index: 3;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .float-badge2 {
+            position: absolute;
+            bottom: 40px;
+            left: -30px;
+            background: #fff;
+            border-radius: 12px;
+            padding: 10px 14px;
+            box-shadow: var(--shadow-lg);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 12px;
+            font-weight: 600;
+            z-index: 3;
+            animation: float 3s ease-in-out infinite .5s;
+        }
+
+        .green-dot {
+            width: 10px;
+            height: 10px;
+            background: var(--green);
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+
+        /* ===== FEATURES ===== */
+        #features {
+            background: var(--gray-100);
+        }
+
+        .features-header {
+            text-align: center;
+            margin-bottom: 56px;
+        }
+
+        .features-header .section-sub {
+            margin: 0 auto;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+        }
+
+        .feature-card {
+            background: #fff;
+            border-radius: var(--radius);
+            padding: 32px 28px;
+            border: 1px solid transparent;
+            transition: all .3s ease;
+            cursor: default;
+        }
+
+        .feature-card:hover {
+            border-color: var(--green);
+            box-shadow: var(--shadow-lg);
+            transform: translateY(-4px);
+        }
+
+        .feature-icon {
+            width: 52px;
+            height: 52px;
+            background: var(--green-light);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        .feature-card h3 {
+            font-size: 17px;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .feature-card p {
+            font-size: 14px;
+            color: var(--gray-500);
+            line-height: 1.65;
+        }
+
+        /* ===== COMPARISON ===== */
+        #comparison {
+            background: #fff;
+        }
+
+        .comparison-header {
+            text-align: center;
+            margin-bottom: 48px;
+        }
+
+        .table-wrap {
+            overflow-x: auto;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 600px;
+        }
+
+        thead {
+            background: var(--gray-900);
+            color: #fff;
+        }
+
+        thead th {
+            padding: 18px 20px;
+            font-family: 'Syne', sans-serif;
+            font-size: 14px;
+            font-weight: 700;
+            text-align: left;
+        }
+
+        tbody tr {
+            border-bottom: 1px solid var(--gray-100);
+            transition: background .2s;
+        }
+
+        tbody tr:hover {
+            background: var(--gray-100);
+        }
+
+        tbody td {
+            padding: 16px 20px;
+            font-size: 14px;
+        }
+
+        tbody td:first-child {
+            font-weight: 600;
+        }
+
+        tr.wapcart-row {
+            background: rgba(37, 211, 102, 0.06);
+            border: 2px solid var(--green) !important;
+        }
+
+        tr.wapcart-row td {
+            color: var(--green-dark);
+            font-weight: 600;
+        }
+
+        tr.wapcart-row td:first-child {
+            position: relative;
+        }
+
+        .best-badge {
+            display: inline-block;
+            background: var(--green);
+            color: #fff;
+            font-size: 11px;
+            font-weight: 700;
+            padding: 3px 10px;
+            border-radius: 50px;
+            margin-left: 8px;
+            vertical-align: middle;
+        }
+
+        .check {
+            color: var(--green);
+            font-weight: 700;
+        }
+
+        .cross {
+            color: #ef4444;
+        }
+
+        /* ===== HOW IT WORKS ===== */
+        #how {
+            background: var(--gray-100);
+        }
+
+        .how-header {
+            text-align: center;
+            margin-bottom: 64px;
+        }
+
+        .steps-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 32px;
+            position: relative;
+        }
+
+        .steps-grid::before {
+            content: '';
+            position: absolute;
+            top: 36px;
+            left: 10%;
+            width: 80%;
+            height: 2px;
+            background: linear-gradient(90deg, var(--green-light), var(--green), var(--green-light));
+            border-radius: 2px;
+            z-index: 0;
+        }
+
+        .step-card {
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .step-num {
+            width: 72px;
+            height: 72px;
+            background: #fff;
+            border: 3px solid var(--green);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            font-family: 'Syne', sans-serif;
+            font-size: 22px;
+            font-weight: 800;
+            color: var(--green);
+            box-shadow: 0 4px 20px rgba(37, 211, 102, 0.2);
+            position: relative;
+        }
+
+        .step-icon {
+            font-size: 28px;
+            position: absolute;
+            bottom: -14px;
+            right: -8px;
+        }
+
+        .step-card h3 {
+            font-size: 17px;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .step-card p {
+            font-size: 14px;
+            color: var(--gray-500);
+        }
+
+        /* ===== STORES ===== */
+        #stores {
+            background: #fff;
+        }
+
+        .stores-header {
+            text-align: center;
+            margin-bottom: 48px;
+        }
+
+        .stores-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+        }
+
+        .store-card {
+            border-radius: var(--radius);
+            overflow: hidden;
+            border: 1px solid var(--gray-100);
+            transition: all .3s ease;
+            cursor: pointer;
+            box-shadow: var(--shadow);
+        }
+
+        .store-card:hover {
+            transform: translateY(-6px);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--green);
+        }
+
+        .store-img {
+            height: 180px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 64px;
+        }
+
+        .store-info {
+            padding: 18px 20px;
+            border-top: 1px solid var(--gray-100);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .store-info h4 {
+            font-size: 15px;
+            font-weight: 700;
+        }
+
+        .store-info span {
+            font-size: 12px;
+            color: var(--gray-500);
+        }
+
+        .store-tag {
+            font-size: 11px;
+            background: var(--green-light);
+            color: var(--green-dark);
+            padding: 4px 10px;
+            border-radius: 50px;
+            font-weight: 600;
+        }
+
+        /* ===== TESTIMONIALS ===== */
+        #testimonials {
+            background: var(--gray-100);
+        }
+
+        .testi-header {
+            text-align: center;
+            margin-bottom: 48px;
+        }
+
+        .testi-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+        }
+
+        .testi-card {
+            background: #fff;
+            border-radius: var(--radius);
+            padding: 28px;
+            border: 1px solid var(--gray-100);
+            transition: all .3s ease;
+        }
+
+        .testi-card:hover {
+            box-shadow: var(--shadow-lg);
+            transform: translateY(-4px);
+            border-color: var(--green);
+        }
+
+        .stars {
+            color: #f59e0b;
+            font-size: 16px;
+            margin-bottom: 14px;
+            letter-spacing: 2px;
+        }
+
+        .testi-text {
+            font-size: 15px;
+            color: var(--gray-700);
+            line-height: 1.7;
+            margin-bottom: 20px;
+            font-style: italic;
+        }
+
+        .testi-author {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .testi-avatar {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            background: var(--green-light);
+            flex-shrink: 0;
+        }
+
+        .testi-name {
+            font-size: 14px;
+            font-weight: 700;
+        }
+
+        .testi-role {
+            font-size: 13px;
+            color: var(--gray-500);
+        }
+
+        /* ===== ENQUIRY FORM ===== */
+        #enquiry {
+            background: #fff;
+        }
+
+        .enquiry-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            align-items: center;
+        }
+
+        .enquiry-left h2 {
+            font-size: clamp(28px, 4vw, 42px);
+            font-weight: 800;
+            margin-bottom: 20px;
+        }
+
+        .enquiry-left p {
+            font-size: 17px;
+            color: var(--gray-500);
+            line-height: 1.7;
+            margin-bottom: 32px;
+        }
+
+        .enq-perks {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .perk {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 15px;
+            font-weight: 500;
+        }
+
+        .perk-icon {
+            width: 36px;
+            height: 36px;
+            background: var(--green-light);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            flex-shrink: 0;
+        }
+
+        .form-card {
+            background: var(--gray-100);
+            border-radius: 20px;
+            padding: 40px;
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 7px;
+            color: var(--gray-700);
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1.5px solid var(--gray-300);
+            border-radius: 10px;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 15px;
+            background: #fff;
+            color: var(--gray-900);
+            outline: none;
+            transition: border-color .25s;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            border-color: var(--green);
+            box-shadow: 0 0 0 3px rgba(37, 211, 102, 0.1);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+        }
+
+        .success-msg {
+            display: none;
+            background: var(--green-light);
+            border: 1.5px solid var(--green);
+            color: var(--green-dark);
+            padding: 14px 18px;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 15px;
+            margin-top: 14px;
+            text-align: center;
+        }
+
+        /* ===== PRICING ===== */
+        #pricing {
+            background: var(--gray-100);
+        }
+
+        .pricing-header {
+            text-align: center;
+            margin-bottom: 56px;
+        }
+
+        .pricing-center {
+            display: flex;
+            justify-content: center;
+            gap: 32px;
+            flex-wrap: wrap;
+        }
+
+        .price-card {
+            background: #fff;
+            border-radius: 20px;
+            padding: 40px 36px;
+            border: 2px solid var(--gray-100);
+            max-width: 380px;
+            width: 100%;
+            transition: all .3s ease;
+        }
+
+        .price-card.featured {
+            border-color: var(--green);
+            box-shadow: 0 16px 60px rgba(37, 211, 102, 0.18);
+            position: relative;
+        }
+
+        .price-card.featured::before {
+            content: '🏆 Most Popular';
+            position: absolute;
+            top: -16px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--green);
+            color: #fff;
+            font-size: 12px;
+            font-weight: 700;
+            padding: 5px 18px;
+            border-radius: 50px;
+            white-space: nowrap;
+        }
+
+        .price-name {
+            font-family: 'Syne', sans-serif;
+            font-size: 20px;
+            font-weight: 800;
+            margin-bottom: 8px;
+        }
+
+        .price-amount {
+            display: flex;
+            align-items: baseline;
+            gap: 4px;
+            margin-bottom: 8px;
+        }
+
+        .price-amount .currency {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--green-dark);
+            margin-top: 4px;
+        }
+
+        .price-amount .amount {
+            font-family: 'Syne', sans-serif;
+            font-size: 56px;
+            font-weight: 800;
+            color: var(--green-dark);
+            line-height: 1;
+        }
+
+        .price-amount .period {
+            font-size: 15px;
+            color: var(--gray-500);
+        }
+
+        .price-desc {
+            font-size: 14px;
+            color: var(--gray-500);
+            margin-bottom: 28px;
+        }
+
+        .price-features {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 32px;
+        }
+
+        .price-feat {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 14px;
+        }
+
+        .price-feat .chk {
+            color: var(--green);
+            font-size: 16px;
+        }
+
+        .addon-card {
+            background: #fff;
+            border-radius: 16px;
+            padding: 28px 32px;
+            border: 1.5px dashed var(--green);
+            max-width: 380px;
+            width: 100%;
+        }
+
+        .addon-card h3 {
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: var(--green-dark);
+        }
+
+        .addon-card p {
+            font-size: 14px;
+            color: var(--gray-500);
+        }
+
+        .addon-price {
+            font-family: 'Syne', sans-serif;
+            font-size: 36px;
+            font-weight: 800;
+            color: var(--green);
+            margin: 12px 0 4px;
+        }
+
+        /* ===== CONTACT ===== */
+        #contact {
+            background: #fff;
+        }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 64px;
+            align-items: start;
+        }
+
+        .contact-left h2 {
+            font-size: clamp(26px, 3.5vw, 36px);
+            font-weight: 800;
+            margin-bottom: 28px;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+            margin-bottom: 24px;
+        }
+
+        .contact-icon {
+            width: 44px;
+            height: 44px;
+            background: var(--green-light);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            flex-shrink: 0;
+        }
+
+        .contact-item h4 {
+            font-size: 14px;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .contact-item p,
+        .contact-item a {
+            font-size: 14px;
+            color: var(--gray-500);
+        }
+
+        .contact-item a:hover {
+            color: var(--green);
+        }
+
+        .map-wrap {
+            border-radius: var(--radius);
+            overflow: hidden;
+            height: 320px;
+            box-shadow: var(--shadow);
+            margin-bottom: 16px;
+        }
+
+        .map-wrap iframe {
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+
+        /* ===== FOOTER ===== */
+        footer {
+            background: var(--gray-900);
+            color: #fff;
+            padding: 60px 0 32px;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            gap: 48px;
+            margin-bottom: 48px;
+        }
+
+        .footer-brand p {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.55);
+            line-height: 1.7;
+            margin-top: 14px;
+            max-width: 280px;
+        }
+
+        .footer-logo {
+            font-family: 'Syne', sans-serif;
+            font-weight: 800;
+            font-size: 22px;
+        }
+
+        .footer-logo span {
+            color: var(--green);
+        }
+
+        .footer-col h4 {
+            font-family: 'Syne', sans-serif;
+            font-size: 14px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 18px;
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .footer-col a {
+            display: block;
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 12px;
+            transition: color .2s;
+        }
+
+        .footer-col a:hover {
+            color: var(--green);
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            padding-top: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: gap;
+            gap: 12px;
+        }
+
+        .footer-bottom p {
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.4);
+        }
+
+        .footer-wa {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--green);
+            color: #fff;
+            font-size: 13px;
+            font-weight: 600;
+            padding: 8px 18px;
+            border-radius: 50px;
+            transition: all .25s;
+        }
+
+        .footer-wa:hover {
+            background: var(--green-dark);
+        }
+
+        /* ===== ANIMATIONS ===== */
+        @keyframes fadeSlideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+
+            50% {
+                opacity: .6;
+                transform: scale(1.3);
+            }
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all .65s cubic-bezier(.22, .61, .36, 1);
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 1024px) {
+            .features-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .stores-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .testi-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .steps-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 24px;
+            }
+
+            .steps-grid::before {
+                display: none;
+            }
+
+            .footer-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            section {
+                padding: 64px 0;
+            }
+
+            .hero-grid {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+
+            .hero-right {
+                order: -1;
+            }
+
+            .mockup-wrap {
+                width: 260px;
+            }
+
+            .float-badge {
+                right: -10px;
+                top: 10px;
+            }
+
+            .float-badge2 {
+                left: -10px;
+            }
+
+            nav {
+                display: none;
+            }
+
+            .nav-cta {
+                display: none;
+            }
+
+            .hamburger {
+                display: flex;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .stores-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .testi-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .steps-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .enquiry-grid {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+
+            .contact-grid {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+
+            .footer-grid {
+                grid-template-columns: 1fr;
+                gap: 32px;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-btns {
+                flex-direction: column;
+            }
+
+            .hero-btns .btn {
+                text-align: center;
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .pricing-center {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .hero-pills {
+                flex-direction: column;
+            }
+        }
+    </style>
 </head>
+
 <body>
 
-<!-- TOAST CONTAINER -->
-<div class="toast-wrap" id="toastWrap"></div>
-
-<!-- APP SHELL -->
-<div class="app-shell">
-
-  <!-- Status bar spacer (iOS safe area) -->
-  <div class="status-bar"></div>
-
-  <!-- SCROLLABLE CONTENT -->
-  <div class="scroll-area" id="scrollArea">
-
-    <!-- ======== HOME SCREEN ======== -->
-    <div class="screen active" id="screen-home">
-
-      <!-- Top bar -->
-      <div class="top-bar">
-        <div class="logo">Fin<span>Flow</span></div>
-        <div class="top-right">
-          <div class="icon-btn" onclick="showToast('No new notifications','🔔')">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#8C897F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
-              <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
-            </svg>
-            <div class="notif-dot"></div>
-          </div>
-          <div class="avatar">VK</div>
+    <!-- ===== HEADER ===== -->
+    <header id="header">
+        <div class="container">
+            <a href="#" class="logo">Wap<span>Cart</span></a>
+            <nav>
+                <a href="#hero">Home</a>
+                <a href="#features">Features</a>
+                <a href="#pricing">Pricing</a>
+                <a href="#stores">Demo</a>
+                <a href="#contact">Contact</a>
+            </nav>
+            <div class="nav-cta">
+                <a href="#enquiry" class="btn btn-primary">🛒 Create Store</a>
+            </div>
+            <div class="hamburger" id="hamburger" aria-label="Menu">
+                <span></span><span></span><span></span>
+            </div>
         </div>
-      </div>
-
-      <!-- Hero balance card -->
-      <div class="hero-section">
-        <div class="hero-card">
-          <div class="hero-label">Total Balance</div>
-          <div class="hero-value" id="heroBalance">₹0</div>
-          <div class="hero-row">
-            <div class="hero-stat">
-              <div class="hero-stat-label">📈 Income</div>
-              <div class="hero-stat-value green" id="heroIncome">₹0</div>
-            </div>
-            <div class="hero-stat">
-              <div class="hero-stat-label">📉 Expenses</div>
-              <div class="hero-stat-value red" id="heroExpenses">₹0</div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Quick Actions -->
-      <div class="section-head">
-        <h2>Quick Actions</h2>
-      </div>
-      <div class="quick-actions">
-        <div class="qa-btn" onclick="goTab('add'); selectType('income')">
-          <div class="qa-icon">💰</div>
-          <div class="qa-label">Income</div>
-        </div>
-        <div class="qa-btn" onclick="goTab('add'); selectType('expense')">
-          <div class="qa-icon">💸</div>
-          <div class="qa-label">Expense</div>
-        </div>
-        <div class="qa-btn" onclick="goTab('stats')">
-          <div class="qa-icon">📊</div>
-          <div class="qa-label">Stats</div>
-        </div>
-        <div class="qa-btn" onclick="goTab('history')">
-          <div class="qa-icon">🧾</div>
-          <div class="qa-label">History</div>
-        </div>
-      </div>
-
-      <!-- Chart -->
-      <div class="section-head">
-        <h2>Overview</h2>
-        <span class="pill">This month</span>
-      </div>
-      <div style="padding:0 20px;">
-        <div class="chart-wrap">
-          <canvas id="homeChart" height="160"></canvas>
-        </div>
-      </div>
-
-      <!-- Recent Transactions -->
-      <div class="section-head">
-        <h2>Recent</h2>
-        <span class="pill" id="homeCount">0 items</span>
-      </div>
-      <div class="tx-list" id="homeTxList"></div>
-
-    </div><!-- /screen-home -->
-
-    <!-- ======== ADD SCREEN ======== -->
-    <div class="screen" id="screen-add">
-      <div class="top-bar">
-        <div class="logo">Add <span>Transaction</span></div>
-      </div>
-      <div class="add-screen">
-        <div class="form-card">
-
-          <!-- Type toggle -->
-          <div class="type-toggle">
-            <button class="type-btn sel-income" id="btnIncome"  onclick="selectType('income')">💰 Income</button>
-            <button class="type-btn"             id="btnExpense" onclick="selectType('expense')">💸 Expense</button>
-          </div>
-
-          <!-- Title -->
-          <div class="f-group">
-            <label class="f-label">Title</label>
-            <input class="f-input" id="txTitle" type="text" placeholder="e.g. Monthly Salary" maxlength="40" autocomplete="off"/>
-          </div>
-
-          <!-- Amount -->
-          <div class="f-group">
-            <label class="f-label">Amount (₹)</label>
-            <input class="f-input" id="txAmount" type="number" placeholder="0.00" min="0.01" step="0.01" inputmode="decimal"/>
-          </div>
-
-          <!-- Category -->
-          <div class="f-group">
-            <label class="f-label">Category</label>
-            <div class="cat-grid" id="catGrid">
-              <div class="cat-opt selected" data-cat="salary"    onclick="selCat(this)"><div class="c-icon">💼</div><div class="c-name">Salary</div></div>
-              <div class="cat-opt"          data-cat="freelance" onclick="selCat(this)"><div class="c-icon">🎨</div><div class="c-name">Freelance</div></div>
-              <div class="cat-opt"          data-cat="food"      onclick="selCat(this)"><div class="c-icon">🍕</div><div class="c-name">Food</div></div>
-              <div class="cat-opt"          data-cat="travel"    onclick="selCat(this)"><div class="c-icon">✈️</div><div class="c-name">Travel</div></div>
-              <div class="cat-opt"          data-cat="shopping"  onclick="selCat(this)"><div class="c-icon">🛍️</div><div class="c-name">Shopping</div></div>
-              <div class="cat-opt"          data-cat="health"    onclick="selCat(this)"><div class="c-icon">💊</div><div class="c-name">Health</div></div>
-              <div class="cat-opt"          data-cat="other"     onclick="selCat(this)"><div class="c-icon">📦</div><div class="c-name">Other</div></div>
-            </div>
-          </div>
-
-          <button class="submit-btn" onclick="addTransaction()">＋ Add Transaction</button>
-        </div>
-      </div>
-    </div><!-- /screen-add -->
-
-    <!-- ======== HISTORY SCREEN ======== -->
-    <div class="screen" id="screen-history">
-      <div class="top-bar">
-        <div class="logo">All <span>Transactions</span></div>
-        <div class="top-right">
-          <span class="pill" id="histCount">0</span>
-        </div>
-      </div>
-      <p class="swipe-hint">Tap 🗑 to delete</p>
-      <br/>
-      <div class="tx-list" id="histTxList"></div>
-    </div><!-- /screen-history -->
-
-    <!-- ======== PROFILE SCREEN ======== -->
-    <div class="screen" id="screen-profile">
-      <div class="top-bar">
-        <div class="logo">My <span>Profile</span></div>
-        <div class="top-right">
-          <div class="icon-btn" onclick="showToast('Settings coming soon!','⚙️')">
-            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#8C897F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
-            </svg>
-          </div>
-        </div>
-      </div>
-
-      <div class="profile-screen">
-
-        <!-- Hero banner -->
-        <div class="profile-hero">
-          <div class="p-avatar-wrap">
-            <div class="p-avatar" id="profileAvatar" onclick="openEmojiPicker()">VK</div>
-            <div class="p-avatar-edit" onclick="openEmojiPicker()">✏️</div>
-          </div>
-          <div class="p-name" id="profileDisplayName">Vicky Kumar</div>
-          <div class="p-email" id="profileDisplayEmail">vicky@email.com</div>
-          <div class="p-badges">
-            <span class="p-badge green" id="profileBadgeMember">⭐ Member</span>
-            <span class="p-badge" id="profileBadgeSince">Since Apr 2025</span>
-            <span class="p-badge" id="profileBadgeTx">0 Transactions</span>
-          </div>
-        </div>
-
-        <!-- Quick stats -->
-        <div class="p-stats-row">
-          <div class="p-stat">
-            <div class="p-stat-val green" id="pStatBalance">₹0</div>
-            <div class="p-stat-lbl">Balance</div>
-          </div>
-          <div class="p-stat">
-            <div class="p-stat-val green" id="pStatIncome">₹0</div>
-            <div class="p-stat-lbl">Income</div>
-          </div>
-          <div class="p-stat">
-            <div class="p-stat-val red" id="pStatExpense">₹0</div>
-            <div class="p-stat-lbl">Spent</div>
-          </div>
-        </div>
-
-        <!-- Personal Info card -->
-        <div class="p-card">
-          <div class="p-card-header">
-            <div class="p-card-title">👤 Personal Info</div>
-            <button class="p-edit-btn" id="editInfoBtn" onclick="toggleEditInfo()">Edit</button>
-          </div>
-
-          <!-- View mode -->
-          <div class="p-info-rows" id="infoViewMode">
-            <div class="p-info-row">
-              <div class="p-info-icon">🧑</div>
-              <div class="p-info-content">
-                <div class="p-info-label">Full Name</div>
-                <div class="p-info-value" id="viewName">Vicky Kumar</div>
-              </div>
-            </div>
-            <div class="p-info-row">
-              <div class="p-info-icon">📧</div>
-              <div class="p-info-content">
-                <div class="p-info-label">Email</div>
-                <div class="p-info-value" id="viewEmail">vicky@email.com</div>
-              </div>
-            </div>
-            <div class="p-info-row">
-              <div class="p-info-icon">📱</div>
-              <div class="p-info-content">
-                <div class="p-info-label">Phone</div>
-                <div class="p-info-value" id="viewPhone">Not set</div>
-              </div>
-            </div>
-            <div class="p-info-row">
-              <div class="p-info-icon">🎂</div>
-              <div class="p-info-content">
-                <div class="p-info-label">Date of Birth</div>
-                <div class="p-info-value" id="viewDob">Not set</div>
-              </div>
-            </div>
-            <div class="p-info-row">
-              <div class="p-info-icon">🌍</div>
-              <div class="p-info-content">
-                <div class="p-info-label">City</div>
-                <div class="p-info-value" id="viewCity">Not set</div>
-              </div>
-            </div>
-            <div class="p-info-row">
-              <div class="p-info-icon">💼</div>
-              <div class="p-info-content">
-                <div class="p-info-label">Occupation</div>
-                <div class="p-info-value" id="viewOccupation">Not set</div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Edit mode (hidden initially) -->
-          <div class="p-edit-form" id="infoEditForm">
-            <div class="p-f-group">
-              <label class="p-f-label">Full Name</label>
-              <input class="p-f-input" id="editName" type="text" placeholder="Your full name" maxlength="40"/>
-            </div>
-            <div class="p-f-group">
-              <label class="p-f-label">Email</label>
-              <input class="p-f-input" id="editEmail" type="email" placeholder="your@email.com" maxlength="60"/>
-            </div>
-            <div class="p-f-group">
-              <label class="p-f-label">Phone</label>
-              <input class="p-f-input" id="editPhone" type="tel" placeholder="+91 XXXXX XXXXX" maxlength="20" inputmode="tel"/>
-            </div>
-            <div class="p-f-row">
-              <div class="p-f-group">
-                <label class="p-f-label">Date of Birth</label>
-                <input class="p-f-input" id="editDob" type="date"/>
-              </div>
-              <div class="p-f-group">
-                <label class="p-f-label">Gender</label>
-                <select class="p-f-select" id="editGender">
-                  <option value="">Select</option>
-                  <option value="Male">Male</option>
-                  <option value="Female">Female</option>
-                  <option value="Other">Other</option>
-                  <option value="Prefer not to say">Prefer not to say</option>
-                </select>
-              </div>
-            </div>
-            <div class="p-f-group">
-              <label class="p-f-label">City</label>
-              <input class="p-f-input" id="editCity" type="text" placeholder="e.g. Mumbai" maxlength="40"/>
-            </div>
-            <div class="p-f-group">
-              <label class="p-f-label">Occupation</label>
-              <input class="p-f-input" id="editOccupation" type="text" placeholder="e.g. Software Engineer" maxlength="50"/>
-            </div>
-            <button class="p-save-btn" onclick="saveProfile()">💾 Save Changes</button>
-          </div>
-        </div>
-
-        <!-- Financial Preferences card -->
-        <div class="p-card">
-          <div class="p-card-header">
-            <div class="p-card-title">💰 Finance Preferences</div>
-            <button class="p-edit-btn" id="editFinBtn" onclick="toggleEditFin()">Edit</button>
-          </div>
-
-          <div class="p-info-rows" id="finViewMode">
-            <div class="p-info-row">
-              <div class="p-info-icon">💵</div>
-              <div class="p-info-content">
-                <div class="p-info-label">Currency</div>
-                <div class="p-info-value" id="viewCurrency">₹ Indian Rupee (INR)</div>
-              </div>
-            </div>
-            <div class="p-info-row">
-              <div class="p-info-icon">🎯</div>
-              <div class="p-info-content">
-                <div class="p-info-label">Monthly Budget Goal</div>
-                <div class="p-info-value" id="viewBudget">Not set</div>
-              </div>
-            </div>
-            <div class="p-info-row">
-              <div class="p-info-icon">📅</div>
-              <div class="p-info-content">
-                <div class="p-info-label">Pay Day</div>
-                <div class="p-info-value" id="viewPayday">Not set</div>
-              </div>
-            </div>
-          </div>
-
-          <div class="p-edit-form" id="finEditForm">
-            <div class="p-f-group">
-              <label class="p-f-label">Currency</label>
-              <select class="p-f-select" id="editCurrency">
-                <option value="INR">₹ Indian Rupee (INR)</option>
-                <option value="USD">$ US Dollar (USD)</option>
-                <option value="EUR">€ Euro (EUR)</option>
-                <option value="GBP">£ British Pound (GBP)</option>
-                <option value="AED">د.إ UAE Dirham (AED)</option>
-                <option value="SGD">S$ Singapore Dollar (SGD)</option>
-              </select>
-            </div>
-            <div class="p-f-group">
-              <label class="p-f-label">Monthly Budget Goal (₹)</label>
-              <input class="p-f-input" id="editBudget" type="number" placeholder="e.g. 50000" inputmode="numeric" min="0"/>
-            </div>
-            <div class="p-f-group">
-              <label class="p-f-label">Pay Day (day of month)</label>
-              <select class="p-f-select" id="editPayday">
-                <option value="">Select day</option>
-                ${Array.from({length:31},(_,i)=>`<option value="${i+1}">${i+1}${['st','nd','rd'][i]||'th'} of every month</option>`).join('')}
-              </select>
-            </div>
-            <button class="p-save-btn" onclick="saveFinPrefs()">💾 Save Preferences</button>
-          </div>
-        </div>
-
-        <!-- App Settings -->
-        <div class="p-card">
-          <div class="p-card-header">
-            <div class="p-card-title">⚙️ App Settings</div>
-          </div>
-          <div class="p-menu-rows">
-            <div class="p-menu-row" onclick="showToast('Notifications settings coming soon!','🔔')">
-              <div class="p-menu-icon" style="background:rgba(255,152,0,0.1);">🔔</div>
-              <div class="p-menu-label">Notifications</div>
-              <div class="p-menu-badge">On</div>
-              <div class="p-menu-arrow">›</div>
-            </div>
-            <div class="p-menu-row" onclick="exportData()">
-              <div class="p-menu-icon" style="background:rgba(33,150,243,0.1);">📤</div>
-              <div class="p-menu-label">Export Data</div>
-              <div class="p-menu-arrow">›</div>
-            </div>
-            <div class="p-menu-row" onclick="showToast('Privacy policy coming soon!','🔒')">
-              <div class="p-menu-icon" style="background:rgba(156,39,176,0.1);">🔒</div>
-              <div class="p-menu-label">Privacy & Security</div>
-              <div class="p-menu-arrow">›</div>
-            </div>
-            <div class="p-menu-row" onclick="showToast('App version 1.0.0 • FinFlow','ℹ️')">
-              <div class="p-menu-icon" style="background:rgba(0,188,212,0.1);">ℹ️</div>
-              <div class="p-menu-label">About FinFlow</div>
-              <div class="p-menu-badge">v1.0</div>
-              <div class="p-menu-arrow">›</div>
-            </div>
-            <div class="p-menu-row danger" onclick="confirmClearData()">
-              <div class="p-menu-icon">🗑️</div>
-              <div class="p-menu-label">Clear All Data</div>
-              <div class="p-menu-arrow" style="color:var(--danger);">›</div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Logout -->
-        <button class="submit-btn" style="background:linear-gradient(135deg,#D62839 0%,#A01020 100%);box-shadow:0 6px 20px rgba(214,40,57,0.3);margin-top:4px;" onclick="showToast('Logged out!','👋')">
-          👋 Log Out
-        </button>
-
-      </div><!-- /profile-screen -->
-    </div><!-- /screen-profile -->
-
-    <!-- ======== STATS SCREEN ======== -->
-    <div class="screen" id="screen-stats">
-      <div class="top-bar">
-        <div class="logo">Your <span>Stats</span></div>
-      </div>
-      <div class="stats-screen">
-        <!-- Stat mini cards -->
-        <div class="stat-cards">
-          <div class="s-card">
-            <div class="s-card-icon">📊</div>
-            <div class="s-card-label">Transactions</div>
-            <div class="s-card-val" id="statCount">0</div>
-          </div>
-          <div class="s-card">
-            <div class="s-card-icon">💹</div>
-            <div class="s-card-label">Savings Rate</div>
-            <div class="s-card-val green" id="statSavings">0%</div>
-          </div>
-          <div class="s-card">
-            <div class="s-card-icon">📈</div>
-            <div class="s-card-label">Avg Income</div>
-            <div class="s-card-val green" id="statAvgInc">₹0</div>
-          </div>
-          <div class="s-card">
-            <div class="s-card-icon">📉</div>
-            <div class="s-card-label">Avg Expense</div>
-            <div class="s-card-val red" id="statAvgExp">₹0</div>
-          </div>
-        </div>
-        <!-- Big chart -->
-        <div class="big-chart-wrap">
-          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
-            <span style="font-family:'Playfair Display',serif;font-size:16px;font-weight:700;">Income vs Expenses</span>
-          </div>
-          <canvas id="statsChart" height="180"></canvas>
-        </div>
-        <!-- Category breakdown -->
-        <div class="section-head" style="padding:0 0 14px;">
-          <h2>By Category</h2>
-        </div>
-        <div class="cat-breakdown" id="catBreakdown"></div>
-      </div>
-    </div><!-- /screen-stats -->
-
-  </div><!-- /scroll-area -->
-
-  <!-- ======== BOTTOM NAV ======== -->
-  <nav class="bottom-nav">
-    <button class="nav-item active" id="nav-home" onclick="goTab('home')">
-      <div class="nav-icon">🏠</div>
-      <div class="nav-label">Home</div>
-    </button>
-    <button class="nav-item" id="nav-stats" onclick="goTab('stats')">
-      <div class="nav-icon">📊</div>
-      <div class="nav-label">Stats</div>
-    </button>
-    <button class="nav-item nav-add" id="nav-add" onclick="goTab('add')">
-      <div class="nav-icon">＋</div>
-      <div class="nav-label">Add</div>
-    </button>
-    <button class="nav-item" id="nav-history" onclick="goTab('history')">
-      <div class="nav-icon">🧾</div>
-      <div class="nav-label">History</div>
-    </button>
-    <button class="nav-item" id="nav-profile" onclick="goTab('profile')">
-      <div class="nav-icon">👤</div>
-      <div class="nav-label">Profile</div>
-    </button>
-  </nav>
-
-  <!-- EMOJI AVATAR PICKER MODAL -->
-  <div class="emoji-modal" id="emojiModal" onclick="closeEmojiPicker(event)">
-    <div class="emoji-sheet">
-      <h3>Choose your avatar</h3>
-      <div class="emoji-grid" id="emojiGrid">
-        <!-- Populated by JS -->
-      </div>
-      <button class="emoji-close" onclick="closeEmojiPickerBtn()">Cancel</button>
+    </header>
+    <div class="mobile-menu" id="mobileMenu">
+        <a href="#hero">Home</a>
+        <a href="#features">Features</a>
+        <a href="#pricing">Pricing</a>
+        <a href="#stores">Demo</a>
+        <a href="#contact">Contact</a>
+        <a href="#enquiry" class="btn btn-primary" style="justify-content:center;">🛒 Create Store</a>
     </div>
-  </div>
 
-</div><!-- /app-shell -->
-
-<script>
-/* =============================================
-   STATE & DATA
-   ============================================= */
-let transactions = JSON.parse(localStorage.getItem('finflow_txs') || '[]');
-let selectedType = 'income';
-let selectedCat  = 'salary';
-let homeChart, statsChart;
-let currentTab   = 'home';
-
-const catEmoji = { salary:'💼', freelance:'🎨', food:'🍕', travel:'✈️', shopping:'🛍️', health:'💊', other:'📦' };
-const catClass = { salary:'cc-salary', freelance:'cc-freelance', food:'cc-food', travel:'cc-travel', shopping:'cc-shopping', health:'cc-health', other:'cc-other' };
-
-/* =============================================
-   PROFILE DATA & LOGIC
-   ============================================= */
-const PROFILE_KEY = 'finflow_profile';
-const AVATAR_EMOJIS = ['😊','😎','🤩','🥳','🧑','👩','👨','🧔','👴','👵','🦸','🧙','🦊','🐻','🐼','🦁','🐯','🐸','🐧','🦋','🌟','🔥','💎','🎯','🚀','🎸','🎨','⚡','🌈','🍀'];
-
-let profile = JSON.parse(localStorage.getItem(PROFILE_KEY) || JSON.stringify({
-  name:       'Vicky Kumar',
-  email:      'vicky@email.com',
-  phone:      '',
-  dob:        '',
-  gender:     '',
-  city:       '',
-  occupation: '',
-  avatar:     'VK',  // initials or emoji
-  currency:   'INR',
-  budget:     '',
-  payday:     '',
-  memberSince: 'Apr 2025'
-}));
-
-function saveProfileData() {
-  localStorage.setItem(PROFILE_KEY, JSON.stringify(profile));
-}
-
-/* --- Render profile screen --- */
-function renderProfile() {
-  // Avatar
-  const av = document.getElementById('profileAvatar');
-  av.textContent = profile.avatar;
-
-  // Hero
-  document.getElementById('profileDisplayName').textContent = profile.name || 'Your Name';
-  document.getElementById('profileDisplayEmail').textContent = profile.email || 'your@email.com';
-  document.getElementById('profileBadgeSince').textContent = 'Since ' + profile.memberSince;
-  document.getElementById('profileBadgeTx').textContent = transactions.length + ' Transactions';
-
-  // Quick stats
-  const income   = transactions.filter(t=>t.type==='income').reduce((s,t)=>s+t.amount,0);
-  const expenses = transactions.filter(t=>t.type==='expense').reduce((s,t)=>s+t.amount,0);
-  document.getElementById('pStatBalance').textContent  = fmt(income - expenses);
-  document.getElementById('pStatIncome').textContent   = fmt(income);
-  document.getElementById('pStatExpense').textContent  = fmt(expenses);
-
-  // Info view rows
-  document.getElementById('viewName').textContent  = profile.name       || '—';
-  document.getElementById('viewEmail').textContent = profile.email      || '—';
-  setOrMuted('viewPhone',      profile.phone);
-  setOrMuted('viewDob',        profile.dob ? formatDob(profile.dob) : '');
-  setOrMuted('viewCity',       profile.city);
-  setOrMuted('viewOccupation', profile.occupation);
-
-  // Finance view rows
-  const currencyLabels = { INR:'₹ Indian Rupee (INR)', USD:'$ US Dollar (USD)', EUR:'€ Euro (EUR)', GBP:'£ British Pound (GBP)', AED:'د.إ UAE Dirham (AED)', SGD:'S$ Singapore Dollar (SGD)' };
-  document.getElementById('viewCurrency').textContent = currencyLabels[profile.currency] || '₹ Indian Rupee (INR)';
-  setOrMuted('viewBudget', profile.budget ? '₹' + Number(profile.budget).toLocaleString('en-IN') : '');
-  setOrMuted('viewPayday', profile.payday ? profile.payday + ordinal(profile.payday) + ' of every month' : '');
-
-  // Fill edit inputs with current data
-  document.getElementById('editName').value       = profile.name       || '';
-  document.getElementById('editEmail').value      = profile.email      || '';
-  document.getElementById('editPhone').value      = profile.phone      || '';
-  document.getElementById('editDob').value        = profile.dob        || '';
-  document.getElementById('editGender').value     = profile.gender     || '';
-  document.getElementById('editCity').value       = profile.city       || '';
-  document.getElementById('editOccupation').value = profile.occupation || '';
-  document.getElementById('editCurrency').value   = profile.currency   || 'INR';
-  document.getElementById('editBudget').value     = profile.budget     || '';
-  document.getElementById('editPayday').value     = profile.payday     || '';
-
-  // Also update header avatar & greeting on home
-  updateHeaderAvatar();
-}
-
-function setOrMuted(id, val) {
-  const el = document.getElementById(id);
-  if (val) {
-    el.textContent = val;
-    el.className = 'p-info-value';
-  } else {
-    el.textContent = 'Not set';
-    el.className = 'p-info-value muted';
-  }
-}
-
-function formatDob(dob) {
-  if (!dob) return '';
-  const d = new Date(dob);
-  return d.toLocaleDateString('en-IN', { day:'2-digit', month:'long', year:'numeric' });
-}
-
-function ordinal(n) {
-  const s = ['th','st','nd','rd'];
-  const v = n%100;
-  return s[(v-20)%10]||s[v]||s[0];
-}
-
-function updateHeaderAvatar() {
-  // Update all avatar elements on home screen
-  document.querySelectorAll('.avatar').forEach(el => {
-    el.textContent = profile.avatar.length > 2 ? profile.avatar : getInitials(profile.name);
-  });
-}
-
-function getInitials(name) {
-  if (!name) return 'VK';
-  const parts = name.trim().split(' ');
-  if (parts.length >= 2) return (parts[0][0] + parts[1][0]).toUpperCase();
-  return name.slice(0,2).toUpperCase();
-}
-
-/* --- Toggle edit modes --- */
-function toggleEditInfo() {
-  const form = document.getElementById('infoEditForm');
-  const view = document.getElementById('infoViewMode');
-  const btn  = document.getElementById('editInfoBtn');
-  const open = form.classList.contains('open');
-  if (open) {
-    form.classList.remove('open');
-    view.style.display = '';
-    btn.textContent = 'Edit';
-  } else {
-    form.classList.add('open');
-    view.style.display = 'none';
-    btn.textContent = 'Cancel';
-    setTimeout(() => document.getElementById('editName').focus(), 100);
-  }
-}
-
-function toggleEditFin() {
-  const form = document.getElementById('finEditForm');
-  const view = document.getElementById('finViewMode');
-  const btn  = document.getElementById('editFinBtn');
-  const open = form.classList.contains('open');
-  if (open) {
-    form.classList.remove('open');
-    view.style.display = '';
-    btn.textContent = 'Edit';
-  } else {
-    form.classList.add('open');
-    view.style.display = 'none';
-    btn.textContent = 'Cancel';
-  }
-}
-
-/* --- Save personal info --- */
-function saveProfile() {
-  const name = document.getElementById('editName').value.trim();
-  if (!name) { showToast('Name cannot be empty','⚠️'); return; }
-
-  profile.name       = name;
-  profile.email      = document.getElementById('editEmail').value.trim();
-  profile.phone      = document.getElementById('editPhone').value.trim();
-  profile.dob        = document.getElementById('editDob').value;
-  profile.gender     = document.getElementById('editGender').value;
-  profile.city       = document.getElementById('editCity').value.trim();
-  profile.occupation = document.getElementById('editOccupation').value.trim();
-
-  // Auto-update avatar initials if using text initials
-  if (profile.avatar.length <= 2) {
-    profile.avatar = getInitials(profile.name);
-  }
-
-  saveProfileData();
-  renderProfile();
-  toggleEditInfo();
-  showToast('Profile updated!', '✅');
-}
-
-/* --- Save finance prefs --- */
-function saveFinPrefs() {
-  profile.currency = document.getElementById('editCurrency').value;
-  profile.budget   = document.getElementById('editBudget').value;
-  profile.payday   = document.getElementById('editPayday').value;
-  saveProfileData();
-  renderProfile();
-  toggleEditFin();
-  showToast('Preferences saved!', '💰');
-}
-
-/* --- Emoji avatar picker --- */
-function openEmojiPicker() {
-  const modal = document.getElementById('emojiModal');
-  const grid  = document.getElementById('emojiGrid');
-  grid.innerHTML = AVATAR_EMOJIS.map(e => `
-    <div class="emoji-opt ${profile.avatar === e ? 'selected':''}" onclick="pickEmoji('${e}')">${e}</div>
-  `).join('');
-  modal.classList.add('open');
-}
-
-function pickEmoji(emoji) {
-  profile.avatar = emoji;
-  saveProfileData();
-  renderProfile();
-  closeEmojiPickerBtn();
-  showToast('Avatar updated!', emoji);
-}
-
-function closeEmojiPicker(e) {
-  if (e.target === document.getElementById('emojiModal')) closeEmojiPickerBtn();
-}
-
-function closeEmojiPickerBtn() {
-  document.getElementById('emojiModal').classList.remove('open');
-}
-
-/* --- Export data as JSON --- */
-function exportData() {
-  const data = { profile, transactions, exportedAt: new Date().toISOString() };
-  const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
-  const url  = URL.createObjectURL(blob);
-  const a    = document.createElement('a');
-  a.href = url;
-  a.download = 'finflow-data.json';
-  a.click();
-  URL.revokeObjectURL(url);
-  showToast('Data exported!', '📤');
-}
-
-/* --- Clear all data --- */
-function confirmClearData() {
-  // Simple confirm via toast chain — no native confirm() on PWA
-  if (window._clearPending) {
-    transactions = [];
-    save();
-    localStorage.removeItem(PROFILE_KEY);
-    profile = JSON.parse(JSON.stringify({
-      name:'Vicky Kumar', email:'vicky@email.com', phone:'', dob:'', gender:'', city:'', occupation:'',
-      avatar:'VK', currency:'INR', budget:'', payday:'', memberSince:'Apr 2025'
-    }));
-    saveProfileData();
-    render();
-    renderProfile();
-    showToast('All data cleared','🗑️');
-    window._clearPending = false;
-  } else {
-    window._clearPending = true;
-    showToast('Tap again to confirm clear','⚠️');
-    setTimeout(() => { window._clearPending = false; }, 3000);
-  }
-}
-
-/* =============================================
-   EXTEND goTab to render profile
-   ============================================= */
-function goTab(tab) {
-  // Hide all screens
-  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-
-  // Show target
-  document.getElementById('screen-' + tab).classList.add('active');
-  const navEl = document.getElementById('nav-' + tab);
-  if (navEl) navEl.classList.add('active');
-
-  // Scroll to top
-  document.getElementById('scrollArea').scrollTo({ top:0, behavior:'smooth' });
-
-  currentTab = tab;
-
-  // Re-render if needed
-  if (tab === 'stats')   renderStats();
-  if (tab === 'history') renderHistory();
-  if (tab === 'home')    renderHome();
-  if (tab === 'profile') renderProfile();
-}
-
-/* =============================================
-   TYPE SELECTION
-   ============================================= */
-function selectType(type) {
-  selectedType = type;
-  document.getElementById('btnIncome').className  = 'type-btn' + (type==='income'  ? ' sel-income'  : '');
-  document.getElementById('btnExpense').className = 'type-btn' + (type==='expense' ? ' sel-expense' : '');
-}
-
-/* =============================================
-   CATEGORY SELECTION
-   ============================================= */
-function selCat(el) {
-  document.querySelectorAll('.cat-opt').forEach(o => o.classList.remove('selected'));
-  el.classList.add('selected');
-  selectedCat = el.dataset.cat;
-}
-
-/* =============================================
-   ADD TRANSACTION
-   ============================================= */
-function addTransaction() {
-  const title  = document.getElementById('txTitle').value.trim();
-  const amount = parseFloat(document.getElementById('txAmount').value);
-
-  if (!title)           { showToast('Enter a title','⚠️'); shakeFld('txTitle'); return; }
-  if (!amount || amount <= 0) { showToast('Enter valid amount','⚠️'); shakeFld('txAmount'); return; }
-
-  const tx = {
-    id:       Date.now(),
-    title,
-    amount,
-    type:     selectedType,
-    category: selectedCat,
-    date:     new Date().toLocaleDateString('en-IN', { day:'2-digit', month:'short', year:'numeric' })
-  };
-
-  transactions.unshift(tx);
-  save();
-  showToast(title + ' added!', selectedType==='income' ? '💰' : '💸');
-
-  // Reset
-  document.getElementById('txTitle').value  = '';
-  document.getElementById('txAmount').value = '';
-  document.getElementById('txTitle').blur();
-  document.getElementById('txAmount').blur();
-
-  // Navigate to home
-  setTimeout(() => goTab('home'), 300);
-}
-
-/* =============================================
-   DELETE
-   ============================================= */
-function deleteTx(id) {
-  const el = document.getElementById('tx-' + id);
-  if (el) {
-    el.style.transition = 'opacity 0.25s, transform 0.25s';
-    el.style.opacity = '0';
-    el.style.transform = 'translateX(40px)';
-    setTimeout(() => {
-      transactions = transactions.filter(t => t.id !== id);
-      save();
-      render();
-      showToast('Deleted','🗑️');
-    }, 260);
-  } else {
-    transactions = transactions.filter(t => t.id !== id);
-    save();
-    render();
-    showToast('Deleted','🗑️');
-  }
-}
-
-/* =============================================
-   SAVE
-   ============================================= */
-function save() {
-  localStorage.setItem('finflow_txs', JSON.stringify(transactions));
-}
-
-/* =============================================
-   FORMAT CURRENCY
-   ============================================= */
-function fmt(n) {
-  return '₹' + Math.abs(n).toLocaleString('en-IN', { minimumFractionDigits:0, maximumFractionDigits:0 });
-}
-function fmtFull(n) {
-  return '₹' + Math.abs(n).toLocaleString('en-IN', { minimumFractionDigits:2, maximumFractionDigits:2 });
-}
-
-/* =============================================
-   RENDER HOME
-   ============================================= */
-function renderHome() {
-  const income   = transactions.filter(t=>t.type==='income').reduce((s,t)=>s+t.amount,0);
-  const expenses = transactions.filter(t=>t.type==='expense').reduce((s,t)=>s+t.amount,0);
-  const balance  = income - expenses;
-
-  setAnim('heroBalance',  fmt(balance));
-  setAnim('heroIncome',   fmt(income));
-  setAnim('heroExpenses', fmt(expenses));
-
-  document.getElementById('homeCount').textContent = transactions.length + ' items';
-
-  const list = document.getElementById('homeTxList');
-  const recent = transactions.slice(0, 6);
-  list.innerHTML = recent.length === 0
-    ? `<div class="empty"><div class="e-icon">💳</div><p>No transactions yet.<br/>Tap <b>+</b> to add one!</p></div>`
-    : recent.map(tx => txHTML(tx)).join('');
-
-  updateHomeChart(income, expenses);
-}
-
-/* =============================================
-   RENDER HISTORY
-   ============================================= */
-function renderHistory() {
-  document.getElementById('histCount').textContent = transactions.length;
-  const list = document.getElementById('histTxList');
-  list.innerHTML = transactions.length === 0
-    ? `<div class="empty"><div class="e-icon">🧾</div><p>No transactions yet.</p></div>`
-    : transactions.map(tx => txHTML(tx)).join('');
-}
-
-/* =============================================
-   TX HTML
-   ============================================= */
-function txHTML(tx) {
-  return `
-  <div class="tx-item ${tx.type}" id="tx-${tx.id}" style="animation-delay:${Math.random()*0.1}s">
-    <div class="tx-icon ${catClass[tx.category]||'cc-other'}">${catEmoji[tx.category]||'📦'}</div>
-    <div class="tx-info">
-      <div class="tx-title">${esc(tx.title)}</div>
-      <div class="tx-sub">${tx.date} · ${tx.category.charAt(0).toUpperCase()+tx.category.slice(1)}</div>
-    </div>
-    <div class="tx-amount ${tx.type==='income'?'pos':'neg'}">${tx.type==='income'?'+':'-'}${fmtFull(tx.amount)}</div>
-    <button class="tx-delete" onclick="deleteTx(${tx.id})" title="Delete">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
-        <polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/>
-      </svg>
-    </button>
-  </div>`;
-}
-
-/* =============================================
-   RENDER STATS
-   ============================================= */
-function renderStats() {
-  const income   = transactions.filter(t=>t.type==='income').reduce((s,t)=>s+t.amount,0);
-  const expenses = transactions.filter(t=>t.type==='expense').reduce((s,t)=>s+t.amount,0);
-  const incTxs   = transactions.filter(t=>t.type==='income');
-  const expTxs   = transactions.filter(t=>t.type==='expense');
-  const savings  = income > 0 ? Math.round(((income-expenses)/income)*100) : 0;
-
-  document.getElementById('statCount').textContent   = transactions.length;
-  document.getElementById('statSavings').textContent = savings + '%';
-  document.getElementById('statAvgInc').textContent  = incTxs.length ? fmt(income/incTxs.length) : '₹0';
-  document.getElementById('statAvgExp').textContent  = expTxs.length ? fmt(expenses/expTxs.length) : '₹0';
-
-  updateStatsChart(income, expenses);
-
-  // Category breakdown
-  const cats = {};
-  expTxs.forEach(tx => {
-    cats[tx.category] = (cats[tx.category]||0) + tx.amount;
-  });
-  const sorted = Object.entries(cats).sort((a,b)=>b[1]-a[1]);
-  const breakdown = document.getElementById('catBreakdown');
-  breakdown.innerHTML = sorted.length === 0
-    ? `<div class="empty"><div class="e-icon">📦</div><p>No expense data yet.</p></div>`
-    : sorted.map(([cat, amt]) => `
-      <div class="cat-row">
-        <div class="cat-row-icon">${catEmoji[cat]||'📦'}</div>
-        <div class="cat-row-info">
-          <div class="cat-row-name">${cat.charAt(0).toUpperCase()+cat.slice(1)}</div>
-          <div class="cat-row-count">${expTxs.filter(t=>t.category===cat).length} transactions</div>
+    <!-- ===== HERO ===== -->
+    <section id="hero">
+        <div class="container">
+            <div class="hero-grid">
+                <div class="hero-left">
+                    <div class="hero-badge">
+                        <span class="dot"></span>
+                        🚀 Now Live – Zero Commission Stores
+                    </div>
+                    <h1 class="hero-title">
+                        Turn WhatsApp into Your<br>
+                        <span class="highlight">Online Store</span>
+                    </h1>
+                    <p class="hero-sub">Accept orders directly via WhatsApp — no commissions, no middlemen. Your
+                        customers, your profits, your brand.</p>
+                    <div class="hero-btns">
+                        <a href="#enquiry" class="btn btn-primary">🚀 Start Free Today</a>
+                        <a href="#stores" class="btn btn-outline">👁️ See Demo Stores</a>
+                    </div>
+                    <div class="hero-pills">
+                        <div class="pill">
+                            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5"
+                                viewBox="0 0 24 24">
+                                <path d="M9 12l2 2 4-4M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                            0% Commission
+                        </div>
+                        <div class="pill">
+                            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5"
+                                viewBox="0 0 24 24">
+                                <path d="M13 10V3L4 14h7v7l9-11h-7z" />
+                            </svg>
+                            Instant Setup
+                        </div>
+                        <div class="pill">
+                            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5"
+                                viewBox="0 0 24 24">
+                                <path
+                                    d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
+                            </svg>
+                            Direct WhatsApp Orders
+                        </div>
+                    </div>
+                </div>
+                <div class="hero-right">
+                    <div class="mockup-wrap">
+                        <div class="float-badge">
+                            <span class="green-dot"></span>
+                            📦 New Order Received!
+                        </div>
+                        <div class="mockup-phone">
+                            <div class="mockup-screen">
+                                <div class="phone-topbar">
+                                    <div class="phone-avatar">🏪</div>
+                                    <div class="phone-info">
+                                        <p>WapCart Store</p>
+                                        <span>● Online</span>
+                                    </div>
+                                </div>
+                                <div class="phone-body">
+                                    <div class="chat-msg">
+                                        <div class="bubble in">Hi! I'd like to order from your store 😊</div>
+                                    </div>
+                                    <div class="chat-msg right">
+                                        <div class="bubble out">Sure! Here's your order summary:</div>
+                                    </div>
+                                    <div class="chat-msg right">
+                                        <div class="order-card">
+                                            <div class="order-card-title">🛒 ORDER SUMMARY</div>
+                                            <div class="order-item"><span>Paneer Pizza</span><span>₹280</span></div>
+                                            <div class="order-item"><span>Cold Coffee</span><span>₹120</span></div>
+                                            <div class="order-item"><span>Brownie</span><span>₹80</span></div>
+                                            <div class="order-total"><span>Total</span><span>₹480</span></div>
+                                        </div>
+                                    </div>
+                                    <div class="chat-msg">
+                                        <div class="bubble in">Confirm my order ✅</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="float-badge2">
+                            💸 ₹480 Earned — No Fees!
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="cat-row-amt">-${fmtFull(amt)}</div>
-      </div>
-    `).join('');
-}
+    </section>
 
-/* =============================================
-   CHARTS
-   ============================================= */
-const chartDefaults = {
-  responsive: true,
-  animation: { duration: 600, easing: 'easeOutQuart' },
-  plugins: {
-    legend: { display: false },
-    tooltip: {
-      callbacks: { label: ctx => ' ₹' + ctx.raw.toLocaleString('en-IN') },
-      backgroundColor: '#1A1916',
-      titleFont: { family: 'DM Sans', size:12 },
-      bodyFont:  { family: 'DM Sans', size:12 },
-      padding: 10,
-      cornerRadius: 10,
-    }
-  },
-  scales: {
-    x: {
-      grid: { display:false },
-      ticks: { font:{ family:'DM Sans', size:12, weight:'600' }, color:'#8C897F' }
-    },
-    y: {
-      grid: { color:'rgba(0,0,0,0.04)' },
-      ticks: {
-        font:{ family:'DM Sans', size:11 },
-        color:'#8C897F',
-        callback: v => v >= 1000 ? '₹'+(v/1000).toFixed(0)+'K' : '₹'+v
-      },
-      beginAtZero: true
-    }
-  }
-};
+    <!-- ===== FEATURES ===== -->
+    <section id="features">
+        <div class="container">
+            <div class="features-header reveal">
+                <div class="tag">Features</div>
+                <h2 class="section-title">Everything You Need to Sell Online</h2>
+                <p class="section-sub">Powerful tools designed for Indian small businesses — simple, fast, and
+                    completely commission-free.</p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card reveal">
+                    <div class="feature-icon">💬</div>
+                    <h3>WhatsApp Order Integration</h3>
+                    <p>Receive orders directly on your WhatsApp number. No third-party apps needed — it's all built in.
+                    </p>
+                </div>
+                <div class="feature-card reveal">
+                    <div class="feature-icon">📦</div>
+                    <h3>Easy Product Management</h3>
+                    <p>Add, edit, and manage your products from a simple dashboard. Upload photos, set prices, done.</p>
+                </div>
+                <div class="feature-card reveal">
+                    <div class="feature-icon">📱</div>
+                    <h3>Mobile Friendly Store</h3>
+                    <p>Your store looks stunning on every device. Optimized for mobile-first customers across India.</p>
+                </div>
+                <div class="feature-card reveal">
+                    <div class="feature-icon">⚡</div>
+                    <h3>Fast Checkout</h3>
+                    <p>Customers browse, click, and order in seconds. No sign-up, no friction — just smooth buying.</p>
+                </div>
+                <div class="feature-card reveal">
+                    <div class="feature-icon">🚫</div>
+                    <h3>No App Required</h3>
+                    <p>Your store runs in any browser. Customers don't need to download anything to shop from you.</p>
+                </div>
+                <div class="feature-card reveal">
+                    <div class="feature-icon">🎨</div>
+                    <h3>Custom Branding</h3>
+                    <p>Add your logo, colors, and business name. Your store, your identity — 100% personalized.</p>
+                </div>
+                <div class="feature-card reveal">
+                    <div class="feature-icon">🔔</div>
+                    <h3>Order Notifications</h3>
+                    <p>Get instant WhatsApp alerts for every new order. Never miss a sale, even when you're away.</p>
+                </div>
+                <div class="feature-card reveal">
+                    <div class="feature-icon">🔒</div>
+                    <h3>Secure System</h3>
+                    <p>Your store and customer data is safe. We use SSL encryption and secure servers by default.</p>
+                </div>
+                <div class="feature-card reveal">
+                    <div class="feature-icon">📊</div>
+                    <h3>Simple Dashboard</h3>
+                    <p>Track orders, manage products, and monitor your store performance in one clean dashboard.</p>
+                </div>
+            </div>
+        </div>
+    </section>
 
-function updateHomeChart(income, expenses) {
-  const ctx = document.getElementById('homeChart').getContext('2d');
-  if (homeChart) {
-    homeChart.data.datasets[0].data = [income, expenses];
-    homeChart.update('active');
-    return;
-  }
-  homeChart = new Chart(ctx, {
-    type: 'bar',
-    data: {
-      labels: ['Income','Expenses'],
-      datasets: [{
-        data: [income, expenses],
-        backgroundColor: ['rgba(45,106,79,0.15)', 'rgba(214,40,57,0.10)'],
-        borderColor: ['#2D6A4F','#D62839'],
-        borderWidth: 2,
-        borderRadius: 10,
-        borderSkipped: false,
-      }]
-    },
-    options: chartDefaults
-  });
-}
+    <!-- ===== COMPARISON ===== -->
+    <section id="comparison">
+        <div class="container">
+            <div class="comparison-header reveal">
+                <div class="tag">Comparison</div>
+                <h2 class="section-title">Why WapCart Wins</h2>
+                <p class="section-sub center">See how WapCart stacks up against other platforms — the difference is
+                    clear.</p>
+            </div>
+            <div class="table-wrap reveal">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Platform</th>
+                            <th>Commission</th>
+                            <th>Customer Ownership</th>
+                            <th>Direct Orders</th>
+                            <th>Setup Cost</th>
+                            <th>Profit Control</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>🍕 Zomato</td>
+                            <td class="cross">18–30%</td>
+                            <td class="cross">❌ Platform owns</td>
+                            <td class="cross">❌ No</td>
+                            <td class="cross">Free but expensive</td>
+                            <td class="cross">❌ Limited</td>
+                        </tr>
+                        <tr>
+                            <td>🛵 Swiggy</td>
+                            <td class="cross">18–25%</td>
+                            <td class="cross">❌ Platform owns</td>
+                            <td class="cross">❌ No</td>
+                            <td class="cross">Free but costly</td>
+                            <td class="cross">❌ Limited</td>
+                        </tr>
+                        <tr class="wapcart-row">
+                            <td>
+                                💚 WapCart
+                                <span class="best-badge">Best Choice</span>
+                            </td>
+                            <td class="check">✅ 0%</td>
+                            <td class="check">✅ You own</td>
+                            <td class="check">✅ Yes – WhatsApp</td>
+                            <td class="check">✅ ₹2499/year</td>
+                            <td class="check">✅ Full Control</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
 
-function updateStatsChart(income, expenses) {
-  const ctx = document.getElementById('statsChart').getContext('2d');
-  if (statsChart) {
-    statsChart.data.datasets[0].data = [income, expenses];
-    statsChart.update('active');
-    return;
-  }
-  statsChart = new Chart(ctx, {
-    type: 'doughnut',
-    data: {
-      labels: ['Income','Expenses'],
-      datasets: [{
-        data: [income||1, expenses||1],
-        backgroundColor: ['rgba(45,106,79,0.85)', 'rgba(214,40,57,0.75)'],
-        borderColor: ['#2D6A4F','#D62839'],
-        borderWidth: 2,
-        hoverOffset: 6,
-      }]
-    },
-    options: {
-      responsive: true,
-      animation: { duration:700, easing:'easeOutQuart' },
-      cutout: '68%',
-      plugins: {
-        legend: {
-          display: true,
-          position: 'bottom',
-          labels: { font:{ family:'DM Sans', size:12 }, padding:16, color:'#8C897F', usePointStyle:true }
-        },
-        tooltip: {
-          callbacks: { label: ctx => ' ₹' + ctx.raw.toLocaleString('en-IN') },
-          backgroundColor:'#1A1916',
-          padding:10,
-          cornerRadius:10,
+    <!-- ===== HOW IT WORKS ===== -->
+    <section id="how">
+        <div class="container">
+            <div class="how-header reveal">
+                <div class="tag">How It Works</div>
+                <h2 class="section-title">Start Selling in 4 Simple Steps</h2>
+                <p class="section-sub" style="margin:0 auto;">No tech skills needed. Set up your WhatsApp store in
+                    minutes — seriously.</p>
+            </div>
+            <div class="steps-grid">
+                <div class="step-card reveal">
+                    <div class="step-num">1<span class="step-icon">🏪</span></div>
+                    <h3>Create Your Store</h3>
+                    <p>Fill in your business details and get your personalized WapCart store instantly.</p>
+                </div>
+                <div class="step-card reveal">
+                    <div class="step-num">2<span class="step-icon">📸</span></div>
+                    <h3>Add Your Products</h3>
+                    <p>Upload product photos, add names, prices and descriptions from your dashboard.</p>
+                </div>
+                <div class="step-card reveal">
+                    <div class="step-num">3<span class="step-icon">🔗</span></div>
+                    <h3>Share Your Store Link</h3>
+                    <p>Share your unique store link on WhatsApp, Instagram, Facebook — anywhere you want.</p>
+                </div>
+                <div class="step-card reveal">
+                    <div class="step-num">4<span class="step-icon">💰</span></div>
+                    <h3>Receive Orders on WhatsApp</h3>
+                    <p>Customers click, order, and the details land directly in your WhatsApp. Simple as that!</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== LIVE STORES ===== -->
+    <section id="stores">
+        <div class="container">
+            <div class="stores-header reveal">
+                <div class="tag">Demo Stores</div>
+                <h2 class="section-title">Live WapCart Stores</h2>
+                <p class="section-sub" style="margin:0 auto;">Explore real-style stores built with WapCart. Click any to
+                    see it in action.</p>
+            </div>
+            <div class="stores-grid">
+                <div class="store-card reveal" onclick="openDemo('Spice Garden')">
+                    <div class="store-img" style="background:linear-gradient(135deg,#fef3c7,#fde68a)">🍛</div>
+                    <div class="store-info">
+                        <div>
+                            <h4>Spice Garden</h4>
+                            <span>Home-cooked Food</span>
+                        </div>
+                        <span class="store-tag">Food</span>
+                    </div>
+                </div>
+                <div class="store-card reveal" onclick="openDemo('Bloom Boutique')">
+                    <div class="store-img" style="background:linear-gradient(135deg,#fce7f3,#fbcfe8)">👗</div>
+                    <div class="store-info">
+                        <div>
+                            <h4>Bloom Boutique</h4>
+                            <span>Women's Fashion</span>
+                        </div>
+                        <span class="store-tag">Fashion</span>
+                    </div>
+                </div>
+                <div class="store-card reveal" onclick="openDemo('TechZone Store')">
+                    <div class="store-img" style="background:linear-gradient(135deg,#dbeafe,#bfdbfe)">💻</div>
+                    <div class="store-info">
+                        <div>
+                            <h4>TechZone Store</h4>
+                            <span>Electronics & Gadgets</span>
+                        </div>
+                        <span class="store-tag">Tech</span>
+                    </div>
+                </div>
+                <div class="store-card reveal" onclick="openDemo('Cake Palace')">
+                    <div class="store-img" style="background:linear-gradient(135deg,#ede9fe,#ddd6fe)">🎂</div>
+                    <div class="store-info">
+                        <div>
+                            <h4>Cake Palace</h4>
+                            <span>Cakes & Pastries</span>
+                        </div>
+                        <span class="store-tag">Bakery</span>
+                    </div>
+                </div>
+                <div class="store-card reveal" onclick="openDemo('Green Grocery')">
+                    <div class="store-img" style="background:linear-gradient(135deg,#d1fae5,#a7f3d0)">🥦</div>
+                    <div class="store-info">
+                        <div>
+                            <h4>Green Grocery</h4>
+                            <span>Fresh Vegetables</span>
+                        </div>
+                        <span class="store-tag">Grocery</span>
+                    </div>
+                </div>
+                <div class="store-card reveal" onclick="openDemo('Artisan Craft')">
+                    <div class="store-img" style="background:linear-gradient(135deg,#fef9c3,#fef08a)">🎨</div>
+                    <div class="store-info">
+                        <div>
+                            <h4>Artisan Craft</h4>
+                            <span>Handmade Products</span>
+                        </div>
+                        <span class="store-tag">Crafts</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== TESTIMONIALS ===== -->
+    <section id="testimonials">
+        <div class="container">
+            <div class="testi-header reveal">
+                <div class="tag">Testimonials</div>
+                <h2 class="section-title">What Our Customers Say</h2>
+                <p class="section-sub" style="margin:0 auto;">Real businesses, real results. Hear it from the people
+                    using WapCart every day.</p>
+            </div>
+            <div class="testi-grid">
+                <div class="testi-card reveal">
+                    <div class="stars">★★★★★</div>
+                    <p class="testi-text">"WapCart changed my business! I was paying 25% to Zomato every day. Now I
+                        receive all orders on WhatsApp and keep every single rupee. Best decision I ever made!"</p>
+                    <div class="testi-author">
+                        <div class="testi-avatar">👨‍🍳</div>
+                        <div>
+                            <p class="testi-name">Ravi Kumar</p>
+                            <p class="testi-role">Home Chef, Pune</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="testi-card reveal">
+                    <div class="stars">★★★★★</div>
+                    <p class="testi-text">"Setup took less than 30 minutes! My boutique now has a beautiful online
+                        store. Customers love ordering directly on WhatsApp — it feels personal and fast."</p>
+                    <div class="testi-author">
+                        <div class="testi-avatar">👩‍💼</div>
+                        <div>
+                            <p class="testi-name">Priya Sharma</p>
+                            <p class="testi-role">Boutique Owner, Nashik</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="testi-card reveal">
+                    <div class="stars">★★★★★</div>
+                    <p class="testi-text">"₹2499 a year is nothing compared to what I was losing in commissions. My cake
+                        shop gets 40+ orders a week now — all straight to my phone via WhatsApp!"</p>
+                    <div class="testi-author">
+                        <div class="testi-avatar">👩‍🎂</div>
+                        <div>
+                            <p class="testi-name">Sneha Patil</p>
+                            <p class="testi-role">Bakery Owner, Mumbai</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="testi-card reveal">
+                    <div class="stars">★★★★★</div>
+                    <p class="testi-text">"The dashboard is so simple, even my mother can manage it! Our vegetable stall
+                        now takes digital orders and our sales have doubled in just 2 months."</p>
+                    <div class="testi-author">
+                        <div class="testi-avatar">🧑‍🌾</div>
+                        <div>
+                            <p class="testi-name">Manoj Desai</p>
+                            <p class="testi-role">Grocery Store, Aurangabad</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="testi-card reveal">
+                    <div class="stars">★★★★★</div>
+                    <p class="testi-text">"Fantastic support team and an amazing product. My handicraft store reaches
+                        customers across India now. No commission, no stress — just pure profit!"</p>
+                    <div class="testi-author">
+                        <div class="testi-avatar">🧑‍🎨</div>
+                        <div>
+                            <p class="testi-name">Kavita Joshi</p>
+                            <p class="testi-role">Handicraft Seller, Kolhapur</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== ENQUIRY FORM ===== -->
+    <section id="enquiry">
+        <div class="container">
+            <div class="enquiry-grid">
+                <div class="enquiry-left reveal">
+                    <div class="tag">Get Started</div>
+                    <h2>Ready to Start<br>Your Own Store?</h2>
+                    <p>Fill out the form and we'll get you started within 24 hours. Our team will set everything up for
+                        you — hassle-free.</p>
+                    <div class="enq-perks">
+                        <div class="perk">
+                            <div class="perk-icon">✅</div> Zero commission on every order
+                        </div>
+                        <div class="perk">
+                            <div class="perk-icon">⚡</div> Store live within 24 hours
+                        </div>
+                        <div class="perk">
+                            <div class="perk-icon">💬</div> Direct WhatsApp support
+                        </div>
+                        <div class="perk">
+                            <div class="perk-icon">🛡️</div> 100% secure and reliable
+                        </div>
+                    </div>
+                </div>
+                <div class="reveal">
+                    <div class="form-card">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="fname">First Name *</label>
+                                <input type="text" id="fname" placeholder="e.g. Ravi">
+                            </div>
+                            <div class="form-group">
+                                <label for="bname">Business Name *</label>
+                                <input type="text" id="bname" placeholder="e.g. Ravi's Kitchen">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="addr">Business Address *</label>
+                            <input type="text" id="addr" placeholder="e.g. 12, MG Road, Pune, Maharashtra">
+                        </div>
+                        <div class="form-group">
+                            <label for="phone">WhatsApp Number *</label>
+                            <input type="tel" id="phone" placeholder="+91 98765 43210">
+                        </div>
+                        <div class="form-group">
+                            <label for="invest">Do you have investment of ₹2499/year? *</label>
+                            <select id="invest">
+                                <option value="">-- Select --</option>
+                                <option value="Yes">✅ Yes, I'm ready to invest</option>
+                                <option value="No">❌ No, not right now</option>
+                                <option value="Maybe">🤔 Maybe, I need more info</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="msg">Extra Message</label>
+                            <textarea id="msg"
+                                placeholder="Tell us about your business, products, or any questions..."></textarea>
+                        </div>
+                        <button class="btn btn-primary"
+                            style="width:100%;justify-content:center;font-size:16px;padding:15px;"
+                            onclick="sendEnquiry()">
+                            💬 Send Enquiry on WhatsApp
+                        </button>
+                        <div class="success-msg" id="successMsg">🎉 Enquiry sent successfully! We'll contact you soon.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== PRICING ===== -->
+    <section id="pricing">
+        <div class="container">
+            <div class="pricing-header reveal">
+                <div class="tag">Pricing</div>
+                <h2 class="section-title">Simple, Honest Pricing</h2>
+                <p class="section-sub" style="margin:0 auto;">One plan, no hidden fees. Pay once a year and keep all
+                    your profits.</p>
+            </div>
+            <div class="pricing-center">
+                <div class="price-card featured reveal">
+                    <div class="price-name">WapCart Store Plan</div>
+                    <div class="price-amount">
+                        <span class="currency">₹</span>
+                        <span class="amount">2499</span>
+                        <span class="period">/year</span>
+                    </div>
+                    <p class="price-desc">Everything you need to run a full WhatsApp store — zero monthly fees, zero
+                        commission.</p>
+                    <div class="price-features">
+                        <div class="price-feat"><span class="chk">✅</span> Your own online store link</div>
+                        <div class="price-feat"><span class="chk">✅</span> Up to 20 products included</div>
+                        <div class="price-feat"><span class="chk">✅</span> WhatsApp order integration</div>
+                        <div class="price-feat"><span class="chk">✅</span> Custom store branding</div>
+                        <div class="price-feat"><span class="chk">✅</span> Mobile-friendly design</div>
+                        <div class="price-feat"><span class="chk">✅</span> Order notifications on WhatsApp</div>
+                        <div class="price-feat"><span class="chk">✅</span> Secure & fast hosting</div>
+                        <div class="price-feat"><span class="chk">✅</span> Free setup support</div>
+                        <div class="price-feat"><span class="chk">✅</span> 0% commission forever</div>
+                    </div>
+                    <a href="#enquiry" class="btn btn-primary"
+                        style="width:100%;justify-content:center;font-size:16px;padding:15px;">🚀 Get Your Store Now</a>
+                </div>
+                <div class="addon-card reveal" style="align-self:center;">
+                    <div class="tag">Add-on</div>
+                    <h3>Need More Products?</h3>
+                    <p>After your first 20 products, simply top up at a flat rate:</p>
+                    <div class="addon-price">₹20</div>
+                    <p><strong>per extra product</strong></p>
+                    <br>
+                    <p style="color:var(--gray-500);font-size:13px;">Add 10 more products for just ₹200. Scale as your
+                        store grows with no surprises.</p>
+                    <br>
+                    <a href="#enquiry" class="btn btn-outline" style="font-size:14px;padding:11px 22px;">📦 Learn
+                        More</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== CONTACT ===== -->
+    <section id="contact">
+        <div class="container">
+            <div class="contact-grid">
+                <div class="contact-left reveal">
+                    <div class="tag">Contact Us</div>
+                    <h2>We're Here to Help</h2>
+                    <div class="contact-item">
+                        <div class="contact-icon">📧</div>
+                        <div>
+                            <h4>Email</h4>
+                            <a href="mailto:support@wapcart.in">support@wapcart.in</a>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon">📞</div>
+                        <div>
+                            <h4>Phone / WhatsApp</h4>
+                            <a href="tel:+917773998288">+91 77739 98288</a>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon">📍</div>
+                        <div>
+                            <h4>Address</h4>
+                            <p>Pune, Maharashtra, India</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon">🕐</div>
+                        <div>
+                            <h4>Working Hours</h4>
+                            <p>Mon – Sat: 9:00 AM – 7:00 PM</p>
+                        </div>
+                    </div>
+                    <a href="https://wa.me/917773998288" target="_blank" class="btn btn-primary"
+                        style="margin-top:8px;">
+                        💬 Chat on WhatsApp
+                    </a>
+                </div>
+                <div class="reveal">
+                    <div class="map-wrap">
+                        <iframe
+                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d242118.08193403167!2d73.72594695!3d18.524564349999998!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bc2bf2e67461101%3A0x828d43bf9d9ee343!2sPune%2C%20Maharashtra!5e0!3m2!1sen!2sin!4v1680000000000"
+                            allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade">
+                        </iframe>
+                    </div>
+                    <a href="https://maps.google.com/?q=Pune,Maharashtra" target="_blank" class="btn btn-dark">
+                        🗺️ Get Directions
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== FOOTER ===== -->
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <div class="footer-logo">Wap<span>Cart</span></div>
+                    <p>WapCart helps small businesses across India accept orders directly on WhatsApp — no commissions,
+                        no apps, no hassle. Your store, your profits.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Quick Links</h4>
+                    <a href="#hero">Home</a>
+                    <a href="#features">Features</a>
+                    <a href="#pricing">Pricing</a>
+                    <a href="#stores">Demo Stores</a>
+                    <a href="#contact">Contact</a>
+                </div>
+                <div class="footer-col">
+                    <h4>Contact</h4>
+                    <a href="tel:+917773998288">+91 77739 98288</a>
+                    <a href="mailto:support@wapcart.in">support@wapcart.in</a>
+                    <a href="https://wa.me/917773998288" target="_blank" class="footer-wa">
+                        💬 Chat on WhatsApp
+                    </a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2025 WapCart. All rights reserved. Made with 💚 in India.</p>
+                <p>Empowering small businesses — one WhatsApp order at a time.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ===== JAVASCRIPT ===== -->
+    <script>
+        // ---- Sticky Header ----
+        const header = document.getElementById('header');
+        window.addEventListener('scroll', () => {
+            header.classList.toggle('scrolled', window.scrollY > 40);
+        });
+
+        // ---- Mobile Menu ----
+        const hamburger = document.getElementById('hamburger');
+        const mobileMenu = document.getElementById('mobileMenu');
+        hamburger.addEventListener('click', () => {
+            mobileMenu.classList.toggle('open');
+            const spans = hamburger.querySelectorAll('span');
+            if (mobileMenu.classList.contains('open')) {
+                spans[0].style.transform = 'rotate(45deg) translate(5px, 5px)';
+                spans[1].style.opacity = '0';
+                spans[2].style.transform = 'rotate(-45deg) translate(5px, -5px)';
+            } else {
+                spans.forEach(s => { s.style.transform = ''; s.style.opacity = ''; });
+            }
+        });
+        mobileMenu.querySelectorAll('a').forEach(a => {
+            a.addEventListener('click', () => {
+                mobileMenu.classList.remove('open');
+                hamburger.querySelectorAll('span').forEach(s => { s.style.transform = ''; s.style.opacity = ''; });
+            });
+        });
+
+        // ---- Scroll Reveal ----
+        const reveals = document.querySelectorAll('.reveal');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry, i) => {
+                if (entry.isIntersecting) {
+                    setTimeout(() => entry.target.classList.add('visible'), i * 60);
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+        reveals.forEach(el => observer.observe(el));
+
+        // ---- Demo Store Click ----
+        function openDemo(name) {
+            alert(`🛒 Opening demo store: ${name}\n\nThis would open the live store in a real deployment!`);
         }
-      }
-    }
-  });
-}
 
-/* =============================================
-   HELPERS
-   ============================================= */
-function setAnim(id, val) {
-  const el = document.getElementById(id);
-  if (!el) return;
-  el.textContent = val;
-  el.style.animation = 'none';
-  void el.offsetWidth;
-  el.style.animation = 'countUp 0.35s ease both';
-}
+        // ---- WhatsApp Enquiry Form ----
+        function sendEnquiry() {
+            const fname = document.getElementById('fname').value.trim();
+            const bname = document.getElementById('bname').value.trim();
+            const addr = document.getElementById('addr').value.trim();
+            const phone = document.getElementById('phone').value.trim();
+            const invest = document.getElementById('invest').value;
+            const msg = document.getElementById('msg').value.trim();
 
-function showToast(msg, icon='✅') {
-  const wrap = document.getElementById('toastWrap');
-  const t = document.createElement('div');
-  t.className = 'toast';
-  t.innerHTML = `<span>${icon}</span> ${msg}`;
-  wrap.appendChild(t);
-  setTimeout(() => {
-    t.classList.add('out');
-    setTimeout(() => t.remove(), 300);
-  }, 2500);
-}
+            if (!fname || !bname || !addr || !phone || !invest) {
+                alert('⚠️ Please fill in all required fields before submitting.');
+                return;
+            }
 
-function shakeFld(id) {
-  const el = document.getElementById(id);
-  el.style.borderColor = 'var(--danger)';
-  el.style.boxShadow   = '0 0 0 3px rgba(214,40,57,0.15)';
-  setTimeout(() => { el.style.borderColor=''; el.style.boxShadow=''; }, 1200);
-}
+            const waNumber = '917773998288';
+            const message =
+                `🛒 *New WapCart Store Enquiry*\n` +
+                `━━━━━━━━━━━━━━━━━━━━\n` +
+                `👤 *Name:* ${fname}\n` +
+                `🏪 *Business Name:* ${bname}\n` +
+                `📍 *Address:* ${addr}\n` +
+                `📞 *WhatsApp Number:* ${phone}\n` +
+                `💰 *Investment Ready (₹2499/yr):* ${invest}\n` +
+                `━━━━━━━━━━━━━━━━━━━━\n` +
+                `💬 *Message:*\n${msg || 'No additional message.'}\n` +
+                `━━━━━━━━━━━━━━━━━━━━\n` +
+                `📅 *Sent via WapCart Website*`;
 
-function esc(str) {
-  return str.replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
-}
+            const encodedMsg = encodeURIComponent(message);
+            const waUrl = `https://wa.me/${waNumber}?text=${encodedMsg}`;
+            window.open(waUrl, '_blank');
 
-function render() {
-  renderHome();
-  if (currentTab==='history') renderHistory();
-  if (currentTab==='stats')   renderStats();
-}
+            document.getElementById('successMsg').style.display = 'block';
+            setTimeout(() => document.getElementById('successMsg').style.display = 'none', 6000);
 
-/* =============================================
-   SWIPE-TO-DELETE (touch gesture)
-   ============================================= */
-let touchStartX = 0;
-document.addEventListener('touchstart', e => {
-  touchStartX = e.touches[0].clientX;
-}, { passive: true });
-document.addEventListener('touchend', e => {
-  const dx = touchStartX - e.changedTouches[0].clientX;
-  if (dx > 70) { // swipe left
-    const item = e.target.closest('.tx-item');
-    if (item) {
-      const id = parseInt(item.id.replace('tx-',''));
-      if (!isNaN(id)) deleteTx(id);
-    }
-  }
-}, { passive: true });
-
-/* =============================================
-   PREVENT DOUBLE-TAP ZOOM (iOS)
-   ============================================= */
-let lastTap = 0;
-document.addEventListener('touchend', e => {
-  const now = Date.now();
-  if (now - lastTap < 300) e.preventDefault();
-  lastTap = now;
-}, { passive: false });
-
-/* =============================================
-   INIT — seed demo data
-   ============================================= */
-
-
-renderHome();
-renderProfile();
-</script>
+            // Reset form
+            ['fname', 'bname', 'addr', 'phone', 'msg'].forEach(id => document.getElementById(id).value = '');
+            document.getElementById('invest').value = '';
+        }
+    </script>
 </body>
+
 </html>
