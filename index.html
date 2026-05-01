@@ -6,10 +6,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>WapCart – Turn WhatsApp into Your Online Store</title>
     <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&family=DM+Sans:wght@300;400;500;600&display=swap"
+        rel="stylesheet">
+    <link
         href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap"
         rel="stylesheet">
     <style>
-        /* ===== CSS VARIABLES ===== */
         :root {
             --green: #25D366;
             --green-dark: #128C7E;
@@ -27,7 +29,6 @@
             --shadow-lg: 0 12px 48px rgba(0, 0, 0, 0.12);
         }
 
-        /* ===== RESET & BASE ===== */
         *,
         *::before,
         *::after {
@@ -85,11 +86,12 @@
             background: var(--green-light);
             color: var(--green-dark);
             font-size: 13px;
-            font-weight: 600;
+            font-weight: 700;
             padding: 4px 14px;
             border-radius: 50px;
             margin-bottom: 16px;
             letter-spacing: .3px;
+            font-family: 'Montserrat', sans-serif;
         }
 
         .section-title {
@@ -104,15 +106,15 @@
             max-width: 560px;
         }
 
-        /* ===== BUTTONS ===== */
+        /* BUTTONS */
         .btn {
             display: inline-flex;
             align-items: center;
             gap: 8px;
             padding: 13px 28px;
             border-radius: 50px;
-            font-family: 'DM Sans', sans-serif;
-            font-weight: 600;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
             font-size: 15px;
             cursor: pointer;
             transition: all .25s ease;
@@ -154,7 +156,7 @@
             box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
         }
 
-        /* ===== HEADER ===== */
+        /* HEADER */
         header {
             position: fixed;
             top: 0;
@@ -184,7 +186,7 @@
 
         .logo {
             font-family: 'Syne', sans-serif;
-            font-weight: 800;
+            font-weight: 900;
             font-size: 24px;
             color: var(--black);
         }
@@ -201,9 +203,10 @@
 
         nav a {
             font-size: 15px;
-            font-weight: 500;
+            font-weight: 600;
             color: var(--gray-700);
             position: relative;
+            font-family: 'Montserrat', sans-serif;
         }
 
         nav a::after {
@@ -270,15 +273,16 @@
 
         .mobile-menu a {
             font-size: 16px;
-            font-weight: 500;
+            font-weight: 600;
             color: var(--gray-700);
             padding: 8px 0;
             border-bottom: 1px solid var(--gray-100);
+            font-family: 'Montserrat', sans-serif;
         }
 
-        /* ===== HERO ===== */
+        /* HERO */
         #hero {
-            padding: 140px 0 90px;
+            padding: 130px 0 80px;
             background: #fff;
             position: relative;
             overflow: hidden;
@@ -325,10 +329,11 @@
             border: 1px solid rgba(37, 211, 102, 0.3);
             color: var(--green-dark);
             font-size: 13px;
-            font-weight: 600;
+            font-weight: 700;
             padding: 7px 16px;
             border-radius: 50px;
             margin-bottom: 24px;
+            font-family: 'Montserrat', sans-serif;
         }
 
         .hero-badge .dot {
@@ -340,19 +345,19 @@
         }
 
         h1.hero-title {
-            font-size: clamp(34px, 5vw, 56px);
+            font-size: clamp(30px, 4.2vw, 52px);
             font-weight: 800;
             color: var(--black);
             margin-bottom: 20px;
+            letter-spacing: -0.5px;
         }
 
         h1.hero-title .highlight {
             color: var(--green);
-            position: relative;
         }
 
         .hero-sub {
-            font-size: 18px;
+            font-size: 17px;
             color: var(--gray-500);
             margin-bottom: 32px;
             max-width: 480px;
@@ -380,8 +385,9 @@
             border-radius: 50px;
             padding: 8px 16px;
             font-size: 13px;
-            font-weight: 600;
+            font-weight: 700;
             color: var(--gray-700);
+            font-family: 'Montserrat', sans-serif;
         }
 
         .pill svg {
@@ -394,71 +400,158 @@
             justify-content: center;
         }
 
-        .mockup-wrap {
+        /* ===== iPHONE 17 STYLE MOCKUP ===== */
+        .iphone-wrap {
             position: relative;
-            width: 320px;
+            width: 290px;
+            display: flex;
+            justify-content: center;
         }
 
-        .mockup-phone {
-            background: var(--black);
-            border-radius: 36px;
-            padding: 14px;
-            box-shadow: 0 32px 80px rgba(0, 0, 0, 0.22), 0 0 0 2px rgba(255, 255, 255, 0.05);
+        .iphone-outer {
+            width: 290px;
+            background: linear-gradient(145deg, #1a1a1a 0%, #2d2d2d 40%, #1a1a1a 100%);
+            border-radius: 52px;
+            padding: 10px;
+            box-shadow:
+                0 0 0 1px rgba(255, 255, 255, 0.12),
+                0 0 0 2px rgba(0, 0, 0, 0.6),
+                0 40px 80px rgba(0, 0, 0, 0.5),
+                0 20px 40px rgba(0, 0, 0, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.08);
             position: relative;
             z-index: 2;
         }
 
-        .mockup-screen {
-            background: #fff;
-            border-radius: 24px;
+        /* Side buttons */
+        .iphone-outer::before {
+            content: '';
+            position: absolute;
+            left: -3px;
+            top: 110px;
+            width: 3px;
+            height: 36px;
+            background: linear-gradient(180deg, #333, #222, #333);
+            border-radius: 2px 0 0 2px;
+            box-shadow: 0 50px 0 #2a2a2a, 0 95px 0 #2a2a2a;
+        }
+
+        .iphone-outer::after {
+            content: '';
+            position: absolute;
+            right: -3px;
+            top: 160px;
+            width: 3px;
+            height: 60px;
+            background: linear-gradient(180deg, #333, #222, #333);
+            border-radius: 0 2px 2px 0;
+        }
+
+        .iphone-bezel {
+            background: #000;
+            border-radius: 44px;
             overflow: hidden;
+            position: relative;
+        }
+
+        /* Dynamic Island */
+        .dynamic-island {
+            position: absolute;
+            top: 12px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 30px;
+            background: #000;
+            border-radius: 20px;
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+
+        .di-camera {
+            width: 10px;
+            height: 10px;
+            background: #1a1a1a;
+            border-radius: 50%;
+            border: 1.5px solid #333;
+        }
+
+        .di-dot {
+            width: 6px;
+            height: 6px;
+            background: #1a1a1a;
+            border-radius: 50%;
+        }
+
+        .iphone-screen {
+            background: #fff;
+            min-height: 560px;
+            padding-top: 52px;
         }
 
         .phone-topbar {
-            background: var(--green);
-            padding: 14px 16px;
+            background: linear-gradient(135deg, var(--green-dark), var(--green));
+            padding: 12px 14px;
             display: flex;
             align-items: center;
             gap: 10px;
         }
 
         .phone-avatar {
-            width: 36px;
-            height: 36px;
-            background: #fff;
+            width: 34px;
+            height: 34px;
+            background: rgba(255, 255, 255, 0.2);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 18px;
+            font-size: 17px;
         }
 
         .phone-info {
             color: #fff;
+            flex: 1;
         }
 
         .phone-info p {
-            font-size: 13px;
+            font-size: 12px;
             font-weight: 700;
+            font-family: 'Montserrat', sans-serif;
         }
 
         .phone-info span {
-            font-size: 11px;
-            opacity: .8;
+            font-size: 10px;
+            opacity: .85;
+        }
+
+        .phone-status {
+            display: flex;
+            gap: 4px;
+            align-items: center;
+        }
+
+        .status-dot {
+            width: 6px;
+            height: 6px;
+            background: #4ade80;
+            border-radius: 50%;
         }
 
         .phone-body {
-            padding: 16px;
+            padding: 14px 12px;
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: 10px;
         }
 
         .chat-msg {
             display: flex;
             flex-direction: column;
-            max-width: 85%;
-            gap: 4px;
+            max-width: 88%;
+            gap: 3px;
         }
 
         .chat-msg.right {
@@ -467,100 +560,107 @@
         }
 
         .bubble {
-            padding: 10px 14px;
+            padding: 9px 13px;
             border-radius: 16px;
-            font-size: 12px;
+            font-size: 11.5px;
             line-height: 1.5;
         }
 
         .bubble.in {
-            background: var(--gray-100);
+            background: #f0f0f0;
             color: var(--gray-700);
             border-top-left-radius: 4px;
         }
 
         .bubble.out {
-            background: var(--green-light);
+            background: #d9fdd3;
             color: #2d6a4f;
             border-top-right-radius: 4px;
         }
 
         .order-card {
             background: #fff;
-            border: 1px solid var(--gray-100);
-            border-radius: 12px;
-            padding: 12px;
+            border: 1px solid #e8e8e8;
+            border-radius: 10px;
+            padding: 10px;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
         }
 
         .order-card-title {
-            font-size: 11px;
-            font-weight: 700;
+            font-size: 10px;
+            font-weight: 800;
             color: var(--green-dark);
-            margin-bottom: 8px;
+            margin-bottom: 7px;
+            font-family: 'Montserrat', sans-serif;
+            letter-spacing: .5px;
         }
 
         .order-item {
             display: flex;
             justify-content: space-between;
-            font-size: 11px;
+            font-size: 10.5px;
             color: var(--gray-700);
-            padding: 4px 0;
-            border-bottom: 1px solid var(--gray-100);
+            padding: 3px 0;
+            border-bottom: 1px solid #f0f0f0;
         }
 
         .order-total {
             display: flex;
             justify-content: space-between;
-            font-size: 12px;
-            font-weight: 700;
+            font-size: 11px;
+            font-weight: 800;
             color: var(--black);
-            margin-top: 8px;
+            margin-top: 6px;
+            font-family: 'Montserrat', sans-serif;
         }
 
         .float-badge {
             position: absolute;
-            top: 20px;
-            right: -30px;
+            top: 10px;
+            right: -24px;
             background: #fff;
             border-radius: 12px;
-            padding: 10px 14px;
-            box-shadow: var(--shadow-lg);
+            padding: 9px 13px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
             display: flex;
             align-items: center;
-            gap: 8px;
-            font-size: 12px;
-            font-weight: 600;
+            gap: 7px;
+            font-size: 11.5px;
+            font-weight: 700;
             z-index: 3;
             animation: float 3s ease-in-out infinite;
+            font-family: 'Montserrat', sans-serif;
+            white-space: nowrap;
         }
 
         .float-badge2 {
             position: absolute;
-            bottom: 40px;
-            left: -30px;
+            bottom: 30px;
+            left: -24px;
             background: #fff;
             border-radius: 12px;
-            padding: 10px 14px;
-            box-shadow: var(--shadow-lg);
+            padding: 9px 13px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
             display: flex;
             align-items: center;
-            gap: 8px;
-            font-size: 12px;
-            font-weight: 600;
+            gap: 7px;
+            font-size: 11.5px;
+            font-weight: 700;
             z-index: 3;
             animation: float 3s ease-in-out infinite .5s;
+            font-family: 'Montserrat', sans-serif;
+            white-space: nowrap;
         }
 
         .green-dot {
-            width: 10px;
-            height: 10px;
+            width: 9px;
+            height: 9px;
             background: var(--green);
             border-radius: 50%;
             flex-shrink: 0;
         }
 
-        /* ===== FEATURES ===== */
+        /* FEATURES - WhatsApp Order System Optimized */
         #features {
             background: var(--gray-100);
         }
@@ -584,9 +684,27 @@
             background: #fff;
             border-radius: var(--radius);
             padding: 32px 28px;
-            border: 1px solid transparent;
+            border: 1.5px solid transparent;
             transition: all .3s ease;
             cursor: default;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 0;
+            background: var(--green);
+            border-radius: 0 4px 4px 0;
+            transition: height .3s ease;
+        }
+
+        .feature-card:hover::before {
+            height: 100%;
         }
 
         .feature-card:hover {
@@ -604,13 +722,14 @@
             align-items: center;
             justify-content: center;
             font-size: 24px;
-            margin-bottom: 20px;
+            margin-bottom: 18px;
         }
 
         .feature-card h3 {
-            font-size: 17px;
+            font-size: 16px;
             font-weight: 700;
             margin-bottom: 10px;
+            font-family: 'syne', sans-serif;
         }
 
         .feature-card p {
@@ -619,7 +738,20 @@
             line-height: 1.65;
         }
 
-        /* ===== COMPARISON ===== */
+        .feature-badge {
+            display: inline-block;
+            background: var(--green);
+            color: #fff;
+            font-size: 10px;
+            font-weight: 700;
+            padding: 2px 8px;
+            border-radius: 50px;
+            margin-bottom: 8px;
+            font-family: 'syne', sans-serif;
+            letter-spacing: .3px;
+        }
+
+        /* COMPARISON */
         #comparison {
             background: #fff;
         }
@@ -627,6 +759,11 @@
         .comparison-header {
             text-align: center;
             margin-bottom: 48px;
+        }
+
+        .comparison-header .section-sub {
+            margin: 0 auto;
+            text-align: center;
         }
 
         .table-wrap {
@@ -648,8 +785,8 @@
 
         thead th {
             padding: 18px 20px;
-            font-family: 'Syne', sans-serif;
-            font-size: 14px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 13px;
             font-weight: 700;
             text-align: left;
         }
@@ -670,6 +807,7 @@
 
         tbody td:first-child {
             font-weight: 600;
+            font-family: 'Montserrat', sans-serif;
         }
 
         tr.wapcart-row {
@@ -679,23 +817,20 @@
 
         tr.wapcart-row td {
             color: var(--green-dark);
-            font-weight: 600;
-        }
-
-        tr.wapcart-row td:first-child {
-            position: relative;
+            font-weight: 700;
         }
 
         .best-badge {
             display: inline-block;
             background: var(--green);
             color: #fff;
-            font-size: 11px;
+            font-size: 10px;
             font-weight: 700;
             padding: 3px 10px;
             border-radius: 50px;
             margin-left: 8px;
             vertical-align: middle;
+            font-family: 'Montserrat', sans-serif;
         }
 
         .check {
@@ -707,7 +842,7 @@
             color: #ef4444;
         }
 
-        /* ===== HOW IT WORKS ===== */
+        /* HOW IT WORKS */
         #how {
             background: var(--gray-100);
         }
@@ -752,9 +887,9 @@
             align-items: center;
             justify-content: center;
             margin: 0 auto 20px;
-            font-family: 'Syne', sans-serif;
+            font-family: 'Montserrat', sans-serif;
             font-size: 22px;
-            font-weight: 800;
+            font-weight: 900;
             color: var(--green);
             box-shadow: 0 4px 20px rgba(37, 211, 102, 0.2);
             position: relative;
@@ -768,9 +903,10 @@
         }
 
         .step-card h3 {
-            font-size: 17px;
+            font-size: 16px;
             font-weight: 700;
             margin-bottom: 10px;
+            font-family: 'Montserrat', sans-serif;
         }
 
         .step-card p {
@@ -778,7 +914,7 @@
             color: var(--gray-500);
         }
 
-        /* ===== STORES ===== */
+        /* STORES */
         #stores {
             background: #fff;
         }
@@ -828,6 +964,7 @@
         .store-info h4 {
             font-size: 15px;
             font-weight: 700;
+            font-family: 'Montserrat', sans-serif;
         }
 
         .store-info span {
@@ -841,10 +978,11 @@
             color: var(--green-dark);
             padding: 4px 10px;
             border-radius: 50px;
-            font-weight: 600;
+            font-weight: 700;
+            font-family: 'Montserrat', sans-serif;
         }
 
-        /* ===== TESTIMONIALS ===== */
+        /* TESTIMONIALS */
         #testimonials {
             background: var(--gray-100);
         }
@@ -910,6 +1048,7 @@
         .testi-name {
             font-size: 14px;
             font-weight: 700;
+            font-family: 'Montserrat', sans-serif;
         }
 
         .testi-role {
@@ -917,7 +1056,7 @@
             color: var(--gray-500);
         }
 
-        /* ===== ENQUIRY FORM ===== */
+        /* ENQUIRY */
         #enquiry {
             background: #fff;
         }
@@ -953,7 +1092,8 @@
             align-items: center;
             gap: 12px;
             font-size: 15px;
-            font-weight: 500;
+            font-weight: 600;
+            font-family: 'Montserrat', sans-serif;
         }
 
         .perk-icon {
@@ -981,9 +1121,10 @@
         .form-group label {
             display: block;
             font-size: 13px;
-            font-weight: 600;
+            font-weight: 700;
             margin-bottom: 7px;
             color: var(--gray-700);
+            font-family: 'Montserrat', sans-serif;
         }
 
         .form-group input,
@@ -1026,13 +1167,14 @@
             color: var(--green-dark);
             padding: 14px 18px;
             border-radius: 10px;
-            font-weight: 600;
+            font-weight: 700;
             font-size: 15px;
             margin-top: 14px;
             text-align: center;
+            font-family: 'Montserrat', sans-serif;
         }
 
-        /* ===== PRICING ===== */
+        /* PRICING */
         #pricing {
             background: var(--gray-100);
         }
@@ -1078,6 +1220,7 @@
             padding: 5px 18px;
             border-radius: 50px;
             white-space: nowrap;
+            font-family: 'Montserrat', sans-serif;
         }
 
         .price-name {
@@ -1102,9 +1245,9 @@
         }
 
         .price-amount .amount {
-            font-family: 'Syne', sans-serif;
+            font-family: 'syne', sans-serif;
             font-size: 56px;
-            font-weight: 800;
+            font-weight: 900;
             color: var(--green-dark);
             line-height: 1;
         }
@@ -1153,6 +1296,7 @@
             font-weight: 700;
             margin-bottom: 8px;
             color: var(--green-dark);
+            font-family: 'Montserrat', sans-serif;
         }
 
         .addon-card p {
@@ -1161,14 +1305,14 @@
         }
 
         .addon-price {
-            font-family: 'Syne', sans-serif;
+            font-family: 'syne', sans-serif;
             font-size: 36px;
-            font-weight: 800;
+            font-weight: 900;
             color: var(--green);
             margin: 12px 0 4px;
         }
 
-        /* ===== CONTACT ===== */
+        /* CONTACT */
         #contact {
             background: #fff;
         }
@@ -1209,6 +1353,7 @@
             font-size: 14px;
             font-weight: 700;
             margin-bottom: 4px;
+            font-family: 'Montserrat', sans-serif;
         }
 
         .contact-item p,
@@ -1235,7 +1380,7 @@
             border: 0;
         }
 
-        /* ===== FOOTER ===== */
+        /* FOOTER */
         footer {
             background: var(--gray-900);
             color: #fff;
@@ -1258,8 +1403,8 @@
         }
 
         .footer-logo {
-            font-family: 'Syne', sans-serif;
-            font-weight: 800;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 900;
             font-size: 22px;
         }
 
@@ -1268,8 +1413,8 @@
         }
 
         .footer-col h4 {
-            font-family: 'Syne', sans-serif;
-            font-size: 14px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 13px;
             font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 1px;
@@ -1295,7 +1440,7 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            flex-wrap: gap;
+            flex-wrap: wrap;
             gap: 12px;
         }
 
@@ -1311,17 +1456,18 @@
             background: var(--green);
             color: #fff;
             font-size: 13px;
-            font-weight: 600;
+            font-weight: 700;
             padding: 8px 18px;
             border-radius: 50px;
             transition: all .25s;
+            font-family: 'Montserrat', sans-serif;
         }
 
         .footer-wa:hover {
             background: var(--green-dark);
         }
 
-        /* ===== ANIMATIONS ===== */
+        /* ANIMATIONS */
         @keyframes fadeSlideUp {
             from {
                 opacity: 0;
@@ -1397,6 +1543,14 @@
             .footer-grid {
                 grid-template-columns: 1fr 1fr;
             }
+
+            .iphone-wrap {
+                width: 260px;
+            }
+
+            .iphone-outer {
+                width: 260px;
+            }
         }
 
         @media (max-width: 768px) {
@@ -1404,26 +1558,62 @@
                 padding: 64px 0;
             }
 
+            /* Mobile hero — text first, mockup below */
             .hero-grid {
                 grid-template-columns: 1fr;
                 gap: 40px;
             }
 
-            .hero-right {
-                order: -1;
+            .hero-left {
+                order: 1;
+                text-align: center;
             }
 
-            .mockup-wrap {
-                width: 260px;
+            .hero-right {
+                order: 2;
+            }
+
+            h1.hero-title {
+                font-size: clamp(26px, 7vw, 36px);
+            }
+
+            .hero-sub {
+                margin-left: auto;
+                margin-right: auto;
+            }
+
+            .hero-btns {
+                justify-content: center;
+            }
+
+            .hero-pills {
+                justify-content: center;
+            }
+
+            .hero-badge {
+                margin-left: auto;
+                margin-right: auto;
+            }
+
+            /* Smaller phone on mobile */
+            .iphone-wrap {
+                width: 240px;
+            }
+
+            .iphone-outer {
+                width: 240px;
             }
 
             .float-badge {
-                right: -10px;
-                top: 10px;
+                right: -8px;
+                font-size: 10.5px;
+                padding: 7px 10px;
             }
 
             .float-badge2 {
-                left: -10px;
+                left: -8px;
+                font-size: 10.5px;
+                padding: 7px 10px;
             }
 
             nav {
@@ -1472,15 +1662,6 @@
             .form-row {
                 grid-template-columns: 1fr;
             }
-
-            .hero-btns {
-                flex-direction: column;
-            }
-
-            .hero-btns .btn {
-                text-align: center;
-                justify-content: center;
-            }
         }
 
         @media (max-width: 480px) {
@@ -1491,6 +1672,20 @@
 
             .hero-pills {
                 flex-direction: column;
+                align-items: center;
+            }
+
+            .iphone-wrap {
+                width: 220px;
+            }
+
+            .iphone-outer {
+                width: 220px;
+            }
+
+            .dynamic-island {
+                width: 85px;
+                height: 26px;
             }
         }
     </style>
@@ -1498,7 +1693,7 @@
 
 <body>
 
-    <!-- ===== HEADER ===== -->
+    <!-- HEADER -->
     <header id="header">
         <div class="container">
             <a href="#" class="logo">Wap<span>Cart</span></a>
@@ -1526,10 +1721,11 @@
         <a href="#enquiry" class="btn btn-primary" style="justify-content:center;">🛒 Create Store</a>
     </div>
 
-    <!-- ===== HERO ===== -->
+    <!-- HERO -->
     <section id="hero">
         <div class="container">
             <div class="hero-grid">
+                <!-- Text first (on mobile this shows on top) -->
                 <div class="hero-left">
                     <div class="hero-badge">
                         <span class="dot"></span>
@@ -1570,39 +1766,53 @@
                         </div>
                     </div>
                 </div>
+
+                <!-- iPhone 17 Mockup -->
                 <div class="hero-right">
-                    <div class="mockup-wrap">
+                    <div class="iphone-wrap">
                         <div class="float-badge">
                             <span class="green-dot"></span>
                             📦 New Order Received!
                         </div>
-                        <div class="mockup-phone">
-                            <div class="mockup-screen">
-                                <div class="phone-topbar">
-                                    <div class="phone-avatar">🏪</div>
-                                    <div class="phone-info">
-                                        <p>WapCart Store</p>
-                                        <span>● Online</span>
-                                    </div>
+                        <div class="iphone-outer">
+                            <div class="iphone-bezel">
+                                <div class="dynamic-island">
+                                    <div class="di-dot"></div>
+                                    <div class="di-camera"></div>
                                 </div>
-                                <div class="phone-body">
-                                    <div class="chat-msg">
-                                        <div class="bubble in">Hi! I'd like to order from your store 😊</div>
-                                    </div>
-                                    <div class="chat-msg right">
-                                        <div class="bubble out">Sure! Here's your order summary:</div>
-                                    </div>
-                                    <div class="chat-msg right">
-                                        <div class="order-card">
-                                            <div class="order-card-title">🛒 ORDER SUMMARY</div>
-                                            <div class="order-item"><span>Paneer Pizza</span><span>₹280</span></div>
-                                            <div class="order-item"><span>Cold Coffee</span><span>₹120</span></div>
-                                            <div class="order-item"><span>Brownie</span><span>₹80</span></div>
-                                            <div class="order-total"><span>Total</span><span>₹480</span></div>
+                                <div class="iphone-screen">
+                                    <div class="phone-topbar">
+                                        <div class="phone-avatar">🏪</div>
+                                        <div class="phone-info">
+                                            <p>WapCart Store</p>
+                                            <span>● Online</span>
+                                        </div>
+                                        <div class="phone-status">
+                                            <div class="status-dot"></div>
                                         </div>
                                     </div>
-                                    <div class="chat-msg">
-                                        <div class="bubble in">Confirm my order ✅</div>
+                                    <div class="phone-body">
+                                        <div class="chat-msg">
+                                            <div class="bubble in">Hi! I'd like to order 😊</div>
+                                        </div>
+                                        <div class="chat-msg right">
+                                            <div class="bubble out">Sure! Here's your order:</div>
+                                        </div>
+                                        <div class="chat-msg right">
+                                            <div class="order-card">
+                                                <div class="order-card-title">🛒 ORDER SUMMARY</div>
+                                                <div class="order-item"><span>Paneer Pizza</span><span>₹280</span></div>
+                                                <div class="order-item"><span>Cold Coffee</span><span>₹120</span></div>
+                                                <div class="order-item"><span>Brownie</span><span>₹80</span></div>
+                                                <div class="order-total"><span>Total</span><span>₹480</span></div>
+                                            </div>
+                                        </div>
+                                        <div class="chat-msg">
+                                            <div class="bubble in">Confirm my order ✅</div>
+                                        </div>
+                                        <div class="chat-msg right">
+                                            <div class="bubble out">✅ Order confirmed! Delivery in 30 mins 🛵</div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -1616,74 +1826,85 @@
         </div>
     </section>
 
-    <!-- ===== FEATURES ===== -->
+    <!-- FEATURES — WhatsApp Order System Optimized -->
     <section id="features">
         <div class="container">
             <div class="features-header reveal">
                 <div class="tag">Features</div>
-                <h2 class="section-title">Everything You Need to Sell Online</h2>
-                <p class="section-sub">Powerful tools designed for Indian small businesses — simple, fast, and
-                    completely commission-free.</p>
+                <h2 class="section-title">Your Complete WhatsApp Order System</h2>
+                <p class="section-sub">Everything built around receiving orders on WhatsApp — zero commission, zero app
+                    downloads, 100% your profits.</p>
             </div>
             <div class="features-grid">
                 <div class="feature-card reveal">
+                    <div class="feature-badge">⭐ Core Feature</div>
                     <div class="feature-icon">💬</div>
                     <h3>WhatsApp Order Integration</h3>
-                    <p>Receive orders directly on your WhatsApp number. No third-party apps needed — it's all built in.
-                    </p>
+                    <p>Orders land directly in your WhatsApp inbox. Customers browse your store, tap "Order", and their
+                        complete order details arrive instantly — no calls, no confusion.</p>
+                </div>
+                <div class="feature-card reveal">
+                    <div class="feature-badge">⭐ Core Feature</div>
+                    <div class="feature-icon">🛒</div>
+                    <h3>Auto Order Summary on WhatsApp</h3>
+                    <p>When a customer orders, a perfectly formatted summary (items, quantities, total, address) is
+                        auto-generated and sent to your WhatsApp in one tap. No manual entry.</p>
+                </div>
+                <div class="feature-card reveal">
+                    <div class="feature-badge">⭐ Core Feature</div>
+                    <div class="feature-icon">🔔</div>
+                    <h3>Instant Order Notifications</h3>
+                    <p>Get real-time WhatsApp alerts the moment a new order is placed. Never miss a sale — even if
+                        you're away from the store, your phone notifies you instantly.</p>
                 </div>
                 <div class="feature-card reveal">
                     <div class="feature-icon">📦</div>
                     <h3>Easy Product Management</h3>
-                    <p>Add, edit, and manage your products from a simple dashboard. Upload photos, set prices, done.</p>
-                </div>
-                <div class="feature-card reveal">
-                    <div class="feature-icon">📱</div>
-                    <h3>Mobile Friendly Store</h3>
-                    <p>Your store looks stunning on every device. Optimized for mobile-first customers across India.</p>
+                    <p>Add, edit, and manage your products from a simple dashboard. Upload photos, set prices, and
+                        manage availability — all in minutes, no tech skills needed.</p>
                 </div>
                 <div class="feature-card reveal">
                     <div class="feature-icon">⚡</div>
-                    <h3>Fast Checkout</h3>
-                    <p>Customers browse, click, and order in seconds. No sign-up, no friction — just smooth buying.</p>
+                    <h3>1-Click WhatsApp Checkout</h3>
+                    <p>Customers browse, add to cart, and send their order to your WhatsApp in a single tap. No sign-up,
+                        no OTP, no friction — lightning-fast buying experience.</p>
                 </div>
                 <div class="feature-card reveal">
-                    <div class="feature-icon">🚫</div>
-                    <h3>No App Required</h3>
-                    <p>Your store runs in any browser. Customers don't need to download anything to shop from you.</p>
+                    <div class="feature-icon">📱</div>
+                    <h3>Mobile-First Store Design</h3>
+                    <p>Your store is built for mobile customers first. Loads fast, looks stunning on any screen —
+                        because your customers are ordering from their phones.</p>
                 </div>
                 <div class="feature-card reveal">
                     <div class="feature-icon">🎨</div>
                     <h3>Custom Branding</h3>
-                    <p>Add your logo, colors, and business name. Your store, your identity — 100% personalized.</p>
-                </div>
-                <div class="feature-card reveal">
-                    <div class="feature-icon">🔔</div>
-                    <h3>Order Notifications</h3>
-                    <p>Get instant WhatsApp alerts for every new order. Never miss a sale, even when you're away.</p>
+                    <p>Your store, your brand. Add your logo, pick your colors, use your business name. Customers see
+                        your identity — not a generic marketplace.</p>
                 </div>
                 <div class="feature-card reveal">
                     <div class="feature-icon">🔒</div>
-                    <h3>Secure System</h3>
-                    <p>Your store and customer data is safe. We use SSL encryption and secure servers by default.</p>
+                    <h3>Secure & Fast Hosting</h3>
+                    <p>SSL encryption, fast servers, 99.9% uptime. Your store is always accessible, always secure — so
+                        customers can order from you 24/7.</p>
                 </div>
                 <div class="feature-card reveal">
                     <div class="feature-icon">📊</div>
                     <h3>Simple Dashboard</h3>
-                    <p>Track orders, manage products, and monitor your store performance in one clean dashboard.</p>
+                    <p>Track your products, monitor store activity, and manage everything from one clean dashboard. No
+                        complex software — just what you need, nothing more.</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- ===== COMPARISON ===== -->
+    <!-- COMPARISON -->
     <section id="comparison">
         <div class="container">
             <div class="comparison-header reveal">
                 <div class="tag">Comparison</div>
                 <h2 class="section-title">Why WapCart Wins</h2>
-                <p class="section-sub center">See how WapCart stacks up against other platforms — the difference is
-                    clear.</p>
+                <p class="section-sub" style="margin: 0 auto; text-align: center;">See how WapCart Stand up against
+                    other platforms — the difference is clear.</p>
             </div>
             <div class="table-wrap reveal">
                 <table>
@@ -1715,10 +1936,7 @@
                             <td class="cross">❌ Limited</td>
                         </tr>
                         <tr class="wapcart-row">
-                            <td>
-                                💚 WapCart
-                                <span class="best-badge">Best Choice</span>
-                            </td>
+                            <td>💚 WapCart <span class="best-badge">Best Choice</span></td>
                             <td class="check">✅ 0%</td>
                             <td class="check">✅ You own</td>
                             <td class="check">✅ Yes – WhatsApp</td>
@@ -1731,7 +1949,7 @@
         </div>
     </section>
 
-    <!-- ===== HOW IT WORKS ===== -->
+    <!-- HOW IT WORKS -->
     <section id="how">
         <div class="container">
             <div class="how-header reveal">
@@ -1765,7 +1983,7 @@
         </div>
     </section>
 
-    <!-- ===== LIVE STORES ===== -->
+    <!-- LIVE STORES -->
     <section id="stores">
         <div class="container">
             <div class="stores-header reveal">
@@ -1779,8 +1997,7 @@
                     <div class="store-img" style="background:linear-gradient(135deg,#fef3c7,#fde68a)">🍛</div>
                     <div class="store-info">
                         <div>
-                            <h4>Spice Garden</h4>
-                            <span>Home-cooked Food</span>
+                            <h4>Spice Garden</h4><span>Home-cooked Food</span>
                         </div>
                         <span class="store-tag">Food</span>
                     </div>
@@ -1789,8 +2006,7 @@
                     <div class="store-img" style="background:linear-gradient(135deg,#fce7f3,#fbcfe8)">👗</div>
                     <div class="store-info">
                         <div>
-                            <h4>Bloom Boutique</h4>
-                            <span>Women's Fashion</span>
+                            <h4>Bloom Boutique</h4><span>Women's Fashion</span>
                         </div>
                         <span class="store-tag">Fashion</span>
                     </div>
@@ -1799,8 +2015,7 @@
                     <div class="store-img" style="background:linear-gradient(135deg,#dbeafe,#bfdbfe)">💻</div>
                     <div class="store-info">
                         <div>
-                            <h4>TechZone Store</h4>
-                            <span>Electronics & Gadgets</span>
+                            <h4>TechZone Store</h4><span>Electronics & Gadgets</span>
                         </div>
                         <span class="store-tag">Tech</span>
                     </div>
@@ -1809,8 +2024,7 @@
                     <div class="store-img" style="background:linear-gradient(135deg,#ede9fe,#ddd6fe)">🎂</div>
                     <div class="store-info">
                         <div>
-                            <h4>Cake Palace</h4>
-                            <span>Cakes & Pastries</span>
+                            <h4>Cake Palace</h4><span>Cakes & Pastries</span>
                         </div>
                         <span class="store-tag">Bakery</span>
                     </div>
@@ -1819,8 +2033,7 @@
                     <div class="store-img" style="background:linear-gradient(135deg,#d1fae5,#a7f3d0)">🥦</div>
                     <div class="store-info">
                         <div>
-                            <h4>Green Grocery</h4>
-                            <span>Fresh Vegetables</span>
+                            <h4>Green Grocery</h4><span>Fresh Vegetables</span>
                         </div>
                         <span class="store-tag">Grocery</span>
                     </div>
@@ -1829,8 +2042,7 @@
                     <div class="store-img" style="background:linear-gradient(135deg,#fef9c3,#fef08a)">🎨</div>
                     <div class="store-info">
                         <div>
-                            <h4>Artisan Craft</h4>
-                            <span>Handmade Products</span>
+                            <h4>Artisan Craft</h4><span>Handmade Products</span>
                         </div>
                         <span class="store-tag">Crafts</span>
                     </div>
@@ -1839,7 +2051,7 @@
         </div>
     </section>
 
-    <!-- ===== TESTIMONIALS ===== -->
+    <!-- TESTIMONIALS -->
     <section id="testimonials">
         <div class="container">
             <div class="testi-header reveal">
@@ -1913,7 +2125,7 @@
         </div>
     </section>
 
-    <!-- ===== ENQUIRY FORM ===== -->
+    <!-- ENQUIRY -->
     <section id="enquiry">
         <div class="container">
             <div class="enquiry-grid">
@@ -1984,7 +2196,7 @@
         </div>
     </section>
 
-    <!-- ===== PRICING ===== -->
+    <!-- PRICING -->
     <section id="pricing">
         <div class="container">
             <div class="pricing-header reveal">
@@ -2007,9 +2219,10 @@
                         <div class="price-feat"><span class="chk">✅</span> Your own online store link</div>
                         <div class="price-feat"><span class="chk">✅</span> Up to 20 products included</div>
                         <div class="price-feat"><span class="chk">✅</span> WhatsApp order integration</div>
+                        <div class="price-feat"><span class="chk">✅</span> Auto order summary on WhatsApp</div>
                         <div class="price-feat"><span class="chk">✅</span> Custom store branding</div>
                         <div class="price-feat"><span class="chk">✅</span> Mobile-friendly design</div>
-                        <div class="price-feat"><span class="chk">✅</span> Order notifications on WhatsApp</div>
+                        <div class="price-feat"><span class="chk">✅</span> Instant order notifications</div>
                         <div class="price-feat"><span class="chk">✅</span> Secure & fast hosting</div>
                         <div class="price-feat"><span class="chk">✅</span> Free setup support</div>
                         <div class="price-feat"><span class="chk">✅</span> 0% commission forever</div>
@@ -2034,7 +2247,7 @@
         </div>
     </section>
 
-    <!-- ===== CONTACT ===== -->
+    <!-- CONTACT -->
     <section id="contact">
         <div class="container">
             <div class="contact-grid">
@@ -2044,15 +2257,13 @@
                     <div class="contact-item">
                         <div class="contact-icon">📧</div>
                         <div>
-                            <h4>Email</h4>
-                            <a href="mailto:support@wapcart.in">support@wapcart.in</a>
+                            <h4>Email</h4><a href="mailto:support@wapcart.in">support@wapcart.in</a>
                         </div>
                     </div>
                     <div class="contact-item">
                         <div class="contact-icon">📞</div>
                         <div>
-                            <h4>Phone / WhatsApp</h4>
-                            <a href="tel:+917773998288">+91 77739 98288</a>
+                            <h4>Phone / WhatsApp</h4><a href="tel:+917773998288">+91 77739 98288</a>
                         </div>
                     </div>
                     <div class="contact-item">
@@ -2078,8 +2289,7 @@
                     <div class="map-wrap">
                         <iframe
                             src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d242118.08193403167!2d73.72594695!3d18.524564349999998!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bc2bf2e67461101%3A0x828d43bf9d9ee343!2sPune%2C%20Maharashtra!5e0!3m2!1sen!2sin!4v1680000000000"
-                            allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade">
-                        </iframe>
+                            allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
                     </div>
                     <a href="https://maps.google.com/?q=Pune,Maharashtra" target="_blank" class="btn btn-dark">
                         🗺️ Get Directions
@@ -2089,7 +2299,7 @@
         </div>
     </section>
 
-    <!-- ===== FOOTER ===== -->
+    <!-- FOOTER -->
     <footer>
         <div class="container">
             <div class="footer-grid">
@@ -2110,9 +2320,7 @@
                     <h4>Contact</h4>
                     <a href="tel:+917773998288">+91 77739 98288</a>
                     <a href="mailto:support@wapcart.in">support@wapcart.in</a>
-                    <a href="https://wa.me/917773998288" target="_blank" class="footer-wa">
-                        💬 Chat on WhatsApp
-                    </a>
+                    <a href="https://wa.me/917773998288" target="_blank" class="footer-wa">💬 Chat on WhatsApp</a>
                 </div>
             </div>
             <div class="footer-bottom">
@@ -2122,24 +2330,21 @@
         </div>
     </footer>
 
-    <!-- ===== JAVASCRIPT ===== -->
     <script>
-        // ---- Sticky Header ----
+        // Sticky Header
         const header = document.getElementById('header');
-        window.addEventListener('scroll', () => {
-            header.classList.toggle('scrolled', window.scrollY > 40);
-        });
+        window.addEventListener('scroll', () => { header.classList.toggle('scrolled', window.scrollY > 40); });
 
-        // ---- Mobile Menu ----
+        // Mobile Menu
         const hamburger = document.getElementById('hamburger');
         const mobileMenu = document.getElementById('mobileMenu');
         hamburger.addEventListener('click', () => {
             mobileMenu.classList.toggle('open');
             const spans = hamburger.querySelectorAll('span');
             if (mobileMenu.classList.contains('open')) {
-                spans[0].style.transform = 'rotate(45deg) translate(5px, 5px)';
+                spans[0].style.transform = 'rotate(45deg) translate(5px,5px)';
                 spans[1].style.opacity = '0';
-                spans[2].style.transform = 'rotate(-45deg) translate(5px, -5px)';
+                spans[2].style.transform = 'rotate(-45deg) translate(5px,-5px)';
             } else {
                 spans.forEach(s => { s.style.transform = ''; s.style.opacity = ''; });
             }
@@ -2151,7 +2356,7 @@
             });
         });
 
-        // ---- Scroll Reveal ----
+        // Scroll Reveal
         const reveals = document.querySelectorAll('.reveal');
         const observer = new IntersectionObserver((entries) => {
             entries.forEach((entry, i) => {
@@ -2163,12 +2368,12 @@
         }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
         reveals.forEach(el => observer.observe(el));
 
-        // ---- Demo Store Click ----
+        // Demo Store Click
         function openDemo(name) {
             alert(`🛒 Opening demo store: ${name}\n\nThis would open the live store in a real deployment!`);
         }
 
-        // ---- WhatsApp Enquiry Form ----
+        // WhatsApp Enquiry
         function sendEnquiry() {
             const fname = document.getElementById('fname').value.trim();
             const bname = document.getElementById('bname').value.trim();
@@ -2196,14 +2401,9 @@
                 `━━━━━━━━━━━━━━━━━━━━\n` +
                 `📅 *Sent via WapCart Website*`;
 
-            const encodedMsg = encodeURIComponent(message);
-            const waUrl = `https://wa.me/${waNumber}?text=${encodedMsg}`;
-            window.open(waUrl, '_blank');
-
+            window.open(`https://wa.me/${waNumber}?text=${encodeURIComponent(message)}`, '_blank');
             document.getElementById('successMsg').style.display = 'block';
             setTimeout(() => document.getElementById('successMsg').style.display = 'none', 6000);
-
-            // Reset form
             ['fname', 'bname', 'addr', 'phone', 'msg'].forEach(id => document.getElementById(id).value = '');
             document.getElementById('invest').value = '';
         }
