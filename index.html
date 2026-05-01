@@ -11,6 +11,8 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap"
         rel="stylesheet">
+        <!-- bootstrap CDN  -->
+         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
     <style>
         :root {
             --green: #25D366;
@@ -400,19 +402,20 @@
             justify-content: center;
         }
 
-        /* ===== iPHONE 17 STYLE MOCKUP ===== */
+        /* ===== iPHONE MOCKUP — FIXED ===== */
         .iphone-wrap {
             position: relative;
-            width: 290px;
+            width: 260px;
             display: flex;
             justify-content: center;
         }
 
         .iphone-outer {
-            width: 290px;
+            width: 260px;
+            height: auto;
             background: linear-gradient(145deg, #1a1a1a 0%, #2d2d2d 40%, #1a1a1a 100%);
-            border-radius: 52px;
-            padding: 10px;
+            border-radius: 48px;
+            padding: 9px;
             box-shadow:
                 0 0 0 1px rgba(255, 255, 255, 0.12),
                 0 0 0 2px rgba(0, 0, 0, 0.6),
@@ -428,28 +431,28 @@
             content: '';
             position: absolute;
             left: -3px;
-            top: 110px;
+            top: 100px;
             width: 3px;
-            height: 36px;
+            height: 32px;
             background: linear-gradient(180deg, #333, #222, #333);
             border-radius: 2px 0 0 2px;
-            box-shadow: 0 50px 0 #2a2a2a, 0 95px 0 #2a2a2a;
+            box-shadow: 0 46px 0 #2a2a2a, 0 88px 0 #2a2a2a;
         }
 
         .iphone-outer::after {
             content: '';
             position: absolute;
             right: -3px;
-            top: 160px;
+            top: 148px;
             width: 3px;
-            height: 60px;
+            height: 56px;
             background: linear-gradient(180deg, #333, #222, #333);
             border-radius: 0 2px 2px 0;
         }
 
         .iphone-bezel {
             background: #000;
-            border-radius: 44px;
+            border-radius: 40px;
             overflow: hidden;
             position: relative;
         }
@@ -457,13 +460,13 @@
         /* Dynamic Island */
         .dynamic-island {
             position: absolute;
-            top: 12px;
+            top: 11px;
             left: 50%;
             transform: translateX(-50%);
-            width: 100px;
-            height: 30px;
+            width: 90px;
+            height: 27px;
             background: #000;
-            border-radius: 20px;
+            border-radius: 18px;
             z-index: 10;
             display: flex;
             align-items: center;
@@ -472,43 +475,43 @@
         }
 
         .di-camera {
-            width: 10px;
-            height: 10px;
+            width: 9px;
+            height: 9px;
             background: #1a1a1a;
             border-radius: 50%;
             border: 1.5px solid #333;
         }
 
         .di-dot {
-            width: 6px;
-            height: 6px;
+            width: 5px;
+            height: 5px;
             background: #1a1a1a;
             border-radius: 50%;
         }
 
         .iphone-screen {
             background: #fff;
-            min-height: 560px;
-            padding-top: 52px;
+            padding-top: 48px;
+            height: auto;
         }
 
         .phone-topbar {
             background: linear-gradient(135deg, var(--green-dark), var(--green));
-            padding: 12px 14px;
+            padding: 11px 13px;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 9px;
         }
 
         .phone-avatar {
-            width: 34px;
-            height: 34px;
+            width: 32px;
+            height: 32px;
             background: rgba(255, 255, 255, 0.2);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 17px;
+            font-size: 16px;
         }
 
         .phone-info {
@@ -517,13 +520,13 @@
         }
 
         .phone-info p {
-            font-size: 12px;
+            font-size: 11px;
             font-weight: 700;
             font-family: 'Montserrat', sans-serif;
         }
 
         .phone-info span {
-            font-size: 10px;
+            font-size: 9px;
             opacity: .85;
         }
 
@@ -541,10 +544,10 @@
         }
 
         .phone-body {
-            padding: 14px 12px;
+            padding: 13px 11px;
             display: flex;
             flex-direction: column;
-            gap: 10px;
+            gap: 9px;
         }
 
         .chat-msg {
@@ -560,9 +563,9 @@
         }
 
         .bubble {
-            padding: 9px 13px;
-            border-radius: 16px;
-            font-size: 11.5px;
+            padding: 8px 12px;
+            border-radius: 15px;
+            font-size: 11px;
             line-height: 1.5;
         }
 
@@ -581,16 +584,16 @@
         .order-card {
             background: #fff;
             border: 1px solid #e8e8e8;
-            border-radius: 10px;
-            padding: 10px;
+            border-radius: 9px;
+            padding: 9px;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
         }
 
         .order-card-title {
-            font-size: 10px;
+            font-size: 9px;
             font-weight: 800;
             color: var(--green-dark);
-            margin-bottom: 7px;
+            margin-bottom: 6px;
             font-family: 'Montserrat', sans-serif;
             letter-spacing: .5px;
         }
@@ -598,7 +601,7 @@
         .order-item {
             display: flex;
             justify-content: space-between;
-            font-size: 10.5px;
+            font-size: 10px;
             color: var(--gray-700);
             padding: 3px 0;
             border-bottom: 1px solid #f0f0f0;
@@ -607,7 +610,7 @@
         .order-total {
             display: flex;
             justify-content: space-between;
-            font-size: 11px;
+            font-size: 10.5px;
             font-weight: 800;
             color: var(--black);
             margin-top: 6px;
@@ -617,15 +620,15 @@
         .float-badge {
             position: absolute;
             top: 10px;
-            right: -24px;
+            right: -20px;
             background: #fff;
             border-radius: 12px;
-            padding: 9px 13px;
+            padding: 8px 12px;
             box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
             display: flex;
             align-items: center;
             gap: 7px;
-            font-size: 11.5px;
+            font-size: 11px;
             font-weight: 700;
             z-index: 3;
             animation: float 3s ease-in-out infinite;
@@ -635,16 +638,16 @@
 
         .float-badge2 {
             position: absolute;
-            bottom: 30px;
-            left: -24px;
+            bottom: 20px;
+            left: -20px;
             background: #fff;
             border-radius: 12px;
-            padding: 9px 13px;
+            padding: 8px 12px;
             box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
             display: flex;
             align-items: center;
             gap: 7px;
-            font-size: 11.5px;
+            font-size: 11px;
             font-weight: 700;
             z-index: 3;
             animation: float 3s ease-in-out infinite .5s;
@@ -1543,14 +1546,6 @@
             .footer-grid {
                 grid-template-columns: 1fr 1fr;
             }
-
-            .iphone-wrap {
-                width: 260px;
-            }
-
-            .iphone-outer {
-                width: 260px;
-            }
         }
 
         @media (max-width: 768px) {
@@ -1595,25 +1590,26 @@
                 margin-right: auto;
             }
 
-            /* Smaller phone on mobile */
+            /* iPhone mockup on mobile — stays 260px, centered, no overflow */
             .iphone-wrap {
-                width: 240px;
+                width: 260px;
+                margin: 0 auto;
             }
 
             .iphone-outer {
-                width: 240px;
+                width: 260px;
             }
 
             .float-badge {
-                right: -8px;
-                font-size: 10.5px;
-                padding: 7px 10px;
+                right: -6px;
+                font-size: 10px;
+                padding: 6px 10px;
             }
 
             .float-badge2 {
-                left: -8px;
-                font-size: 10.5px;
-                padding: 7px 10px;
+                left: -6px;
+                font-size: 10px;
+                padding: 6px 10px;
             }
 
             nav {
@@ -1675,17 +1671,24 @@
                 align-items: center;
             }
 
+            /* Extra small screens — keep 260px, just ensure no overflow */
             .iphone-wrap {
-                width: 220px;
+                width: 260px;
+                margin: 0 auto;
             }
 
             .iphone-outer {
-                width: 220px;
+                width: 260px;
             }
 
             .dynamic-island {
                 width: 85px;
-                height: 26px;
+                height: 25px;
+            }
+
+            .float-badge,
+            .float-badge2 {
+                display: none;
             }
         }
     </style>
@@ -1705,7 +1708,7 @@
                 <a href="#contact">Contact</a>
             </nav>
             <div class="nav-cta">
-                <a href="#enquiry" class="btn btn-primary">🛒 Create Store</a>
+                <a href="#enquiry" class="btn btn-primary"> Create Store</a>
             </div>
             <div class="hamburger" id="hamburger" aria-label="Menu">
                 <span></span><span></span><span></span>
@@ -1738,8 +1741,8 @@
                     <p class="hero-sub">Accept orders directly via WhatsApp — no commissions, no middlemen. Your
                         customers, your profits, your brand.</p>
                     <div class="hero-btns">
-                        <a href="#enquiry" class="btn btn-primary">🚀 Start Free Today</a>
-                        <a href="#stores" class="btn btn-outline">👁️ See Demo Stores</a>
+                        <a href="#enquiry" class="btn btn-primary"> Start Your Store Today</a>
+                        <a href="#stores" class="btn btn-outline"> See Demo Stores</a>
                     </div>
                     <div class="hero-pills">
                         <div class="pill">
@@ -1767,7 +1770,7 @@
                     </div>
                 </div>
 
-                <!-- iPhone 17 Mockup -->
+                <!-- iPhone Mockup — 260px fixed width, auto height -->
                 <div class="hero-right">
                     <div class="iphone-wrap">
                         <div class="float-badge">
@@ -1838,57 +1841,57 @@
             <div class="features-grid">
                 <div class="feature-card reveal">
                     <div class="feature-badge">⭐ Core Feature</div>
-                    <div class="feature-icon">💬</div>
+                    <div class="feature-icon"><i class="bi bi-whatsapp"></i></div>
                     <h3>WhatsApp Order Integration</h3>
                     <p>Orders land directly in your WhatsApp inbox. Customers browse your store, tap "Order", and their
                         complete order details arrive instantly — no calls, no confusion.</p>
                 </div>
                 <div class="feature-card reveal">
                     <div class="feature-badge">⭐ Core Feature</div>
-                    <div class="feature-icon">🛒</div>
+                    <div class="feature-icon"><i class="bi bi-cart-check"></i></div>
                     <h3>Auto Order Summary on WhatsApp</h3>
                     <p>When a customer orders, a perfectly formatted summary (items, quantities, total, address) is
                         auto-generated and sent to your WhatsApp in one tap. No manual entry.</p>
                 </div>
                 <div class="feature-card reveal">
                     <div class="feature-badge">⭐ Core Feature</div>
-                    <div class="feature-icon">🔔</div>
+                    <div class="feature-icon"><i class="bi bi-bell-fill"></i></div>
                     <h3>Instant Order Notifications</h3>
                     <p>Get real-time WhatsApp alerts the moment a new order is placed. Never miss a sale — even if
                         you're away from the store, your phone notifies you instantly.</p>
                 </div>
                 <div class="feature-card reveal">
-                    <div class="feature-icon">📦</div>
+                    <div class="feature-icon"><i class="bi bi-box-fill"></i></div>
                     <h3>Easy Product Management</h3>
                     <p>Add, edit, and manage your products from a simple dashboard. Upload photos, set prices, and
                         manage availability — all in minutes, no tech skills needed.</p>
                 </div>
                 <div class="feature-card reveal">
-                    <div class="feature-icon">⚡</div>
+                    <div class="feature-icon"><i class="bi bi-hand-index-thumb"></i></div>
                     <h3>1-Click WhatsApp Checkout</h3>
                     <p>Customers browse, add to cart, and send their order to your WhatsApp in a single tap. No sign-up,
                         no OTP, no friction — lightning-fast buying experience.</p>
                 </div>
                 <div class="feature-card reveal">
-                    <div class="feature-icon">📱</div>
+                    <div class="feature-icon"><i class="bi bi-shop"></i></div>
                     <h3>Mobile-First Store Design</h3>
                     <p>Your store is built for mobile customers first. Loads fast, looks stunning on any screen —
                         because your customers are ordering from their phones.</p>
                 </div>
                 <div class="feature-card reveal">
-                    <div class="feature-icon">🎨</div>
+                    <div class="feature-icon"><i class="bi bi-palette"></i></div>
                     <h3>Custom Branding</h3>
                     <p>Your store, your brand. Add your logo, pick your colors, use your business name. Customers see
                         your identity — not a generic marketplace.</p>
                 </div>
                 <div class="feature-card reveal">
-                    <div class="feature-icon">🔒</div>
+                    <div class="feature-icon"><i class="bi bi-person-fill-lock"></i></div>
                     <h3>Secure & Fast Hosting</h3>
                     <p>SSL encryption, fast servers, 99.9% uptime. Your store is always accessible, always secure — so
                         customers can order from you 24/7.</p>
                 </div>
                 <div class="feature-card reveal">
-                    <div class="feature-icon">📊</div>
+                    <div class="feature-icon"><i class="bi bi-graph-up-arrow"></i></div>
                     <h3>Simple Dashboard</h3>
                     <p>Track your products, monitor store activity, and manage everything from one clean dashboard. No
                         complex software — just what you need, nothing more.</p>
@@ -1960,22 +1963,22 @@
             </div>
             <div class="steps-grid">
                 <div class="step-card reveal">
-                    <div class="step-num">1<span class="step-icon">🏪</span></div>
+                    <div class="step-num">1<span class="step-icon"><i class="bi bi-shop"></i></span></div>
                     <h3>Create Your Store</h3>
                     <p>Fill in your business details and get your personalized WapCart store instantly.</p>
                 </div>
                 <div class="step-card reveal">
-                    <div class="step-num">2<span class="step-icon">📸</span></div>
+                    <div class="step-num">2<span class="step-icon"><i class="bi bi-box-fill"></i></span></div>
                     <h3>Add Your Products</h3>
                     <p>Upload product photos, add names, prices and descriptions from your dashboard.</p>
                 </div>
                 <div class="step-card reveal">
-                    <div class="step-num">3<span class="step-icon">🔗</span></div>
+                    <div class="step-num">3<span class="step-icon"><i class="bi bi-link"></i></span></div>
                     <h3>Share Your Store Link</h3>
                     <p>Share your unique store link on WhatsApp, Instagram, Facebook — anywhere you want.</p>
                 </div>
                 <div class="step-card reveal">
-                    <div class="step-num">4<span class="step-icon">💰</span></div>
+                    <div class="step-num">4<span class="step-icon"><i class="bi bi-whatsapp"></i></span></div>
                     <h3>Receive Orders on WhatsApp</h3>
                     <p>Customers click, order, and the details land directly in your WhatsApp. Simple as that!</p>
                 </div>
@@ -2049,7 +2052,7 @@
                 </div>
             </div>
         </div>
-    </section>
+    </section> -->
 
     <!-- TESTIMONIALS -->
     <section id="testimonials">
@@ -2136,16 +2139,16 @@
                         you — hassle-free.</p>
                     <div class="enq-perks">
                         <div class="perk">
-                            <div class="perk-icon">✅</div> Zero commission on every order
+                            <div class="perk-icon"><i class="bi bi-percent"></i></div> Zero commission on every order
                         </div>
                         <div class="perk">
-                            <div class="perk-icon">⚡</div> Store live within 24 hours
+                            <div class="perk-icon"><i class="bi bi-shop"></i></div> Store live within 24 hours
                         </div>
                         <div class="perk">
-                            <div class="perk-icon">💬</div> Direct WhatsApp support
+                            <div class="perk-icon"><i class="bi bi-whatsapp"></i></div> Direct WhatsApp support
                         </div>
                         <div class="perk">
-                            <div class="perk-icon">🛡️</div> 100% secure and reliable
+                            <div class="perk-icon"><i class="bi bi-shield-check"></i></div> 100% secure and reliable
                         </div>
                     </div>
                 </div>
