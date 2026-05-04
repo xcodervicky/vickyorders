@@ -1776,6 +1776,10 @@
         const io = new IntersectionObserver(entries => entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible') }), { threshold: .08, rootMargin: '0px 0px -25px 0px' });
         document.querySelectorAll('.fade-in').forEach(el => io.observe(el));
     </script>
+    <script>
+        window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+    </script>
+    <script defer src="/_vercel/insights/script.js"></script>
 </body>
 
 </html>
