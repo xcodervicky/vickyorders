@@ -1,0 +1,1781 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Saffron Grill — Fine Dining</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&display=swap"
+        rel="stylesheet">
+
+    <!-- icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+
+    <!-- favicon -->
+     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+    <link rel="apple-touch-icon" sizes="180x180"
+        href="https://res.cloudinary.com/df0svgcld/image/upload/v1777731206/apple-touch-icon_qenzmp.png">
+    <link rel="icon" type="image/png" sizes="32x32"
+        href="https://res.cloudinary.com/df0svgcld/image/upload/v1777731206/favicon-32x32_eooqiu.png">
+    <link rel="icon" type="image/png" sizes="16x16"
+        href="https://res.cloudinary.com/df0svgcld/image/upload/v1777731206/favicon-16x16_m3xeh2.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <style>
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0
+        }
+
+        :root {
+            /* Wapcart Green Brand */
+            --green: #1DB954;
+            --green-dark: #15803d;
+            --green-light: #d1fae5;
+            --green-mid: #22c55e;
+            --green-soft: #f0fdf4;
+            --green-border: #bbf7d0;
+            /* Light theme neutrals */
+            --bg: #FFFFFF;
+            --surface: #FAFAFA;
+            --surface2: #F4F4F5;
+            --surface3: #EFEFEF;
+            --text: #0F0F0F;
+            --text-muted: #6B7280;
+            --text-light: #9CA3AF;
+            --border: #E5E7EB;
+            --border-dark: #D1D5DB;
+            /* Saffron accent */
+            --saffron: #D97706;
+            --saffron-light: #FEF3C7;
+            --saffron-mid: #F59E0B;
+            --radius: 20px;
+            --radius-sm: 12px;
+            --radius-xs: 8px;
+            --shadow-sm: 0 1px 3px rgba(0, 0, 0, .07), 0 1px 2px rgba(0, 0, 0, .04);
+            --shadow: 0 4px 16px rgba(0, 0, 0, .08), 0 2px 6px rgba(0, 0, 0, .04);
+            --shadow-md: 0 8px 32px rgba(0, 0, 0, .1), 0 3px 10px rgba(0, 0, 0, .05);
+            --shadow-lg: 0 20px 60px rgba(0, 0, 0, .12), 0 8px 24px rgba(0, 0, 0, .07);
+        }
+
+        html {
+            scroll-behavior: smooth
+        }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            overflow-x: hidden
+        }
+
+        @keyframes gradSpin {
+            0% {
+                background-position: 0% 50%
+            }
+
+            50% {
+                background-position: 100% 50%
+            }
+
+            100% {
+                background-position: 0% 50%
+            }
+        }
+
+        @keyframes dotPulse {
+
+            0%,
+            100% {
+                box-shadow: 0 0 0 0 rgba(29, 185, 84, .5);
+                opacity: 1
+            }
+
+            50% {
+                box-shadow: 0 0 0 5px rgba(29, 185, 84, .0);
+                opacity: .8
+            }
+        }
+
+        @keyframes heroIn {
+            from {
+                opacity: 0;
+                transform: translateY(32px)
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0)
+            }
+        }
+
+        @keyframes heroInDelay {
+            from {
+                opacity: 0;
+                transform: translateY(24px)
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0)
+            }
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0)
+            }
+
+            50% {
+                transform: translateY(-7px)
+            }
+        }
+
+        /* ── HEADER ── */
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background: rgba(255, 255, 255, .95);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+            transition: box-shadow .3s
+        }
+
+        header.scrolled {
+            box-shadow: 0 2px 20px rgba(0, 0, 0, .08)
+        }
+
+        .header-inner {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            height: 68px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none
+        }
+
+        .logo-icon {
+            width: 38px;
+            height: 38px;
+            background: linear-gradient(135deg, var(--saffron), var(--saffron-mid));
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            box-shadow: 0 2px 8px rgba(217, 119, 6, .3);
+            color: black;
+            
+        }
+
+        .logo-text {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.35rem;
+            color: var(--text);
+            font-weight: 700;
+            letter-spacing: .01em
+        }
+
+        /* Wapcart Green Upgrade Btn */
+        .upgrade-btn {
+            position: relative;
+            padding: 0;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            background: transparent;
+            z-index: 0;
+            display: inline-block
+        }
+
+        .upgrade-btn-inner {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            background: #fff;
+            margin: 2px;
+            border-radius: 48px;
+            padding: 7px 18px;
+            font-family: 'DM Sans', sans-serif;
+            font-size: .78rem;
+            font-weight: 600;
+            color: var(--green-dark);
+            letter-spacing: .04em;
+            white-space: nowrap;
+            position: relative;
+            z-index: 1;
+            transition: color .2s
+        }
+
+        .upgrade-btn::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 50px;
+            background: linear-gradient(90deg, #1DB954, #22c55e, #4ade80, #1DB954, #15803d, #1DB954);
+            background-size: 300%;
+            animation: gradSpin 2.5s linear infinite;
+            z-index: -1
+        }
+
+        .upgrade-btn:hover .upgrade-btn-inner {
+            color: #15803d
+        }
+
+        .w-dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: var(--green);
+            display: inline-block;
+            animation: dotPulse 1.8s ease-in-out infinite;
+            flex-shrink: 0
+        }
+
+        /* ── HERO ── */
+        .hero {
+            position: relative;
+            min-height: 560px;
+            overflow: hidden;
+            display: flex;
+            align-items: center
+        }
+
+        @media(max-width:600px) {
+            .hero {
+                min-height: 520px
+            }
+        }
+
+        .hero-bg {
+            position: absolute;
+            inset: 0;
+            background: url('https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=1600&q=80') center/cover no-repeat
+        }
+
+        .hero-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg, rgba(0, 0, 0, .62) 0%, rgba(0, 0, 0, .55) 60%, rgba(0, 0, 0, .65) 100%)
+        }
+
+        .hero-content {
+            position: relative;
+            padding: 5rem 2rem 5rem;
+            max-width: 1280px;
+            margin: 0 auto;
+            width: 100%;
+            display: flex;
+            justify-content: center
+        }
+
+        .hero-inner {
+            max-width: 620px;
+            text-align: center;
+            animation: heroIn 1s cubic-bezier(.22, 1, .36, 1) both
+        }
+
+        .hero-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            background: rgba(255, 255, 255, .12);
+            border: 1.5px solid rgba(255, 255, 255, .28);
+            color: #fff;
+            font-size: .72rem;
+            font-weight: 600;
+            letter-spacing: .1em;
+            text-transform: uppercase;
+            padding: 5px 14px;
+            border-radius: 50px;
+            margin-bottom: 1.4rem
+        }
+
+        .hero-tag-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--green);
+            animation: dotPulse 1.6s ease-in-out infinite
+        }
+
+        .hero h1 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(2.4rem, 5.5vw, 4rem);
+            color: #fff;
+            font-weight: 700;
+            line-height: 1.12;
+            margin-bottom: 1rem;
+            letter-spacing: -.01em
+        }
+
+        .hero h1 em {
+            font-style: italic;
+            color: #FFD580
+        }
+
+        .hero p {
+            color: rgba(255, 255, 255, .82);
+            font-size: clamp(.9rem, 1.8vw, 1.05rem);
+            font-weight: 400;
+            max-width: 440px;
+            margin: 0 auto 2.2rem;
+            line-height: 1.7
+        }
+
+        .hero-ctas {
+            display: flex;
+            flex-wrap: wrap;
+            gap: .75rem;
+            justify-content: center;
+            animation: heroInDelay 1s .2s cubic-bezier(.22, 1, .36, 1) both;
+            opacity: 0
+        }
+
+        .cta-swiggy,
+        .cta-zomato {
+            display: inline-flex;
+            align-items: center;
+            gap: 9px;
+            padding: 13px 26px;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: .9rem;
+            text-decoration: none;
+            transition: transform .2s, box-shadow .2s;
+            letter-spacing: .01em
+        }
+
+        .cta-swiggy {
+            background: #FC8019;
+            color: #fff;
+            box-shadow: 0 4px 20px rgba(252, 128, 25, .35)
+        }
+
+        .cta-swiggy:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 28px rgba(252, 128, 25, .45)
+        }
+
+        .cta-zomato {
+            background: #E23744;
+            color: #fff;
+            box-shadow: 0 4px 20px rgba(226, 55, 68, .35)
+        }
+
+        .cta-zomato:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 28px rgba(226, 55, 68, .45)
+        }
+
+        .cta-icon {
+            width: 20px;
+            height: 20px;
+            flex-shrink: 0;
+            border-radius: 4px;
+            object-fit: contain;
+            background: #fff;
+            padding: 2px
+        }
+
+        /* ── SECTION ── */
+        .section {
+            padding: 5rem 1.5rem
+        }
+
+        .section-alt {
+            background: var(--surface)
+        }
+
+        .container {
+            max-width: 1280px;
+            margin: 0 auto
+        }
+
+        .section-label {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: .68rem;
+            font-weight: 700;
+            letter-spacing: .18em;
+            text-transform: uppercase;
+            color: var(--green-dark);
+            margin-bottom: .6rem
+        }
+
+        .section-label::before {
+            content: '';
+            width: 20px;
+            height: 2px;
+            background: var(--green);
+            border-radius: 2px
+        }
+
+        .section-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+            color: var(--text);
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: .6rem;
+            letter-spacing: -.01em
+        }
+
+        .section-sub {
+            color: var(--text-muted);
+            font-size: .93rem;
+            max-width: 490px;
+            line-height: 1.7
+        }
+
+        /* ── MENU ── */
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.1rem;
+            margin-top: 2.2rem
+        }
+
+        @media(max-width:1024px) {
+            .menu-grid {
+                grid-template-columns: repeat(3, 1fr)
+            }
+        }
+
+        @media(max-width:768px) {
+            .menu-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: .75rem
+            }
+        }
+
+        .menu-card {
+            background: #fff;
+            border-radius: var(--radius);
+            overflow: hidden;
+            border: 1px solid var(--border);
+            transition: transform .25s, box-shadow .25s, border-color .25s;
+            cursor: pointer;
+            box-shadow: var(--shadow-sm)
+        }
+
+        .menu-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-md);
+            border-color: var(--green-border)
+        }
+
+        .menu-card-img {
+            width: 100%;
+            height: 160px;
+            object-fit: cover;
+            display: block
+        }
+
+        .menu-card-body {
+            padding: .9rem 1rem 1rem
+        }
+
+        .menu-card-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: var(--text);
+            margin-bottom: .3rem
+        }
+
+        .menu-card-desc {
+            font-size: .78rem;
+            color: var(--text-muted);
+            line-height: 1.55;
+            margin-bottom: .75rem;
+            display: -webkit-box;
+            line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden
+        }
+
+        .menu-card-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 6px;
+            flex-wrap: nowrap;
+            min-height: 30px
+        }
+
+        .menu-price {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--saffron);
+            white-space: nowrap;
+            flex-shrink: 0;
+            font-family: 'DM Sans', sans-serif;
+            letter-spacing: .01em
+        }
+
+        .order-btn {
+            padding: 5px 16px;
+            background: var(--green);
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            font-size: .78rem;
+            font-weight: 700;
+            cursor: pointer;
+            letter-spacing: .04em;
+            transition: background .2s, transform .15s;
+            white-space: nowrap;
+            flex-shrink: 0;
+            font-family: 'DM Sans', sans-serif
+        }
+
+        .order-btn:hover {
+            background: var(--green-dark);
+            transform: scale(1.04)
+        }
+
+        /* ── POPULAR ── */
+        .popular-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.2rem;
+            margin-top: 2.2rem
+        }
+
+        @media(max-width:1024px) {
+            .popular-grid {
+                grid-template-columns: repeat(2, 1fr)
+            }
+        }
+
+        @media(max-width:480px) {
+            .popular-grid {
+                grid-template-columns: 1fr
+            }
+        }
+
+        .popular-card {
+            background: #fff;
+            border-radius: var(--radius);
+            overflow: hidden;
+            border: 1px solid var(--border);
+            position: relative;
+            transition: transform .25s, box-shadow .25s, border-color .25s;
+            box-shadow: var(--shadow-sm)
+        }
+
+        .popular-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-md);
+            border-color: var(--green-border)
+        }
+
+        .popular-badge {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: var(--green);
+            color: #fff;
+            font-size: .62rem;
+            font-weight: 700;
+            letter-spacing: .06em;
+            text-transform: uppercase;
+            padding: 4px 11px;
+            border-radius: 50px;
+            z-index: 2;
+            box-shadow: 0 2px 8px rgba(29, 185, 84, .35)
+        }
+
+        .popular-card-img {
+            width: 100%;
+            height: 195px;
+            object-fit: cover
+        }
+
+        .popular-card-body {
+            padding: .9rem 1.1rem 1.15rem
+        }
+
+        .popular-card-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.08rem;
+            font-weight: 700;
+            color: var(--text);
+            margin-bottom: .3rem
+        }
+
+        .popular-card-desc {
+            font-size: .8rem;
+            color: var(--text-muted);
+            line-height: 1.55
+        }
+
+        /* ── INFO ── */
+        .info-split {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center
+        }
+
+        @media(max-width:768px) {
+            .info-split {
+                grid-template-columns: 1fr;
+                gap: 2.5rem
+            }
+        }
+
+        .info-img-wrap {
+            position: relative
+        }
+
+        .info-img {
+            width: 100%;
+            height: 420px;
+            object-fit: cover;
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow-lg)
+        }
+
+        .info-img-badge {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            background: rgba(255, 255, 255, .97);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            padding: .7rem 1rem;
+            box-shadow: var(--shadow-md);
+            display: flex;
+            align-items: center;
+            gap: .6rem
+        }
+
+        .info-img-badge-icon {
+            font-size: 1.4rem
+        }
+
+        .info-img-badge-text {
+            font-size: .75rem;
+            color: var(--text-muted);
+            line-height: 1.3
+        }
+
+        .info-img-badge-text strong {
+            color: var(--text);
+            display: block;
+            font-size: .88rem
+        }
+
+        .info-desc {
+            color: var(--text-muted);
+            font-size: .93rem;
+            line-height: 1.82;
+            margin-bottom: 1.5rem
+        }
+
+        .info-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 11px;
+            margin-bottom: .95rem;
+            padding: .75rem;
+            border-radius: var(--radius-xs);
+            transition: background .2s
+        }
+
+        .info-item:hover {
+            background: var(--green-soft)
+        }
+
+        .info-icon {
+            width: 36px;
+            height: 36px;
+            min-width: 36px;
+            background: var(--green-soft);
+            border: 1.5px solid var(--green-border);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 15px
+        }
+
+        .info-detail a {
+            color: var(--green-dark);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: .9rem;
+            transition: color .2s
+        }
+
+        .info-detail a:hover {
+            color: var(--green)
+        }
+
+        .info-detail span {
+            font-size: .76rem;
+            color: var(--text-light);
+            display: block;
+            margin-top: 1px
+        }
+
+        /* status */
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            border-radius: 50px;
+            font-size: .81rem;
+            font-weight: 600;
+            margin-top: 1.1rem
+        }
+
+        .status-open {
+            background: var(--green-soft);
+            color: var(--green-dark);
+            border: 1.5px solid var(--green-border)
+        }
+
+        .status-closed {
+            background: #FEF2F2;
+            color: #DC2626;
+            border: 1.5px solid #FECACA
+        }
+
+        .glow-dot {
+            width: 9px;
+            height: 9px;
+            border-radius: 50%;
+            flex-shrink: 0
+        }
+
+        .status-open .glow-dot {
+            background: var(--green);
+            animation: dotPulse 1.6s ease-in-out infinite
+        }
+
+        .status-closed .glow-dot {
+            background: #EF4444
+        }
+
+        .hours-toggle {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: .8rem;
+            color: var(--green-dark);
+            cursor: pointer;
+            margin-top: 1.1rem;
+            margin-bottom: .3rem;
+            background: none;
+            border: none;
+            padding: 0;
+            font-family: 'DM Sans', sans-serif;
+            font-weight: 600
+        }
+
+        .hours-toggle:hover {
+            text-decoration: underline;
+            color: var(--green)
+        }
+
+        .hours-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: .4rem;
+            display: none;
+            border-radius: var(--radius-xs);
+            overflow: hidden
+        }
+
+        .hours-table.show {
+            display: table
+        }
+
+        .hours-table tr {
+            border-bottom: 1px solid var(--border)
+        }
+
+        .hours-table tr:last-child {
+            border-bottom: none
+        }
+
+        .hours-table td {
+            padding: 8px 6px;
+            font-size: .81rem
+        }
+
+        .day-col {
+            color: var(--text-muted)
+        }
+
+        .time-col {
+            color: var(--text);
+            font-weight: 500;
+            text-align: right
+        }
+
+        .today-row {
+            background: var(--green-soft)
+        }
+
+        .today-row td {
+            color: var(--green-dark);
+            font-weight: 700
+        }
+
+        /* ── GALLERY ── */
+        .gallery-grid {
+            columns: 3;
+            gap: .9rem;
+            margin-top: 2.2rem
+        }
+
+        @media(max-width:768px) {
+            .gallery-grid {
+                columns: 2
+            }
+        }
+
+        @media(max-width:480px) {
+            .gallery-grid {
+                columns: 1
+            }
+        }
+
+        .gallery-item {
+            display: block;
+            break-inside: avoid;
+            margin-bottom: .9rem;
+            border-radius: var(--radius-sm);
+            overflow: hidden;
+            cursor: pointer;
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow-sm)
+        }
+
+        .gallery-item img {
+            width: 100%;
+            display: block;
+            transition: transform .38s
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.06)
+        }
+
+        .gallery-item.hidden-item {
+            display: none
+        }
+
+        .view-more-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            margin-top: 1.3rem;
+            padding: 10px 24px;
+            border: 2px solid var(--green);
+            color: var(--green-dark);
+            background: transparent;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: .86rem;
+            cursor: pointer;
+            transition: all .22s;
+            font-family: 'DM Sans', sans-serif
+        }
+
+        .view-more-btn:hover {
+            background: var(--green);
+            color: #fff;
+            border-color: var(--green)
+        }
+
+        /* lightbox */
+        .lightbox {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, .88);
+            z-index: 9999;
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem
+        }
+
+        .lightbox.active {
+            display: flex
+        }
+
+        .lightbox img {
+            max-width: 90vw;
+            max-height: 90vh;
+            border-radius: var(--radius);
+            object-fit: contain;
+            box-shadow: var(--shadow-lg)
+        }
+
+        .lb-close {
+            position: absolute;
+            top: 16px;
+            right: 20px;
+            background: rgba(255, 255, 255, .12);
+            border: 1px solid rgba(255, 255, 255, .2);
+            color: #fff;
+            font-size: 1.1rem;
+            cursor: pointer;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background .2s
+        }
+
+        .lb-close:hover {
+            background: rgba(255, 255, 255, .25)
+        }
+
+        /* ── REVIEWS ── */
+        .reviews-summary {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            background: var(--green-soft);
+            border: 1.5px solid var(--green-border);
+            border-radius: var(--radius);
+            padding: 1.5rem 2rem
+        }
+
+        .reviews-big-score {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 3.8rem;
+            font-weight: 700;
+            color: var(--text);
+            line-height: 1
+        }
+
+        .reviews-meta {
+            display: flex;
+            flex-direction: column;
+            gap: 5px
+        }
+
+        .reviews-stars-big {
+            font-size: 1.35rem;
+            color: var(--saffron-mid);
+            letter-spacing: 2px
+        }
+
+        .reviews-count {
+            font-size: .8rem;
+            color: var(--text-muted)
+        }
+
+        .reviews-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.2rem
+        }
+
+        @media(max-width:900px) {
+            .reviews-grid {
+                grid-template-columns: repeat(2, 1fr)
+            }
+        }
+
+        @media(max-width:540px) {
+            .reviews-grid {
+                grid-template-columns: 1fr
+            }
+        }
+
+        .review-card {
+            background: #fff;
+            border-radius: var(--radius);
+            padding: 1.3rem;
+            border: 1px solid var(--border);
+            transition: transform .22s, box-shadow .22s, border-color .22s;
+            box-shadow: var(--shadow-sm)
+        }
+
+        .review-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-md);
+            border-color: var(--green-border)
+        }
+
+        .review-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: .9rem
+        }
+
+        .reviewer-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--green-border)
+        }
+
+        .reviewer-name {
+            font-weight: 600;
+            font-size: .87rem;
+            color: var(--text)
+        }
+
+        .reviewer-sub {
+            font-size: .71rem;
+            color: var(--text-light)
+        }
+
+        .review-stars {
+            color: var(--saffron-mid);
+            font-size: .92rem;
+            letter-spacing: 1px;
+            margin-bottom: .6rem
+        }
+
+        .review-text {
+            font-size: .82rem;
+            color: var(--text-muted);
+            line-height: 1.7;
+            font-family: 'DM Sans', sans-serif;
+            font-size: .84rem
+        }
+
+        .google-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            font-size: .7rem;
+            color: var(--text-light);
+            margin-top: .8rem
+        }
+
+        .g-icon {
+            width: 14px;
+            height: 14px;
+            flex-shrink: 0
+        }
+
+        /* ── FOOTER MAP ── */
+        .footer-map-section {
+            background: var(--surface);
+            padding: 4rem 1.5rem 0;
+            border-top: 1px solid var(--border)
+        }
+
+        .map-wrap {
+            max-width: 1280px;
+            margin: 0 auto
+        }
+
+        .map-wrap h3 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.65rem;
+            font-weight: 700;
+            color: var(--text);
+            margin-bottom: 1.2rem;
+            letter-spacing: -.01em
+        }
+
+        .map-border-wrap {
+            position: relative;
+            border-radius: 22px;
+            padding: 2px;
+            background: linear-gradient(135deg, #1DB954, #d1fae5, #22c55e, #d1fae5, #1DB954);
+            background-size: 300%;
+            animation: gradSpin 4s linear infinite
+        }
+
+        .map-inner {
+            border-radius: 20px;
+            overflow: hidden
+        }
+
+        .map-frame {
+            width: 100%;
+            height: 300px;
+            border: none;
+            display: block
+        }
+
+        .map-address {
+            margin-top: 1.1rem;
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 1rem;
+            padding-bottom: 2.8rem
+        }
+
+        .address-text {
+            font-size: .87rem;
+            color: var(--text-muted);
+            line-height: 1.75
+        }
+
+        .address-text strong {
+            color: var(--text);
+            display: block;
+            margin-bottom: .2rem;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.05rem;
+            font-weight: 700
+        }
+
+        .directions-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            background: var(--green);
+            color: #fff;
+            padding: 10px 22px;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: .84rem;
+            text-decoration: none;
+            transition: background .2s, transform .2s;
+            white-space: nowrap;
+            align-self: flex-start;
+            box-shadow: 0 3px 14px rgba(29, 185, 84, .3)
+        }
+
+        .directions-btn:hover {
+            background: var(--green-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 22px rgba(29, 185, 84, .38)
+        }
+
+        /* ── FOOTER BOTTOM ── */
+        .footer-bottom {
+            background: #F9FAFB;
+            padding: 1.5rem 1.5rem;
+            border-top: 1px solid var(--border)
+        }
+
+        .footer-inner {
+            max-width: 1280px;
+            margin: 0 auto;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            gap: .8rem
+        }
+
+        .footer-left {
+            display: flex;
+            flex-direction: column;
+            gap: .28rem
+        }
+
+        .footer-status-line {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            font-size: .81rem;
+            font-weight: 600
+        }
+
+        .footer-status-line .glow-dot {
+            width: 8px;
+            height: 8px
+        }
+
+        .f-open {
+            color: var(--green-dark)
+        }
+
+        .f-closed {
+            color: #DC2626
+        }
+
+        .footer-copy {
+            font-size: .77rem;
+            color: var(--text-muted)
+        }
+
+        .price-range {
+            display: inline-flex;
+            gap: 1px;
+            margin-left: .35rem
+        }
+
+        .price-symbol {
+            font-weight: 700;
+            color: var(--saffron);
+            font-size: .77rem
+        }
+
+        .price-symbol.dim {
+            opacity: .22
+        }
+
+        .footer-craft {
+            font-size: .77rem;
+            color: var(--text-muted)
+        }
+
+        .footer-craft span {
+            color: #e25555
+        }
+
+        /* ── FLOATING WAPCART BTN ── */
+        .floating-btn {
+            position: fixed;
+            right: 16px;
+            bottom: 18px;
+            z-index: 900;
+            text-decoration: none;
+            border-radius: 50px;
+            display: inline-block
+        }
+
+        .floating-btn-inner {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            background: #fff;
+            margin: 2px;
+            border-radius: 48px;
+            padding: 7px 15px;
+            font-family: 'DM Sans', sans-serif;
+            font-size: .74rem;
+            font-weight: 700;
+            color: var(--green-dark);
+            letter-spacing: .04em;
+            white-space: nowrap;
+            box-shadow: var(--shadow)
+        }
+
+        .floating-btn::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 50px;
+            background: linear-gradient(90deg, #1DB954, #22c55e, #4ade80, #1DB954, #15803d, #1DB954);
+            background-size: 300%;
+            animation: gradSpin 2.5s linear infinite;
+            z-index: -1
+        }
+
+        .floating-btn:hover .floating-btn-inner {
+            color: #15803d
+        }
+
+        .f-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--green);
+            animation: dotPulse 1.6s ease-in-out infinite;
+            display: inline-block;
+            flex-shrink: 0
+        }
+
+        /* ── FADE IN ── */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(18px);
+            transition: opacity .6s ease, transform .6s ease
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: none
+        }
+
+        /* ── RESPONSIVE MISC ── */
+        @media(max-width:600px) {
+            .section {
+                padding: 3.5rem 1rem
+            }
+
+            .header-inner {
+                padding: 0 1rem
+            }
+
+            .hero-content {
+                padding: 3.5rem 1rem
+            }
+
+            .footer-map-section {
+                padding: 3rem 1rem 0
+            }
+
+            .footer-bottom {
+                padding: 1.3rem 1rem
+            }
+
+            .reviews-summary {
+                padding: 1.2rem 1.3rem
+            }
+
+            .info-split {
+                gap: 2rem
+            }
+
+            .menu-card-img {
+                height: 130px
+            }
+
+            .menu-card-body {
+                padding: .7rem .75rem .75rem
+            }
+
+            .menu-card-title {
+                font-size: .95rem
+            }
+
+            .menu-card-desc {
+                font-size: .72rem;
+                margin-bottom: .55rem
+            }
+
+            .menu-price {
+                font-size: .9rem
+            }
+
+            .order-btn {
+                padding: 4px 11px;
+                font-size: .72rem
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- HEADER -->
+    <header id="site-header">
+        <div class="header-inner">
+            <a href="#" class="logo">
+                <div class="logo-icon"><i class="bi bi-fork-knife"></i></div>
+                <span class="logo-text">Saffron Grill</span>
+            </a>
+            <button class="upgrade-btn" onclick="alert('Upgrade to Wapcart Premium!')">
+                <span class="upgrade-btn-inner">
+                    <span class="w-dot"></span>
+                    Upgrade Now <i class="bi bi-arrow-right"></i>
+                </span>
+            </button>
+        </div>
+    </header>
+
+    <!-- HERO -->
+    <section class="hero">
+        <div class="hero-bg"></div>
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <div class="hero-inner">
+                <div class="hero-tag">
+                    <span class="hero-tag-dot"></span>
+                    Est. 2010 · Mumbai
+                </div>
+                <h1>Authentic Flavours,<br><em>Delivered Fresh</em></h1>
+                <p>North Indian cuisine crafted with time-honoured recipes and locally sourced spices — dine in or order
+                    to your doorstep.</p>
+                <div class="hero-ctas">
+                    <a href="https://swiggy.com" target="_blank" rel="noopener" class="cta-swiggy">
+                        <svg width="20" height="20" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg"
+                            style="flex-shrink:0">
+                            <rect width="40" height="40" rx="8" fill="#FC8019" /><text x="20" y="27"
+                                text-anchor="middle" font-size="18" fill="#fff"><i
+                                    class="bi bi-arrow-up-right-circle"></i></text>
+                        </svg>
+                        Order on Swiggy
+                    </a>
+                    <a href="https://zomato.com" target="_blank" rel="noopener" class="cta-zomato">
+                        <svg width="20" height="20" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg"
+                            style="flex-shrink:0">
+                            <rect width="40" height="40" rx="8" fill="#E23744" /><text x="20" y="27"
+                                text-anchor="middle" font-size="18" fill="#fff"><i
+                                    class="bi bi-arrow-up-right-circle-fill"></i></text>
+                        </svg>
+                        Order on Zomato
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- MENU -->
+    <section class="section" id="menu">
+        <div class="container">
+            <div class="section-label fade-in">Our Menu</div>
+            <h2 class="section-title fade-in">Crafted With Passion</h2>
+            <p class="section-sub fade-in">From street classics to royal curries — every dish tells a story.</p>
+            <div class="menu-grid" id="menuGrid"></div>
+        </div>
+    </section>
+
+    <!-- POPULAR -->
+    <section class="section section-alt">
+        <div class="container">
+            <div class="section-label fade-in">Fan Favourites</div>
+            <h2 class="section-title fade-in">Most Popular Picks</h2>
+            <p class="section-sub fade-in">These dishes keep our guests coming back for more.</p>
+            <div class="popular-grid" id="popularGrid"></div>
+        </div>
+    </section>
+
+    <!-- INFO -->
+    <section class="section" id="about">
+        <div class="container">
+            <div class="info-split">
+                <div class="info-img-wrap fade-in">
+                    <img src="https://images.unsplash.com/photo-1552566626-52f8b828add9?w=800&q=80"
+                        alt="Restaurant interior" class="info-img" loading="lazy">
+                    <div class="info-img-badge">
+                        <div class="info-img-badge-icon">🏅</div>
+                        <div class="info-img-badge-text">
+                            <strong>Est. 2010</strong>
+                            15+ years serving Mumbai
+                        </div>
+                    </div>
+                </div>
+                <div class="fade-in">
+                    <div class="section-label">About Us</div>
+                    <h2 class="section-title">A Legacy of Flavour &amp; Warmth</h2>
+                    <p class="info-desc">Saffron Grill has been serving Mumbai's finest North Indian cuisine since 2010.
+                        Our chefs use time-honoured recipes and locally sourced spices to deliver an unforgettable
+                        dining experience — dine in or order out.</p>
+                    <div class="info-item">
+                        <div class="info-icon"><i class="bi bi-telephone"></i></div>
+                        <div class="info-detail">
+                            <a href="tel:+919876543210">+91 98765 43210</a>
+                            <span>Reservations &amp; Orders</span>
+                        </div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-icon"><i class="bi bi-envelope"></i></div>
+                        <div class="info-detail">
+                            <a href="mailto:hello@saffronhouse.in">hello@saffronhouse.in</a>
+                            <span>General Enquiries</span>
+                        </div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-icon"><i class="bi bi-browser-chrome"></i></div>
+                        <div class="info-detail">
+                            <a href="#">www.saffronhouse.in</a>
+                            <span>Visit our website</span>
+                        </div>
+                    </div>
+                    <div id="statusBadge" class="status-badge"></div>
+                    <button class="hours-toggle" id="hoursToggleBtn" onclick="toggleHours()">
+                        <svg width="13" height="13" viewBox="0 0 16 16" fill="none">
+                            <circle cx="8" cy="8" r="6.5" stroke="currentColor" stroke-width="1.4" />
+                            <path d="M8 5v3.5l2 1.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" />
+                        </svg>
+                        <span id="hLabel">See opening hours</span> <span id="hArrow">▾</span>
+                    </button>
+                    <table class="hours-table" id="hoursTable">
+                        <tbody id="hoursTbody"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- GALLERY -->
+    <section class="section section-alt" id="gallery">
+        <div class="container">
+            <div class="section-label fade-in">Our Gallery</div>
+            <h2 class="section-title fade-in">A Feast for the Eyes</h2>
+            <div class="gallery-grid fade-in" id="galleryGrid"></div>
+            <button class="view-more-btn" id="viewMoreBtn" onclick="toggleGallery()">
+                <span>View More</span>
+                <svg width="13" height="13" viewBox="0 0 16 16" fill="none">
+                    <path d="M8 3v10M3 8l5 5 5-5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"
+                        stroke-linejoin="round" />
+                </svg>
+            </button>
+        </div>
+    </section>
+
+    <!-- REVIEWS -->
+    <section class="section">
+        <div class="container">
+            <div class="section-label fade-in">Google Reviews</div>
+            <h2 class="section-title fade-in">What Our Guests Say</h2>
+            <div class="reviews-summary fade-in" id="reviewsSummary"></div>
+            <div class="reviews-grid fade-in" id="reviewsGrid"></div>
+        </div>
+    </section>
+
+    <!-- FOOTER MAP -->
+    <div class="footer-map-section">
+        <div class="map-wrap">
+            <h3 class="fade-in">Find Us</h3>
+            <div class="map-border-wrap fade-in">
+                <div class="map-inner">
+                    <iframe class="map-frame" loading="lazy"
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3761.6465228493184!2d72.80454437498791!3d19.470801181816814!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be7a9f52161a407%3A0x70de832da7038a4d!2sSaffron%20Grill!5e0!3m2!1sen!2sin!4v1777892386706!5m2!1sen!2sin" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                </div>
+            </div>
+            <div class="map-address fade-in">
+                <div class="address-text">
+                    <strong>Saffron Grill Restaurant</strong>
+                    42, Linking Road, Bandra West,<br>
+                    Mumbai — 400050, Maharashtra, India
+                </div>
+                <a href="https://maps.google.com/?q=Bandra+West+Mumbai" target="_blank" rel="noopener"
+                    class="directions-btn">
+                    <i class="bi bi-map"></i> Get Directions
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- FOOTER BOTTOM -->
+    <div class="footer-bottom">
+        <div class="footer-inner">
+            <div class="footer-left">
+                <div class="footer-status-line" id="footerStatus"></div>
+                <div class="footer-copy">
+                    © <span id="footerYear"></span> Saffron Grill
+                    <span class="price-range">
+                        <span class="price-symbol">₹</span><span class="price-symbol">₹</span><span
+                            class="price-symbol dim">₹</span>
+                    </span>
+                </div>
+            </div>
+            <div class="footer-craft">Crafted with <span>❤️</span> Wapcart</div>
+        </div>
+    </div>
+
+    <!-- LIGHTBOX -->
+    <div class="lightbox" id="lightbox" onclick="closeLightbox()">
+        <button class="lb-close" onclick="closeLightbox()">✕</button>
+        <img id="lightboxImg" src="" alt="">
+    </div>
+
+    <!-- FLOATING WAPCART BTN -->
+    <a href="#" class="floating-btn">
+        <span class="floating-btn-inner">
+            <span class="f-dot"></span>
+            Made with Wapcart
+        </span>
+    </a>
+
+    <script>
+        const menuItems = [
+            { title: 'Butter Chicken', desc: 'Tender chicken in rich tomato-cream sauce', price: '₹349', img: 'https://images.unsplash.com/photo-1588166524941-3bf61a9c41db?w=400&q=70' },
+            { title: 'Dal Makhani', desc: 'Slow-cooked black lentils with cream & spices', price: '₹229', img: 'https://images.unsplash.com/photo-1546833999-b9f581a1996d?w=400&q=70' },
+            { title: 'Paneer Tikka', desc: 'Grilled cottage cheese with peppers & marinade', price: '₹279', img: 'https://images.unsplash.com/photo-1567188040759-fb8a883dc6d8?w=400&q=70' },
+            { title: 'Dum Biryani', desc: 'Fragrant basmati rice with aromatic spices', price: '₹399', img: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR2GdONND7h9AnvHdcGPhL37-U7wfJU7JgeAQ&s' },
+            { title: 'Garlic Naan', desc: 'Soft leavened bread with garlic butter', price: '₹89', img: 'https://images.unsplash.com/photo-1565557623262-b51c2513a641?w=400&q=70' },
+            { title: 'Masala Chai', desc: 'Spiced Indian tea with milk & cardamom', price: '₹59', img: 'https://images.unsplash.com/photo-1556679343-c7306c1976bc?w=400&q=70' },
+            { title: 'Chole Bhature', desc: 'Spiced chickpeas with fluffy fried bread', price: '₹199', img: 'https://images.unsplash.com/photo-1626776876729-bab4369a5a5a?w=400&q=70' },
+            { title: 'Gulab Jamun', desc: 'Soft milk-solid balls in rose-sugar syrup', price: '₹119', img: 'https://images.unsplash.com/photo-1601050690597-df0568f70950?w=400&q=70' },
+            { title: 'Tandoori Platter', desc: 'Mixed grill of chicken, paneer & kebabs', price: '₹549', img: 'https://images.unsplash.com/photo-1599487488170-d11ec9c172f0?w=400&q=70' },
+            { title: 'Sweet Lassi', desc: 'Chilled yogurt drink — sweet or salted', price: '₹79', img: 'https://images.unsplash.com/photo-1571091718767-18b5b1457add?w=400&q=70' },
+            { title: 'Palak Paneer', desc: 'Cottage cheese in creamy spiced spinach', price: '₹259', img: 'https://images.unsplash.com/photo-1604908177453-7462950a6a3b?w=400&q=70' },
+            { title: 'Samosa', desc: 'Crispy pastry stuffed with spiced potatoes', price: '₹69', img: 'https://t4.ftcdn.net/jpg/02/25/73/97/360_F_225739755_KDAnE7HIBzYfzHImvgojaVARAd2LLrZW.jpg' },
+            { title: 'Fish Curry', desc: 'Coastal fish in tangy tamarind gravy', price: '₹449', img: 'https://images.unsplash.com/photo-1585937421612-70a008356fbe?w=400&q=70' },
+            { title: 'Aloo Paratha', desc: 'Whole wheat flatbread stuffed with spiced potato', price: '₹139', img: 'https://images.unsplash.com/photo-1565557623262-b51c2513a641?w=400&q=70' },
+            { title: 'Rogan Josh', desc: 'Kashmiri mutton slow-braised in bold spices', price: '₹499', img: 'https://images.unsplash.com/photo-1574653853027-5382a3d23a15?w=400&q=70' },
+            { title: 'Mango Kulfi', desc: 'Indian frozen dessert with fresh mango', price: '₹129', img: 'https://images.unsplash.com/photo-1563805042-7684c019e1cb?w=400&q=70' },
+            { title: 'Pav Bhaji', desc: 'Spiced vegetable mash with buttered buns', price: '₹159', img: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSbAkmrFvae2JywfLhlJztbFmrlan9MEqYpbg&s' },
+            { title: 'Shahi Tukda', desc: 'Fried bread with rich saffron rabdi', price: '₹149', img: 'https://images.unsplash.com/photo-1601050690597-df0568f70950?w=400&q=70' },
+            { title: 'Raita', desc: 'Cool yogurt dip with cucumber & cumin', price: '₹59', img: 'https://images.unsplash.com/photo-1567188040759-fb8a883dc6d8?w=400&q=70' },
+            { title: 'Kheer', desc: 'Creamy rice pudding with saffron & pistachios', price: '₹99', img: 'https://images.unsplash.com/photo-1601050690597-df0568f70950?w=400&q=70' },
+        ];
+        const popular = [
+            { title: 'Butter Chicken', desc: 'Our all-time bestseller — tender chicken in velvety tomato cream sauce', img: 'https://images.unsplash.com/photo-1588166524941-3bf61a9c41db?w=600&q=80' },
+            { title: 'Dum Biryani', desc: 'Slow-cooked basmati layered with marinated meat, caramelised onions & saffron', img: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR2GdONND7h9AnvHdcGPhL37-U7wfJU7JgeAQ&s' },
+            { title: 'Paneer Tikka', desc: 'Char-grilled cottage cheese in spiced yogurt — best with mint chutney', img: 'https://images.unsplash.com/photo-1567188040759-fb8a883dc6d8?w=600&q=80' },
+            { title: 'Gulab Jamun', desc: 'Melt-in-your-mouth milk dumplings soaked in rose-flavoured sugar syrup', img: 'https://images.unsplash.com/photo-1601050690597-df0568f70950?w=600&q=80' },
+        ];
+        const galleryImgs = [
+            'https://lh3.googleusercontent.com/p/AF1QipNR1BX6eVtI0qxseJvmXXyUav8epJBdsBX3cCyt=s1360-w1360-h1020-rw',
+            'https://lh3.googleusercontent.com/gps-cs-s/APNQkAFDApGXnCnpMov2sDvjYFT6CGxbyFn3yDSk1meXnHALTAVkMXrD-Pk_91P9vsAv2u2Rx3FeUJo5JQK0TIu-dGQtuerL14xFmys6v8TPEuotdx50n8uVmCJg476UJeONQml5M7jmnw=s1360-w1360-h1020-rw',
+            'https://lh3.googleusercontent.com/gps-cs-s/APNQkAEEoDQGhdet_uhym7_IVGQgNbe2UNW6FATPQv02HlT3eXz58PGEbCVNKlt6vg6dORdHNOz6octvKwR5N_o9LS6hi0Gz8GOoQZDBy5VmFZTcdApFC6VMGbp7zXIQVP7mKxv906wh=s1360-w1360-h1020-rw',
+            'https://lh3.googleusercontent.com/p/AF1QipNRASbKt_N6wjbFado1PghcMiv_MR1zGk4XHI1B=s1360-w1360-h1020-rw',
+            'https://lh3.googleusercontent.com/gps-cs-s/APNQkAGWeea3i8Hd9vfRxTeHggRV_2uYDgfC_1voOgrMG-e_ea-O_qu-C6Uy3qju-rigf-yht7PRuKK8mjCBv0l0yM6sfneN9dQp3-6o-85C7i0zmp-vo83ya-V6VEa3vtIwQihLqofX6g=s1360-w1360-h1020-rw',
+            'https://lh3.googleusercontent.com/gps-cs-s/APNQkAEjRO3FzwzNLVaIXtHXPp7q26TOYZAT5uW5c_hsNBpq4jF5MO8kMm_9QRwocdXLlApxOGCUdj_dsqUtGlXx8YM_bHB5Z_1688flJW_RYVDH11kAhAEKI_GJeEEELVw69jBkTZWFcA=s1360-w1360-h1020-rw',
+            'https://lh3.googleusercontent.com/gps-cs-s/APNQkAFh9moa9EEjKqPd9OP9ooQIoq6G8Da7QpkkdFA583VJ_r8n7lg0Cckh1HsoLtikNCdeG-P-roaA00cUCd-cdJFiEHrDy87izxiSuOrnxkG_j6Sgo2DAb5-xjPPNZ2NmOYcUe4C3=s1360-w1360-h1020-rw',
+            'https://lh3.googleusercontent.com/gps-cs-s/APNQkAGh8wv9p7ddAV7gMOshaBknlTDSNz-wqpX0MNs1GliUZwYUFtemC5SMC8r0S2kiJ0dB5a4mjYPHuwJho8qymAG_9hWWy2-vzwUHGUXHFt-tA4b_Xf6l124WjLBxqmyF02Q2M6m1=s1360-w1360-h1020-rw',
+            'https://lh3.googleusercontent.com/gps-cs-s/APNQkAGmYQ_Ub0BpxoXPGb41YYysT7_yFpjVj-ECaDW-wItesG96LBDus-5QLUbh78OIV9zKjJqjbk1AMWjEjIW8i5jfuKcex8HHGKVNoT1AfHyJjUwG_9EaRZ4gu9A9EEYcAtfMblV8=s1360-w1360-h1020-rw',
+            'https://lh3.googleusercontent.com/gps-cs-s/APNQkAHmD-oSas-r92tiH1HV8RVNXTy2MIssf-kDurqV3WfWUPuQHsGy-DuKPfa635saA_FF5mmKFxSCbtSsCLFIhR3PLwP2mXad1cLVkVQL01XCZS-Hrl3makFB0kuKPV59Zxezr9LHqA=s1360-w1360-h1020-rw',
+            'https://lh3.googleusercontent.com/gps-cs-s/APNQkAGXi_pfV830sVC_hNC7XBgXXY_-54rNW3X45_wFETHpso0aVufNg0UvxkIJmEDnXo2UFeDuhMIRzZ9HUBcPC3QnsoAV9EvuyhHsAyf6qCkvC-U-TXGFq8HKV8LQJohur7Gjqprmdw=s1360-w1360-h1020-rw',
+            'https://lh3.googleusercontent.com/gps-cs-s/APNQkAE3fGhlmnMfIDCEdZDI6a51pmkY3LOcOu8SIe5XR-GXZEOsxRDK1QmAPiUXRfeRAatjxqVgx2YRTaoJIgvBv-RMXGWk276WiwoSn885_ofGdrwGFeZhA7hVc5oe0JpFkD3UdV7H=s1360-w1360-h1020-rw',
+        ];
+        const reviews = [
+            { text: 'The butter chicken is absolutely divine. Rich, creamy and perfectly spiced. Every bite is pure comfort — best I\'ve had in Mumbai!', name: 'Priya Sharma', loc: 'Bandra, Mumbai', avatar: 'https://i.pravatar.cc/80?img=47', stars: 5, date: '2 weeks ago' },
+            { text: 'Best biryani in the city, hands down. The dum cooking gives it an amazing depth of flavour. Delivery was hot and fast. Already ordered twice!', name: 'Rahul Mehta', loc: 'Andheri West', avatar: 'https://i.pravatar.cc/80?img=12', stars: 5, date: '1 month ago' },
+            { text: 'Lovely ambience and warm hospitality. Paneer tikka was smoky and tender. Perfect for a family dinner — kids loved it too.', name: 'Anjali Patel', loc: 'Juhu, Mumbai', avatar: 'https://i.pravatar.cc/80?img=32', stars: 4, date: '3 weeks ago' },
+            { text: 'Quick delivery and very generous portions. The dal makhani tasted just like home. Highly recommend this hidden gem.', name: 'Karan Joshi', loc: 'Powai', avatar: 'https://i.pravatar.cc/80?img=15', stars: 5, date: '5 days ago' },
+            { text: 'Fantastic desserts — the gulab jamun was melt-in-mouth perfection. The shahi tukda was incredible too. My new go-to for Indian sweets!', name: 'Meera Nair', loc: 'Worli, Mumbai', avatar: 'https://i.pravatar.cc/80?img=5', stars: 5, date: '1 week ago' },
+        ];
+
+        const hoursSchedule = [
+            { day: 'Monday', open: 11, close: 22.5, closeLabel: '10:30 PM', openLabel: '11 AM' },
+            { day: 'Tuesday', open: 11, close: 22.5, closeLabel: '10:30 PM', openLabel: '11 AM' },
+            { day: 'Wednesday', open: 11, close: 22.5, closeLabel: '10:30 PM', openLabel: '11 AM' },
+            { day: 'Thursday', open: 11, close: 22.5, closeLabel: '10:30 PM', openLabel: '11 AM' },
+            { day: 'Friday', open: 11, close: 22.5, closeLabel: '10:30 PM', openLabel: '11 AM' },
+            { day: 'Saturday', open: 10, close: 23, closeLabel: '11 PM', openLabel: '10 AM' },
+            { day: 'Sunday', open: 10, close: 22, closeLabel: '10 PM', openLabel: '10 AM' },
+        ];
+        const displayLabels = ['11:00 AM – 10:30 PM', '11:00 AM – 10:30 PM', '11:00 AM – 10:30 PM', '11:00 AM – 10:30 PM', '11:00 AM – 10:30 PM', '10:00 AM – 11:00 PM', '10:00 AM – 10:00 PM'];
+        const dayNames = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+
+        const now = new Date();
+        const h = now.getHours() + now.getMinutes() / 60;
+        const todayDayIdx = now.getDay();
+        const schedIdx = todayDayIdx === 0 ? 6 : todayDayIdx - 1;
+        const todaySched = hoursSchedule[schedIdx];
+        const isOpen = h >= todaySched.open && h < todaySched.close;
+        const tomorrowSchedIdx = (schedIdx + 1) % 7;
+        const tomorrowSched = hoursSchedule[tomorrowSchedIdx];
+        const statusText = isOpen ? `Open Now · Closes at ${todaySched.closeLabel}` : `Closed · Opens at ${tomorrowSched.openLabel}`;
+
+        const sb = document.getElementById('statusBadge');
+        sb.className = 'status-badge ' + (isOpen ? 'status-open' : 'status-closed');
+        sb.innerHTML = `<div class="glow-dot"></div>${statusText}`;
+
+        const fs = document.getElementById('footerStatus');
+        fs.innerHTML = isOpen
+            ? `<div class="glow-dot" style="background:var(--green);animation:dotPulse 1.6s ease-in-out infinite;width:8px;height:8px;border-radius:50%;flex-shrink:0"></div><span class="f-open">${statusText}</span>`
+            : `<div class="glow-dot" style="background:#EF4444;width:8px;height:8px;border-radius:50%;flex-shrink:0"></div><span class="f-closed">${statusText}</span>`;
+
+        document.getElementById('footerYear').textContent = now.getFullYear();
+
+        const tbody = document.getElementById('hoursTbody');
+        const todayName = dayNames[todayDayIdx];
+        hoursSchedule.forEach((row, i) => {
+            const isToday = row.day === todayName;
+            tbody.innerHTML += `<tr class="${isToday ? 'today-row' : ''}">
+    <td class="day-col">${row.day}${isToday ? ' (Today)' : ''}</td>
+    <td class="time-col">${displayLabels[i]}</td>
+  </tr>`;
+        });
+
+        let hoursShown = false;
+        function toggleHours() {
+            hoursShown = !hoursShown;
+            document.getElementById('hoursTable').classList.toggle('show', hoursShown);
+            document.getElementById('hLabel').textContent = hoursShown ? 'Hide hours' : 'See opening hours';
+            document.getElementById('hArrow').textContent = hoursShown ? '▴' : '▾';
+        }
+
+        // MENU
+        const mg = document.getElementById('menuGrid');
+        menuItems.forEach(item => {
+            const waMsg = encodeURIComponent(`Hi! I'd like to order: ${item.title} (${item.price})`);
+            mg.innerHTML += `<div class="menu-card fade-in">
+    <img class="menu-card-img" src="${item.img}" alt="${item.title}" loading="lazy">
+    <div class="menu-card-body">
+      <div class="menu-card-title">${item.title}</div>
+      <div class="menu-card-desc">${item.desc}</div>
+      <div class="menu-card-footer">
+        <span class="menu-price">${item.price}</span>
+        <button class="order-btn" onclick="window.open('https://wa.me/919876543210?text=${waMsg}','_blank')">+ Add</button>
+      </div>
+    </div>
+  </div>`;
+        });
+
+        // POPULAR
+        const pg = document.getElementById('popularGrid');
+        popular.forEach(item => {
+            pg.innerHTML += `<div class="popular-card fade-in">
+    <span class="popular-badge">⭐ Most Popular</span>
+    <img class="popular-card-img" src="${item.img}" alt="${item.title}" loading="lazy">
+    <div class="popular-card-body">
+      <div class="popular-card-title">${item.title}</div>
+      <div class="popular-card-desc">${item.desc}</div>
+    </div>
+  </div>`;
+        });
+
+        // GALLERY
+        let galleryExpanded = false;
+        const gg = document.getElementById('galleryGrid');
+        galleryImgs.forEach((src, i) => {
+            const hidden = i >= 6;
+            gg.innerHTML += `<div class="gallery-item${hidden ? ' hidden-item' : ''}" onclick="openLightbox('${src}')">
+    <img src="${src}" alt="Gallery ${i + 1}" loading="lazy">
+  </div>`;
+        });
+        function toggleGallery() {
+            galleryExpanded = !galleryExpanded;
+            document.querySelectorAll('.hidden-item').forEach(el => el.style.display = galleryExpanded ? 'block' : 'none');
+            document.getElementById('viewMoreBtn').querySelector('span').textContent = galleryExpanded ? 'View Less' : 'View More';
+        }
+        function openLightbox(src) { document.getElementById('lightboxImg').src = src; document.getElementById('lightbox').classList.add('active'); }
+        function closeLightbox() { document.getElementById('lightbox').classList.remove('active'); }
+
+        // REVIEWS
+        const totalR = reviews.length;
+        const totalS = reviews.reduce((a, r) => a + r.stars, 0);
+        const avg = (totalS / totalR).toFixed(1);
+        const full = Math.floor(avg);
+        const stars5 = reviews.filter(r => r.stars === 5).length;
+        const stars4 = reviews.filter(r => r.stars === 4).length;
+        document.getElementById('reviewsSummary').innerHTML = `
+  <div class="reviews-big-score">${avg}</div>
+  <div class="reviews-meta">
+    <div class="reviews-stars-big">${'★'.repeat(full)}${'☆'.repeat(5 - full)}</div>
+    <div class="reviews-count">Based on 250 Google Reviews</div>
+    <div class="reviews-count" style="color:var(--green-dark);margin-top:2px;font-weight:600">★★★★★  &nbsp;&nbsp; </div>
+  </div>`;
+
+        const rg = document.getElementById('reviewsGrid');
+        reviews.forEach(r => {
+            const stars = '★'.repeat(r.stars) + '☆'.repeat(5 - r.stars);
+            rg.innerHTML += `<div class="review-card fade-in">
+    <div class="review-header">
+      <img class="reviewer-avatar" src="${r.avatar}" alt="${r.name}">
+      <div>
+        <div class="reviewer-name">${r.name}</div>
+        <div class="reviewer-sub">${r.loc} · ${r.date}</div>
+      </div>
+    </div>
+    <div class="review-stars">${stars}</div>
+    <div class="review-text">"${r.text}"</div>
+    <div class="google-badge">
+      <svg class="g-icon" viewBox="0 0 24 24"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
+      Google Review
+    </div>
+  </div>`;
+        });
+
+        window.addEventListener('scroll', () => document.getElementById('site-header').classList.toggle('scrolled', window.scrollY > 40));
+
+        const io = new IntersectionObserver(entries => entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible') }), { threshold: .08, rootMargin: '0px 0px -25px 0px' });
+        document.querySelectorAll('.fade-in').forEach(el => io.observe(el));
+    </script>
+</body>
+
+</html>
