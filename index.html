@@ -468,10 +468,14 @@
             .footer-grid { grid-template-columns: 1fr; gap: 32px; }
             .form-row { grid-template-columns: 1fr; }
             /* Pricing responsive */
-            .pricing-plans { grid-template-columns: 1fr; max-width: 420px; }
-            .addon-card { flex-direction: column; text-align: center; gap: 20px; padding: 28px 24px; }
+            .pricing-plans { grid-template-columns: 1fr; max-width: 100%; gap: 40px; }
+            .price-card.premium-plan { margin-top: 24px; }
+            .popular-badge { font-size: 10px; padding: 4px 16px; top: -14px; }
+            .plan-price .amt { font-size: 44px; }
+            .addon-wrap { max-width: 100%; }
+            .addon-card { flex-direction: column; text-align: center; gap: 20px; padding: 28px 20px; }
             .addon-left { min-width: unset; }
-            .price-card.premium-plan { margin-top: 20px; }
+            .pricing-note { font-size: 13px; padding: 0 8px; }
         }
         @media (max-width: 480px) {
             .hero-pills { flex-direction: column; align-items: center; }
@@ -479,8 +483,11 @@
             .iphone-outer { width: 260px; }
             .dynamic-island { width: 85px; height: 25px; }
             .float-badge, .float-badge2 { display: none; }
-            .price-card { padding: 32px 24px; }
-            .addon-card { padding: 24px 20px; }
+            .price-card { padding: 30px 20px; }
+            .addon-card { padding: 24px 16px; }
+            .plan-price .amt { font-size: 40px; }
+            .plan-price .curr { font-size: 18px; }
+            .pricing-plans { gap: 36px; }
         }
     </style>
 </head>
